@@ -1,0 +1,445 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   DESIGN TOKENS — CSS Custom Properties
+   All design decisions are encoded as variables. Never hard-code values.
+───────────────────────────────────────────────────────────────────────────── */
+
+@layer base {
+  :root {
+    /* ── Colors ── */
+    --color-bg: #0b0d10;
+    --color-surface: #14161a;
+    --color-surface-raised: #1c1f26;
+    --color-surface-overlay: #22262f;
+
+    --color-text-primary: #f8fafc;
+    --color-text-secondary: #a1a1aa;
+    --color-text-tertiary: #71717a;
+    --color-text-inverse: #0b0d10;
+
+    --color-accent-green: #7cff4f;
+    --color-accent-green-dim: rgba(124, 255, 79, 0.15);
+    --color-accent-green-glow: rgba(124, 255, 79, 0.25);
+
+    --color-accent-blue: #4f8cff;
+    --color-accent-blue-dim: rgba(79, 140, 255, 0.15);
+    --color-accent-blue-glow: rgba(79, 140, 255, 0.25);
+
+    --color-border: rgba(255, 255, 255, 0.08);
+    --color-border-strong: rgba(255, 255, 255, 0.16);
+
+    /* ── Typography ── */
+    --font-heading: var(--font-geist), system-ui, sans-serif;
+    --font-body: var(--font-inter), system-ui, sans-serif;
+    --font-mono: var(--font-mono), 'Courier New', monospace;
+
+    /* ── Spacing (8px base unit) ── */
+    --space-1: 0.25rem;  /* 4px  */
+    --space-2: 0.5rem;   /* 8px  */
+    --space-3: 0.75rem;  /* 12px */
+    --space-4: 1rem;     /* 16px */
+    --space-5: 1.25rem;  /* 20px */
+    --space-6: 1.5rem;   /* 24px */
+    --space-8: 2rem;     /* 32px */
+    --space-10: 2.5rem;  /* 40px */
+    --space-12: 3rem;    /* 48px */
+    --space-16: 4rem;    /* 64px */
+    --space-20: 5rem;    /* 80px */
+    --space-24: 6rem;    /* 96px */
+    --space-32: 8rem;    /* 128px */
+
+    /* ── Radii ── */
+    --radius-sm: 0.375rem;   /* 6px  */
+    --radius-md: 0.5rem;     /* 8px  */
+    --radius-lg: 0.75rem;    /* 12px */
+    --radius-xl: 1rem;       /* 16px */
+    --radius-2xl: 1.5rem;    /* 24px */
+    --radius-full: 9999px;
+
+    /* ── Shadows / Glows ── */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
+    --shadow-glow-green: 0 0 40px rgba(124, 255, 79, 0.12);
+    --shadow-glow-blue: 0 0 40px rgba(79, 140, 255, 0.12);
+
+    /* ── Transitions ── */
+    --transition-fast: 150ms ease;
+    --transition-base: 250ms ease;
+    --transition-slow: 400ms ease;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   RESET & BASE STYLES
+───────────────────────────────────────────────────────────────────────────── */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.7;
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
+
+  /* ── Typography defaults ── */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--color-text-primary);
+  }
+
+  p {
+    color: var(--color-text-secondary);
+    max-width: 68ch;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  code,
+  pre,
+  kbd,
+  samp {
+    font-family: var(--font-mono);
+  }
+
+  img,
+  video,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  button {
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  ::selection {
+    background-color: var(--color-accent-green-dim);
+    color: var(--color-text-primary);
+  }
+
+  /* ── Focus ring ── */
+  :focus-visible {
+    outline: 2px solid var(--color-accent-green);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* ── Reduced motion ── */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   UTILITY CLASSES — Layout
+───────────────────────────────────────────────────────────────────────────── */
+
+@layer utilities {
+  /* Responsive centered container with consistent horizontal padding */
+  .container-site {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: var(--space-6);
+
+    @media (min-width: 768px) {
+      padding-inline: var(--space-8);
+    }
+
+    @media (min-width: 1024px) {
+      padding-inline: var(--space-12);
+    }
+  }
+
+  /* Consistent vertical section spacing */
+  .section {
+    padding-block: var(--space-20);
+
+    @media (min-width: 768px) {
+      padding-block: var(--space-32);
+    }
+  }
+
+  /* Narrower container for reading content (blog, case studies) */
+  .container-prose {
+    width: 100%;
+    max-width: 720px;
+    margin-inline: auto;
+    padding-inline: var(--space-6);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   UTILITY CLASSES — Typography
+───────────────────────────────────────────────────────────────────────────── */
+
+@layer utilities {
+  .text-display {
+    font-family: var(--font-heading);
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+
+  .text-h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(2.25rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+  }
+
+  .text-h2 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.75rem, 3.5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .text-h3 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.25rem, 2.5vw, 2rem);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+  }
+
+  .text-body-lg {
+    font-size: 1.125rem;
+    line-height: 1.75;
+    color: var(--color-text-secondary);
+  }
+
+  .text-body {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+  }
+
+  .text-body-sm {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+  }
+
+  .text-mono {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+  }
+
+  .text-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   UTILITY CLASSES — Colors & Effects
+───────────────────────────────────────────────────────────────────────────── */
+
+@layer utilities {
+  /* Gradient text spanning accent green → accent blue */
+  .gradient-text {
+    background: linear-gradient(
+      135deg,
+      var(--color-accent-green) 0%,
+      var(--color-accent-blue) 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* Subtle green accent text */
+  .text-accent-green {
+    color: var(--color-accent-green);
+  }
+
+  /* Subtle blue accent text */
+  .text-accent-blue {
+    color: var(--color-accent-blue);
+  }
+
+  /* Surface-level card */
+  .surface {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+  }
+
+  /* Raised surface */
+  .surface-raised {
+    background-color: var(--color-surface-raised);
+    border: 1px solid var(--color-border);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   UTILITY CLASSES — Components
+───────────────────────────────────────────────────────────────────────────── */
+
+@layer utilities {
+  /* ── Glass card ── */
+  .glass-card {
+    background-color: rgba(20, 22, 26, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    transition:
+      border-color var(--transition-base),
+      box-shadow var(--transition-base);
+  }
+
+  .glass-card:hover {
+    border-color: var(--color-border-strong);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* ── Buttons ── */
+  .btn-base {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-full);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    transition:
+      background-color var(--transition-fast),
+      color var(--transition-fast),
+      border-color var(--transition-fast),
+      transform var(--transition-fast),
+      box-shadow var(--transition-fast);
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-base:active {
+    transform: scale(0.97);
+  }
+
+  .btn-primary {
+    composes: btn-base;
+    background-color: var(--color-accent-green);
+    color: var(--color-text-inverse);
+  }
+
+  .btn-primary:hover {
+    background-color: #6ee63f;
+    box-shadow: var(--shadow-glow-green);
+  }
+
+  .btn-ghost {
+    composes: btn-base;
+    background-color: transparent;
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--color-border-strong);
+    background-color: var(--color-surface-raised);
+  }
+
+  /* ── Tag / Badge ── */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    background-color: var(--color-surface-raised);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+    white-space: nowrap;
+    transition:
+      color var(--transition-fast),
+      border-color var(--transition-fast);
+  }
+
+  .tag-accent {
+    composes: tag;
+    background-color: var(--color-accent-green-dim);
+    color: var(--color-accent-green);
+    border-color: rgba(124, 255, 79, 0.2);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   UTILITY CLASSES — Background Patterns
+───────────────────────────────────────────────────────────────────────────── */
+
+@layer utilities {
+  /* Subtle dot grid background — use on sections for texture */
+  .dot-grid {
+    background-image: radial-gradient(var(--color-border) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  /* Radial gradient vignette for hero sections */
+  .hero-gradient {
+    background: radial-gradient(
+      ellipse 80% 60% at 50% 0%,
+      var(--color-accent-green-glow) 0%,
+      transparent 70%
+    );
+  }
+
+  /* Horizontal divider using border */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: var(--color-border);
+  }
+}
