@@ -2,86 +2,362 @@
 @config "../tailwind.config.ts";
 
 /* Tailwind v4 content scanner — index app & component source so utility
-   classes (flex, bg-bg, …) are generated. Next.js 16 has no src/ dir, so
-   without explicit @source the v4 scanner finds nothing. */
+   classes are generated. Next.js 16 has no src/ dir, so without explicit
+   @source the v4 scanner finds nothing. */
 @source './app/**/*.{ts,tsx}';
 @source './components/**/*.{ts,tsx}';
 @source './content/**/*.{md,mdx}';
 
 /* ─────────────────────────────────────────────────────────────────────────────
    DESIGN TOKENS — CSS Custom Properties
-   All design decisions are encoded as variables. Never hard-code values.
-───────────────────────────────────────────────────────────────────────────── */
+   Single source of truth. All values are encoded here and consumed via the
+   semantic Tailwind utilities mapped in tailwind.config.ts. Theme switching is
+   class-based (`.dark`) coordinated by next-themes; `:root` holds the light
+   palette and `.dark` overrides with the dark palette.
+   ────────────────────────────────────────────────────────────────────────── */
 
+/* Light theme — default (:root) */
 @layer base {
   :root {
-    /* ── Colors ── */
-    --color-bg: #0b0d10;
-    --color-surface: #14161a;
-    --color-surface-raised: #1c1f26;
-    --color-surface-overlay: #22262f;
+    /* ── Surface / Background ── */
+    --background: #f4f6f9;
+    --foreground: #0f172a;
+    --surface: #f7f9fc;
+    --surface-muted: #eef2f7;
+    --surface-elevated: #ffffff;
+    --surface-overlay: rgba(255, 255, 255, 0.78);
+    --card: var(--surface-elevated);
+    --card-foreground: var(--foreground);
+    --popover: var(--surface-elevated);
+    --popover-foreground: var(--foreground);
 
-    --color-text-primary: #f8fafc;
-    --color-text-secondary: #a1a1aa;
-    --color-text-tertiary: #71717a;
-    --color-text-inverse: #0b0d10;
+    /* ── Accent system ── */
+    --primary: #3b82f6;
+    --primary-foreground: #f8fbff;
+    --secondary: #6d6de8;
+    --secondary-foreground: #f8fbff;
+    --accent: #14b8a6;
+    --accent-foreground: #031615;
+    --primary-glow: rgba(59, 130, 246, 0.18);
+    --secondary-glow: rgba(109, 109, 232, 0.16);
 
-    --color-accent-green: #7cff4f;
-    --color-accent-green-dim: rgba(124, 255, 79, 0.15);
-    --color-accent-green-glow: rgba(124, 255, 79, 0.25);
+    /* ── Text tiers ── */
+    --muted: #eef2f7;
+    --muted-foreground: #5f6b7a;
+    --tertiary: #7d8797;
+    --border: rgba(15, 23, 42, 0.08);
+    --border-strong: rgba(15, 23, 42, 0.16);
+    --divider: rgba(15, 23, 42, 0.12);
+    --input: rgba(15, 23, 42, 0.08);
+    --ring: var(--primary);
+    --focus-ring: var(--primary);
+    --focus: var(--primary);
 
-    --color-accent-blue: #4f8cff;
-    --color-accent-blue-dim: rgba(79, 140, 255, 0.15);
-    --color-accent-blue-glow: rgba(79, 140, 255, 0.25);
+    /* ── Status ── */
+    --success: #16a34a;
+    --success-foreground: #f8fff9;
+    --warning: #d97706;
+    --warning-foreground: #1f1300;
+    --danger: #dc2626;
+    --danger-foreground: #fff8f8;
+    --info: #2563eb;
+    --info-foreground: #f8fbff;
 
-    --color-border: rgba(255, 255, 255, 0.08);
-    --color-border-strong: rgba(255, 255, 255, 0.16);
+    /* ── Overlay / Backdrop ── */
+    --overlay: rgba(2, 6, 23, 0.56);
+    --backdrop: rgba(2, 6, 23, 0.44);
 
-    /* ── Typography ── */
+    /* ── Scrollbar / Selection ── */
+    --scrollbar-bg: rgba(15, 23, 42, 0.05);
+    --scrollbar-thumb: rgba(15, 23, 42, 0.16);
+    --selection-bg: rgba(59, 130, 246, 0.16);
+    --selection-fg: var(--foreground);
+
+    /* ── Semantic aliases for legacy utilities ── */
+    --color-bg: var(--background);
+    --color-surface: var(--surface);
+    --color-surface-subtle: var(--surface-muted);
+    --color-surface-raised: var(--surface-elevated);
+    --color-surface-overlay: var(--surface-overlay);
+    --color-text-primary: var(--foreground);
+    --color-text-secondary: var(--muted-foreground);
+    --color-text-tertiary: var(--tertiary);
+    --color-text-inverse: #f8fbff;
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-border: var(--border);
+    --color-border-strong: var(--border-strong);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --color-focus: var(--focus-ring);
+    --color-overlay: var(--overlay);
+    --color-backdrop: var(--backdrop);
+    --color-selection-bg: var(--selection-bg);
+    --color-selection-fg: var(--selection-fg);
+  }
+}
+
+/* Dark theme — `.dark` (set by next-themes) */
+@layer base {
+  .dark {
+    --background: #07111f;
+    --foreground: #f5f7fb;
+    --surface: #0f1729;
+    --surface-muted: #16233b;
+    --surface-elevated: #17243f;
+    --surface-overlay: rgba(16, 23, 36, 0.78);
+    --card: var(--surface-elevated);
+    --card-foreground: var(--foreground);
+    --popover: var(--surface-elevated);
+    --popover-foreground: var(--foreground);
+
+    --primary: #7bb0ff;
+    --primary-foreground: #07111f;
+    --secondary: #9b8cff;
+    --secondary-foreground: #07111f;
+    --accent: #35d5c3;
+    --accent-foreground: #031615;
+    --primary-glow: rgba(123, 176, 255, 0.2);
+    --secondary-glow: rgba(155, 140, 255, 0.18);
+
+    --muted: #16233b;
+    --muted-foreground: #8fa0b8;
+    --tertiary: #98a4b8;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-strong: rgba(255, 255, 255, 0.16);
+    --divider: rgba(255, 255, 255, 0.12);
+    --input: rgba(255, 255, 255, 0.14);
+    --ring: var(--primary);
+    --focus-ring: var(--primary);
+    --focus: var(--primary);
+
+    --success: #34d399;
+    --success-foreground: #031611;
+    --warning: #fbbf24;
+    --warning-foreground: #1f1300;
+    --danger: #fb7185;
+    --danger-foreground: #fff8fa;
+    --info: #7bb0ff;
+    --info-foreground: #07111f;
+
+    --overlay: rgba(2, 6, 23, 0.72);
+    --backdrop: rgba(2, 6, 23, 0.62);
+
+    --scrollbar-bg: rgba(255, 255, 255, 0.04);
+    --scrollbar-thumb: rgba(255, 255, 255, 0.15);
+    --selection-bg: rgba(123, 176, 255, 0.2);
+    --selection-fg: var(--foreground);
+
+    --color-bg: var(--background);
+    --color-surface: var(--surface);
+    --color-surface-subtle: var(--surface-muted);
+    --color-surface-raised: var(--surface-elevated);
+    --color-surface-overlay: var(--surface-overlay);
+    --color-text-primary: var(--foreground);
+    --color-text-secondary: var(--muted-foreground);
+    --color-text-tertiary: var(--tertiary);
+    --color-text-inverse: #07111f;
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-border: var(--border);
+    --color-border-strong: var(--border-strong);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --color-focus: var(--focus-ring);
+    --color-overlay: var(--overlay);
+    --color-backdrop: var(--backdrop);
+    --color-selection-bg: var(--selection-bg);
+    --color-selection-fg: var(--selection-fg);
+  }
+}
+
+/* ────────────── Typography / Font tokens ────────────── */
+@layer base {
+  :root {
     --font-heading: var(--font-geist), system-ui, sans-serif;
     --font-body: var(--font-inter), system-ui, sans-serif;
     --font-mono: var(--font-mono), 'Courier New', monospace;
 
-    /* ── Spacing (8px base unit) ── */
-    --space-1: 0.25rem; /* 4px  */
-    --space-2: 0.5rem; /* 8px  */
-    --space-3: 0.75rem; /* 12px */
-    --space-4: 1rem; /* 16px */
-    --space-5: 1.25rem; /* 20px */
-    --space-6: 1.5rem; /* 24px */
-    --space-8: 2rem; /* 32px */
-    --space-10: 2.5rem; /* 40px */
-    --space-12: 3rem; /* 48px */
-    --space-16: 4rem; /* 64px */
-    --space-20: 5rem; /* 80px */
-    --space-24: 6rem; /* 96px */
-    --space-32: 8rem; /* 128px */
+    /* Spacing (8px base unit) */
+    --space-0: 0;
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-7: 1.75rem;
+    --space-8: 2rem;
+    --space-9: 2.25rem;
+    --space-10: 2.5rem;
+    --space-11: 2.75rem;
+    --space-12: 3rem;
+    --space-14: 3.5rem;
+    --space-16: 4rem;
+    --space-20: 5rem;
+    --space-24: 6rem;
+    --space-32: 8rem;
+    --space-40: 10rem;
+    --space-48: 12rem;
+    --space-64: 16rem;
+    --space-80: 20rem;
+    --space-96: 24rem;
 
-    /* ── Radii ── */
-    --radius-sm: 0.375rem; /* 6px  */
-    --radius-md: 0.5rem; /* 8px  */
-    --radius-lg: 0.75rem; /* 12px */
-    --radius-xl: 1rem; /* 16px */
-    --radius-2xl: 1.5rem; /* 24px */
+    /* Radii */
+    --radius-xs: 0.25rem;
+    --radius-sm: 0.375rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-2xl: 1.5rem;
+    --radius-pill: 9999px;
     --radius-full: 9999px;
+    --radius: var(--radius-md);
 
-    /* ── Shadows / Glows ── */
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
-    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
-    --shadow-glow-green: 0 0 40px rgba(124, 255, 79, 0.12);
-    --shadow-glow-blue: 0 0 40px rgba(79, 140, 255, 0.12);
+    /* Shadows / Elevation */
+    --shadow-none: none;
+    --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+    --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
+    --shadow-lg: 0 16px 48px rgba(15, 23, 42, 0.12);
+    --shadow-xl: 0 24px 72px rgba(15, 23, 42, 0.16);
+    --shadow-2xl: 0 32px 96px rgba(15, 23, 42, 0.2);
+    --shadow-card: 0 1px 3px rgba(15, 23, 42, 0.06);
+    --shadow-card-elevated: 0 10px 28px rgba(15, 23, 42, 0.1);
+    --shadow-floating: 0 16px 48px rgba(15, 23, 42, 0.14);
+    --shadow-inner: inset 0 1px 2px rgba(15, 23, 42, 0.05);
+    --shadow-glass: 0 12px 40px rgba(15, 23, 42, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    --shadow-overlay: 0 28px 96px rgba(2, 6, 23, 0.32);
+    --shadow-glow: 0 0 40px var(--primary-glow);
+    --shadow-glow-blue: 0 0 40px var(--secondary-glow);
 
-    /* ── Transitions ── */
+    /* Transitions / Durations / Easings (mirrored in lib/tokens.ts) */
     --transition-fast: 150ms ease;
     --transition-base: 250ms ease;
     --transition-slow: 400ms ease;
+    --duration-50: 50ms;
+    --duration-100: 100ms;
+    --duration-150: 150ms;
+    --duration-200: 200ms;
+    --duration-250: 250ms;
+    --duration-300: 300ms;
+    --duration-400: 400ms;
+    --duration-600: 600ms;
+    --duration-700: 700ms;
+    --duration-fast: 150ms;
+    --duration-base: 250ms;
+    --duration-slow: 400ms;
+    --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-emphasized-out: cubic-bezier(0.2, 0, 0, 1);
+    --ease-emphasized-in: cubic-bezier(0.1, 0, 0.1, 1);
+    --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --ease-entrance: cubic-bezier(0.24, 0.74, 0.24, 1);
+    --spring-snappy: cubic-bezier(0.25, 0.1, 0.25, 1);
+    --spring-soft: cubic-bezier(0.2, 0.8, 0.16, 1);
+  }
+
+  /* Dark overrides for theme-aware shadows (darker) */
+  .dark {
+    --shadow-none: none;
+    --shadow-sm: 0 1px 2px rgba(2, 6, 23, 0.36);
+    --shadow-md: 0 8px 24px rgba(2, 6, 23, 0.46);
+    --shadow-lg: 0 16px 48px rgba(2, 6, 23, 0.56);
+    --shadow-xl: 0 24px 72px rgba(2, 6, 23, 0.62);
+    --shadow-2xl: 0 32px 96px rgba(2, 6, 23, 0.7);
+    --shadow-card: 0 1px 3px rgba(2, 6, 23, 0.42);
+    --shadow-card-elevated: 0 10px 28px rgba(2, 6, 23, 0.52);
+    --shadow-floating: 0 16px 48px rgba(2, 6, 23, 0.58);
+    --shadow-inner: inset 0 1px 2px rgba(2, 6, 23, 0.42);
+    --shadow-glass: 0 12px 40px rgba(2, 6, 23, 0.54), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    --shadow-overlay: 0 28px 96px rgba(2, 6, 23, 0.7);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   DESIGN LANGUAGE UTILITIES
+   ────────────────────────────────────────────────────────────────────────── */
+
+@layer utilities {
+  .surface-panel {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .surface-elevated {
+    background-color: var(--surface-elevated);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+  }
+
+  .surface-muted {
+    background-color: var(--surface-muted);
+    border: 1px solid var(--border);
+  }
+
+  .glass-panel {
+    background-color: var(--surface-overlay);
+    backdrop-filter: blur(18px);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-glass);
+  }
+
+  .section-shell {
+    padding: var(--space-8);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border);
+    background-color: var(--surface-elevated);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .content-shell {
+    max-width: 72ch;
+    margin-inline: auto;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-muted {
+    color: var(--muted-foreground);
+  }
+
+  .divider-soft {
+    border-color: var(--divider);
+  }
+
+  .token-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.7rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+    background-color: var(--surface-muted);
+    border: 1px solid var(--border);
   }
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
    RESET & BASE STYLES
-───────────────────────────────────────────────────────────────────────────── */
+   ────────────────────────────────────────────────────────────────────────── */
 
 @layer base {
   *,
@@ -99,16 +375,17 @@
   }
 
   body {
-    background-color: var(--color-bg);
-    color: var(--color-text-primary);
+    background-color: var(--background);
+    color: var(--foreground);
     font-family: var(--font-body);
     font-size: 1rem;
     line-height: 1.7;
     min-height: 100dvh;
     overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  /* ── Typography defaults ── */
+  /* Headings carry the typographic hierarchy */
   h1,
   h2,
   h3,
@@ -119,11 +396,11 @@
     font-weight: 700;
     line-height: 1.15;
     letter-spacing: -0.02em;
-    color: var(--color-text-primary);
+    color: var(--foreground);
   }
 
   p {
-    color: var(--color-text-secondary);
+    color: var(--muted-foreground);
     max-width: 68ch;
   }
 
@@ -152,19 +429,36 @@
     font-family: inherit;
   }
 
+  /* Text selection uses the primary tint */
   ::selection {
-    background-color: var(--color-accent-green-dim);
-    color: var(--color-text-primary);
+    background-color: var(--selection-bg);
+    color: var(--selection-fg);
   }
 
-  /* ── Focus ring ── */
+  /* Focus ring — consistent, visible, WCAG AAA on both themes */
   :focus-visible {
-    outline: 2px solid var(--color-accent-green);
+    outline: 2px solid var(--ring);
     outline-offset: 3px;
     border-radius: var(--radius-sm);
   }
 
-  /* ── Reduced motion ── */
+  /* Scrollbar — theme-aware */
+  ::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: var(--scrollbar-bg);
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+    border-radius: var(--radius-full);
+  }
+  ::-webkit-scrollbar-corner {
+    background-color: var(--scrollbar-bg);
+  }
+
+  /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -179,46 +473,35 @@
 
 /* ─────────────────────────────────────────────────────────────────────────────
    UTILITY CLASSES — Layout
-───────────────────────────────────────────────────────────────────────────── */
+   ────────────────────────────────────────────────────────────────────────── */
 
 @layer utilities {
-  /* Responsive centered container with consistent horizontal padding */
   .container-site {
     width: 100%;
     max-width: 1200px;
     margin-inline: auto;
     padding-inline: var(--space-6);
-
-    @media (min-width: 768px) {
-      padding-inline: var(--space-8);
-    }
-
-    @media (min-width: 1024px) {
-      padding-inline: var(--space-12);
-    }
+    @media (min-width: 768px) { padding-inline: var(--space-8); }
+    @media (min-width: 1024px) { padding-inline: var(--space-12); }
   }
 
-  /* Consistent vertical section spacing */
-  .section {
-    padding-block: var(--space-20);
-
-    @media (min-width: 768px) {
-      padding-block: var(--space-32);
-    }
-  }
-
-  /* Narrower container for reading content (blog, case studies) */
   .container-prose {
     width: 100%;
     max-width: 720px;
     margin-inline: auto;
     padding-inline: var(--space-6);
   }
+
+  .section {
+    padding-block: var(--space-20);
+    @media (min-width: 768px) { padding-block: var(--space-32); }
+  }
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
    UTILITY CLASSES — Typography
-───────────────────────────────────────────────────────────────────────────── */
+   Fluid sizing via clamp(). These are referenced by the <Text> primitive.
+   ────────────────────────────────────────────────────────────────────────── */
 
 @layer utilities {
   .text-display {
@@ -228,7 +511,13 @@
     line-height: 1.05;
     letter-spacing: -0.03em;
   }
-
+  .text-display-lg {
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+  }
   .text-h1 {
     font-family: var(--font-heading);
     font-size: clamp(2.25rem, 5vw, 4rem);
@@ -236,7 +525,6 @@
     line-height: 1.1;
     letter-spacing: -0.025em;
   }
-
   .text-h2 {
     font-family: var(--font-heading);
     font-size: clamp(1.75rem, 3.5vw, 3rem);
@@ -244,7 +532,6 @@
     line-height: 1.15;
     letter-spacing: -0.02em;
   }
-
   .text-h3 {
     font-family: var(--font-heading);
     font-size: clamp(1.25rem, 2.5vw, 2rem);
@@ -252,247 +539,119 @@
     line-height: 1.2;
     letter-spacing: -0.015em;
   }
-
-  .text-body-lg {
+  .text-h4 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.125rem, 2vw, 1.75rem);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+  .text-h5 {
+    font-family: var(--font-heading);
     font-size: 1.125rem;
-    line-height: 1.75;
-    color: var(--color-text-secondary);
+    font-weight: 600;
+    line-height: 1.3;
   }
-
-  .text-body {
+  .text-h6 {
+    font-family: var(--font-heading);
     font-size: 1rem;
-    line-height: 1.7;
-    color: var(--color-text-secondary);
+    font-weight: 600;
+    line-height: 1.35;
   }
-
-  .text-body-sm {
-    font-size: 0.875rem;
-    line-height: 1.6;
-    color: var(--color-text-secondary);
+  .text-lead {
+    font-size: clamp(1.125rem, 2.5vw, 1.25rem);
+    line-height: 1.75;
+    color: var(--muted-foreground);
   }
-
-  .text-mono {
+  .text-body-lg { font-size: 1.125rem; line-height: 1.75; color: var(--muted-foreground); }
+  .text-body { font-size: 1rem; line-height: 1.7; color: var(--muted-foreground); }
+  .text-body-sm { font-size: 0.875rem; line-height: 1.6; color: var(--muted-foreground); }
+  .text-small { font-size: 0.8125rem; line-height: 1.5; }
+  .text-caption { font-size: 0.75rem; line-height: 1.4; color: var(--muted-foreground); }
+  .text-overline {
     font-family: var(--font-mono);
-    font-size: 0.875rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
   }
-
   .text-label {
     font-family: var(--font-mono);
     font-size: 0.75rem;
+    font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--color-text-tertiary);
+    color: var(--muted-foreground);
   }
+  .text-quote {
+    font-family: var(--font-heading);
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--primary);
+  }
+  .text-code {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--foreground);
+  }
+  .text-mono { font-family: var(--font-mono); font-size: 0.875rem; }
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   UTILITY CLASSES — Colors & Effects
-───────────────────────────────────────────────────────────────────────────── */
+   UTILITY CLASSES — Color & Effects
+   ────────────────────────────────────────────────────────────────────────── */
 
 @layer utilities {
-  /* Gradient text spanning accent green → accent blue */
+  /* Gradient text spanning primary → secondary */
   .gradient-text {
-    background: linear-gradient(
-      135deg,
-      var(--color-accent-green) 0%,
-      var(--color-accent-blue) 100%
-    );
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
   }
 
-  /* Subtle green accent text */
-  .text-accent-green {
-    color: var(--color-accent-green);
-  }
+  .text-primary { color: var(--primary); }
+  .text-secondary { color: var(--secondary); }
+  .text-success { color: var(--success); }
+  .text-warning { color: var(--warning); }
+  .text-danger { color: var(--danger); }
+  .text-info { color: var(--info); }
 
-  /* Subtle blue accent text */
-  .text-accent-blue {
-    color: var(--color-accent-blue);
-  }
-
-  /* Surface-level card */
-  .surface {
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-  }
-
-  /* Raised surface */
-  .surface-raised {
-    background-color: var(--color-surface-raised);
-    border: 1px solid var(--color-border);
-  }
-}
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   UTILITY CLASSES — Components
-   Hand-written component classes (buttons, tags, cards). Shared base styles
-   are inlined — `composes` is a CSS Modules construct invalid in a global
-   stylesheet — and hover/active states use native CSS pseudo-classes.
-   ───────────────────────────────────────────────────────────────────────────── */
-@layer utilities {
-  /* ── Glass card ── */
-  .glass-card {
-    background-color: rgba(20, 22, 26, 0.6);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-xl);
-    transition:
-      border-color var(--transition-base),
-      box-shadow var(--transition-base);
-  }
-  .glass-card:hover {
-    border-color: var(--color-border-strong);
-    box-shadow: var(--shadow-md);
-  }
-
-  /* ── Button base (shared styles, inlined into variants below) ── */
-  .btn-base {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2);
-    padding: var(--space-3) var(--space-6);
-    border-radius: var(--radius-full);
-    font-family: var(--font-body);
-    font-size: 0.9375rem;
-    font-weight: 500;
-    line-height: 1;
-    white-space: nowrap;
-    cursor: pointer;
-    border: none;
-    transition:
-      background-color var(--transition-fast),
-      color var(--transition-fast),
-      border-color var(--transition-fast),
-      transform var(--transition-fast),
-      box-shadow var(--transition-fast);
-  }
-  .btn-base:active {
-    transform: scale(0.97);
-  }
-
-  /* Primary CTA button */
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2);
-    padding: var(--space-3) var(--space-6);
-    border-radius: var(--radius-full);
-    font-family: var(--font-body);
-    font-size: 0.9375rem;
-    font-weight: 500;
-    line-height: 1;
-    white-space: nowrap;
-    cursor: pointer;
-    border: none;
-    background-color: var(--color-accent-green);
-    color: var(--color-text-inverse);
-    transition:
-      background-color var(--transition-fast),
-      color var(--transition-fast),
-      border-color var(--transition-fast),
-      transform var(--transition-fast),
-      box-shadow var(--transition-fast);
-  }
-  .btn-primary:hover {
-    background-color: #6ee63f;
-    box-shadow: var(--shadow-glow-green);
-  }
-
-  /* Ghost / outline button */
-  .btn-ghost {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2);
-    padding: var(--space-3) var(--space-6);
-    border-radius: var(--radius-full);
-    font-family: var(--font-body);
-    font-size: 0.9375rem;
-    font-weight: 500;
-    line-height: 1;
-    white-space: nowrap;
-    cursor: pointer;
-    border: 1px solid var(--color-border);
-    background-color: transparent;
-    color: var(--color-text-primary);
-    transition:
-      background-color var(--transition-fast),
-      color var(--transition-fast),
-      border-color var(--transition-fast),
-      transform var(--transition-fast),
-      box-shadow var(--transition-fast);
-  }
-  .btn-ghost:hover {
-    border-color: var(--color-border-strong);
-    background-color: var(--color-surface-raised);
-  }
-
-  /* ── Tag / Badge ── */
-  .tag {
-    display: inline-flex;
-    align-items: center;
-    padding: var(--space-1) var(--space-3);
-    border-radius: var(--radius-full);
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 500;
-    background-color: var(--color-surface-raised);
-    color: var(--color-text-secondary);
-    border: 1px solid var(--color-border);
-    white-space: nowrap;
-    transition:
-      color var(--transition-fast),
-      border-color var(--transition-fast);
-  }
-
-  .tag-accent {
-    display: inline-flex;
-    align-items: center;
-    padding: var(--space-1) var(--space-3);
-    border-radius: var(--radius-full);
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 500;
-    background-color: var(--color-accent-green-dim);
-    color: var(--color-accent-green);
-    border: 1px solid rgba(124, 255, 79, 0.2);
-    white-space: nowrap;
-    transition:
-      color var(--transition-fast),
-      border-color var(--transition-fast);
-  }
-}
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   UTILITY CLASSES — Background Patterns
-───────────────────────────────────────────────────────────────────────────── */
-
-@layer utilities {
-  /* Subtle dot grid background — use on sections for texture */
+  /* Subtle dot-grid background — use on sections for texture */
   .dot-grid {
-    background-image: radial-gradient(var(--color-border) 1px, transparent 1px);
+    background-image: radial-gradient(var(--border) 1px, transparent 1px);
     background-size: 32px 32px;
   }
 
   /* Radial gradient vignette for hero sections */
   .hero-gradient {
-    background: radial-gradient(
-      ellipse 80% 60% at 50% 0%,
-      var(--color-accent-green-glow) 0%,
-      transparent 70%
-    );
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--primary-glow) 0%, transparent 70%);
   }
 
-  /* Horizontal divider using border */
+  /* Horizontal divider */
   .divider {
     width: 100%;
     height: 1px;
-    background: var(--color-border);
+    background: var(--border);
+  }
+
+  /* Glow shadows */
+  .shadow-glow { box-shadow: var(--shadow-glow); }
+  .shadow-glow-blue { box-shadow: var(--shadow-glow-blue); }
+
+  /* Scroll-driven reveal helper (CSS-only, reduced-motion aware) */
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      opacity: 0;
+      transform: translateY(var(--space-2));
+      transition: opacity var(--transition-base), transform var(--transition-base);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
   }
 }

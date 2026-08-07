@@ -6,27 +6,23 @@ const containerSizes = {
   md: 'max-w-screen-md',
   lg: 'max-w-screen-lg',
   xl: 'max-w-screen-xl',
+  '2xl': 'max-w-screen-2xl',
   full: 'max-w-full',
-  default: 'max-w-[1200px]', // Default site width
+  site: 'max-w-[1200px]',
+  prose: 'max-w-[720px]',
 }
 
 interface ContainerProps<T extends ElementType> {
-  /** The semantic HTML tag to render. Default: 'div' */
   as?: T
-  /** Container max-width variant. Default: 'default' */
   size?: keyof typeof containerSizes
 }
 
 type Props<T extends ElementType> = ContainerProps<T> &
   Omit<ComponentPropsWithoutRef<T>, keyof ContainerProps<T>>
 
-/**
- * Centered container with responsive horizontal padding and constrained width.
- * Standardizes the main content boundaries across the site.
- */
 export function Container<T extends ElementType = 'div'>({
   as,
-  size = 'default',
+  size = 'site',
   className,
   children,
   ...props

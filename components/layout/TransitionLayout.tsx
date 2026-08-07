@@ -3,7 +3,7 @@
 import { m, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { usePathname } from 'next/navigation'
 import { pagePreset } from '@/lib/motion'
-import type { ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 
 interface TransitionLayoutProps {
   children: ReactNode
@@ -19,6 +19,15 @@ interface TransitionLayoutProps {
 export function TransitionLayout({ children }: TransitionLayoutProps) {
   const pathname = usePathname()
   const prefersReducedMotion = useReducedMotion()
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted) {
+    return <div className="w-full h-full flex flex-col min-h-screen">{children}</div>
+  }
 
   if (prefersReducedMotion) {
     return <>{children}</>

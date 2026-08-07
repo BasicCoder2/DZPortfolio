@@ -1,5 +1,3 @@
-'use client'
-
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { NAV_LINKS } from '@/lib/constants'
@@ -16,18 +14,14 @@ interface NavLinksProps {
 export function NavLinks({ className }: NavLinksProps) {
   const { pathname, activeSection } = useNavigationState()
 
-  // Helper to determine if a link is active
   const isLinkActive = (href: string) => {
-    // If it's a hash link, check active section
     if (href.startsWith('/#')) {
       const targetId = href.replace('/#', '')
       return activeSection === targetId
     }
 
-    // Exact match for home
     if (href === '/') return pathname === '/'
 
-    // Prefix match for other routes (e.g. /blog/post-1 matches /blog)
     return pathname.startsWith(href)
   }
 
@@ -38,6 +32,7 @@ export function NavLinks({ className }: NavLinksProps) {
 
         return (
           <Link
+            aria-current={isActive ? 'page' : undefined}
             className={cn(
               'relative text-sm font-medium transition-colors hover:text-text-primary',
               isActive ? 'text-accent-green' : 'text-text-secondary'
@@ -46,12 +41,12 @@ export function NavLinks({ className }: NavLinksProps) {
             key={link.label}
           >
             {link.label}
-            {/* Hover reveal underline effect */}
             <span
+              aria-hidden="true"
               className={cn(
                 'absolute -bottom-1 left-0 w-full h-[2px] bg-accent-green origin-left scale-x-0 transition-transform duration-300 ease-out',
                 'hover:scale-x-100',
-                isActive && 'scale-x-100' // Keep visible if active
+                isActive && 'scale-x-100'
               )}
             />
           </Link>

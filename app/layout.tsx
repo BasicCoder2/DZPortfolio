@@ -5,7 +5,11 @@ import { Providers } from '@/components/providers/Providers'
 import { AppLayout } from '@/components/layout'
 import '@/app/globals.css'
 
+export const runtime = 'nodejs'
+
 export const metadata: Metadata = defaultMetadata
+
+export const dynamic = 'force-static'
 
 /**
  * Root layout — wraps every page in the application.

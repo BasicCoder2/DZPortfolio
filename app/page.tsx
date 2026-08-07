@@ -9,7 +9,7 @@ import { RevealText } from '@/components/animations/RevealText'
  */
 export default function HomePage() {
   return (
-    <Container size="default">
+    <Container size="site">
       <Section className="min-h-[80vh] flex flex-col justify-center" id="home">
         <MotionWrapper className="max-w-3xl" variant="fadeUp">
           <RevealText as="h1" className="text-h1 mb-6" text="Daniel Zimba. Software Engineer." />

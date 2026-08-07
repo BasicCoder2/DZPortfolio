@@ -2,10 +2,12 @@
 
 import { useState } from 'react'
 import { m } from 'framer-motion'
-import { Menu } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useNavigationState } from '@/hooks/useNavigationState'
 import { navPreset } from '@/lib/motion'
+import { Button } from '@/components/ui/button'
+import { ThemeToggle } from '@/components/ui/theme-toggle'
 
 import { Wordmark } from './Wordmark'
 import { NavLinks } from './NavLinks'
@@ -46,20 +48,31 @@ export function Navigation() {
 
             <div aria-hidden="true" className="hidden lg:block w-px h-6 bg-border mx-2" />
 
-            {resumeUrl && (
-              <CTAButton className="hidden lg:inline-flex" href={resumeUrl} label="Download CV" />
-            )}
+            <div className="hidden lg:flex items-center gap-3">
+              <ThemeToggle />
+              {resumeUrl && (
+                <CTAButton className="hidden lg:inline-flex" href={resumeUrl} label="Download CV" />
+              )}
+            </div>
           </nav>
 
           {/* Mobile Menu Toggle */}
-          <button
-            aria-expanded={isMobileMenuOpen}
-            aria-label="Open menu"
-            className="md:hidden p-2 text-text-primary hover:text-accent-green transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-green rounded-md"
-            onClick={() => setIsMobileMenuOpen(true)}
-          >
-            <Menu className="w-6 h-6" />
-          </button>
+          <div className="flex items-center gap-2 md:hidden">
+            <ThemeToggle />
+            <Button
+              aria-expanded={isMobileMenuOpen}
+              aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+              size="icon"
+              variant="ghost"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? (
+                <X aria-hidden="true" className="h-5 w-5" />
+              ) : (
+                <Menu aria-hidden="true" className="h-5 w-5" />
+              )}
+            </Button>
+          </div>
         </div>
       </m.header>
 
