@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
-import { ThemeProvider } from 'next-themes'
 import { fontVariables } from '@/lib/fonts'
 import { defaultMetadata } from '@/lib/metadata'
+import { Providers } from '@/components/providers/Providers'
+import { AppLayout } from '@/components/layout'
 import '@/app/globals.css'
 
 export const metadata: Metadata = defaultMetadata
@@ -11,25 +12,16 @@ export const metadata: Metadata = defaultMetadata
  *
  * Responsibilities:
  * - Applies CSS font variables to the HTML element
- * - Provides ThemeProvider for future dark/light mode
- * - Loads global CSS design system
- * - Sets viewport and metadata defaults
+ * - Provides global contexts (Theme, Motion)
+ * - Renders the global AppLayout shell
  */
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={fontVariables} suppressHydrationWarning>
+    <html suppressHydrationWarning className={fontVariables} lang="en">
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <Providers>
+          <AppLayout>{children}</AppLayout>
+        </Providers>
       </body>
     </html>
   )

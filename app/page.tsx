@@ -1,22 +1,37 @@
+import { Container, Section } from '@/components/layout'
+import { MotionWrapper } from '@/components/animations/MotionWrapper'
+import { RevealText } from '@/components/animations/RevealText'
+
 /**
  * Root page — placeholder shell.
  *
- * Sections will be implemented in subsequent phases:
- * - Hero
- * - About
- * - Services (What I Build)
- * - Projects
- * - Experience
- * - Blog
- * - Contact
- *
- * This file intentionally contains no placeholder content
- * per the Phase 1 engineering foundation specification.
+ * Sections will be implemented in subsequent phases.
  */
 export default function HomePage() {
   return (
-    <main>
-      {/* Sections to be implemented in Phase 2+ */}
-    </main>
+    <Container size="default">
+      <Section className="min-h-[80vh] flex flex-col justify-center" id="home">
+        <MotionWrapper className="max-w-3xl" variant="fadeUp">
+          <RevealText as="h1" className="text-h1 mb-6" text="Daniel Zimba. Software Engineer." />
+        </MotionWrapper>
+      </Section>
+
+      <Section className="min-h-screen" id="about">
+        {/* Placeholder for scrolling/active state testing */}
+        <h2 className="text-h2">About</h2>
+      </Section>
+
+      <Section className="min-h-screen" id="services">
+        <h2 className="text-h2">What I Build</h2>
+      </Section>
+
+      <Section className="min-h-screen" id="projects">
+        <h2 className="text-h2">Projects</h2>
+      </Section>
+
+      <Section className="min-h-[50vh]" id="contact">
+        <h2 className="text-h2">Contact</h2>
+      </Section>
+    </Container>
   )
 }

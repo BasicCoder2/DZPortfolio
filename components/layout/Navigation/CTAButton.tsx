@@ -1,0 +1,37 @@
+import Link from 'next/link'
+import { cn } from '@/lib/utils'
+
+interface CTAButtonProps {
+  label: string
+  href: string
+  className?: string
+  onClick?: () => void
+  external?: boolean
+}
+
+/**
+ * Reusable CTA button for the navigation and other high-prominence areas.
+ */
+export function CTAButton({ label, href, className, onClick, external }: CTAButtonProps) {
+  const isInternal = !external && href.startsWith('/')
+
+  if (isInternal) {
+    return (
+      <Link className={cn('btn-primary', className)} href={href} onClick={onClick}>
+        {label}
+      </Link>
+    )
+  }
+
+  return (
+    <a
+      className={cn('btn-primary', className)}
+      href={href}
+      rel={external ? 'noopener noreferrer' : undefined}
+      target={external ? '_blank' : undefined}
+      onClick={onClick}
+    >
+      {label}
+    </a>
+  )
+}

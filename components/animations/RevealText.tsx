@@ -47,16 +47,16 @@ export function RevealText({
   return (
     <Tag className={cn('flex flex-wrap gap-x-[0.25em]', className)}>
       {words.map((word, i) => (
-        <span key={`${word}-${i}`} className="overflow-hidden inline-block">
+        <span className="overflow-hidden inline-block" key={`${word}-${i}`}>
           <motion.span
             className="inline-block"
             initial={{ opacity: 0, y: '100%' }}
-            whileInView={{ opacity: 1, y: '0%' }}
-            viewport={{ once: true }}
             transition={{
               delay: delay + i * stagger,
               ...SPRING_SMOOTH,
             }}
+            viewport={{ once: true }}
+            whileInView={{ opacity: 1, y: '0%' }}
           >
             {word}
           </motion.span>

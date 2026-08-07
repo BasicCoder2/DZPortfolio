@@ -74,12 +74,7 @@ export interface Service {
 // ─── Technologies ─────────────────────────────────────────────────────────────
 
 export type TechnologyCategory =
-  | 'language'
-  | 'framework'
-  | 'database'
-  | 'cloud'
-  | 'tool'
-  | 'platform'
+  'language' | 'framework' | 'database' | 'cloud' | 'tool' | 'platform'
 
 /** A technology / skill entry. */
 export interface Technology {
