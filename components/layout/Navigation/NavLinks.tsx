@@ -20,13 +20,13 @@ export function NavLinks({ className }: NavLinksProps) {
       return activeSection === targetId
     }
 
-    if (href === '/') return pathname === '/'
+    if (href === '/') return pathname === '/' && activeSection === ''
 
     return pathname.startsWith(href)
   }
 
   return (
-    <div className={cn('hidden md:flex items-center gap-6', className)}>
+    <nav aria-label="Primary navigation" className={cn('hidden items-center gap-6 md:flex', className)}>
       {NAV_LINKS.map((link) => {
         const isActive = isLinkActive(link.href)
 
@@ -34,7 +34,7 @@ export function NavLinks({ className }: NavLinksProps) {
           <Link
             aria-current={isActive ? 'page' : undefined}
             className={cn(
-              'relative text-sm font-medium transition-colors hover:text-text-primary',
+              'group relative text-sm font-medium transition-colors hover:text-text-primary',
               isActive ? 'text-accent-green' : 'text-text-secondary'
             )}
             href={link.href}
@@ -45,13 +45,13 @@ export function NavLinks({ className }: NavLinksProps) {
               aria-hidden="true"
               className={cn(
                 'absolute -bottom-1 left-0 w-full h-[2px] bg-accent-green origin-left scale-x-0 transition-transform duration-300 ease-out',
-                'hover:scale-x-100',
+                'transition-transform duration-300 ease-out group-hover:scale-x-100',
                 isActive && 'scale-x-100'
               )}
             />
           </Link>
         )
       })}
-    </div>
+    </nav>
   )
 }

@@ -19,9 +19,10 @@ export interface SelectProps extends RadixSelect.SelectProps {
   placeholder?: string
   children: React.ReactNode
   className?: string
+  id?: string
 }
 
-export function Select({ variant = 'default', error = false, placeholder, children, className, ...props }: SelectProps) {
+export function Select({ variant = 'default', error = false, placeholder, children, className, id, ...props }: SelectProps) {
   return (
     <RadixSelect.Root {...props}>
       <RadixSelect.Trigger
@@ -31,6 +32,7 @@ export function Select({ variant = 'default', error = false, placeholder, childr
           error && errorTriggerStyles,
           className
         )}
+        id={id}
       >
         <RadixSelect.Value placeholder={placeholder} />
         <RadixSelect.Icon asChild>

@@ -16,7 +16,7 @@ export function MainContent({ children, className }: MainContentProps) {
     <main
       className={cn(
         // pt-24 provides 96px top padding (nav is usually ~80px + some breathing room)
-        'flex-1 w-full pt-24',
+        'flex-1 w-full pt-20 md:pt-24',
         className
       )}
     >

@@ -11,6 +11,7 @@ export interface CheckboxProps extends Omit<ComponentPropsWithoutRef<typeof Radi
   variant?: CheckboxVariant
   checked?: boolean | 'indeterminate'
   error?: boolean
+  readOnly?: boolean
 }
 
 const rootVariantStyles: Record<CheckboxVariant, string> = {
@@ -42,6 +43,7 @@ export function Checkbox({
   name,
   required,
   variant = 'default',
+  readOnly: _readOnly,
   ...props
 }: CheckboxProps) {
   const isInvalid = error || ariaInvalid === true

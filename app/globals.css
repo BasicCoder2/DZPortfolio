@@ -634,6 +634,20 @@
     background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--primary-glow) 0%, transparent 70%);
   }
 
+  .hero-canvas {
+    background:
+      radial-gradient(circle at 76% 42%, rgba(20, 184, 166, 0.12), transparent 28rem),
+      radial-gradient(circle at 14% 18%, var(--primary-glow), transparent 34rem),
+      var(--background);
+  }
+
+  .hero-grid {
+    background-image: linear-gradient(to right, var(--border) 1px, transparent 1px), linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+    background-size: 5rem 5rem;
+    mask-image: linear-gradient(to bottom, black, transparent 82%);
+    opacity: 0.35;
+  }
+
   /* Horizontal divider */
   .divider {
     width: 100%;

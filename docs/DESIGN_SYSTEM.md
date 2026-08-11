@@ -184,6 +184,70 @@ import { Panel } from '@/components/layout'
 </Panel>
 ```
 
+## Component Inventory
+
+The component library now includes reusable primitives for layout, navigation, forms, feedback, motion, media, and utility patterns.
+
+### Core
+- Button
+- IconButton
+- LinkButton
+- Card
+- Surface
+- Panel
+- Badge
+- Tag
+- Chip
+- Avatar
+- Divider / Separator
+- Container
+- Section
+- Stack
+- Cluster
+- Grid / AutoGrid
+- EmptyState / Empty
+- Spinner
+- Skeleton
+- Progress
+- Tooltip
+- Popover
+- Alert
+- Feedback
+
+### Navigation
+- DesktopNav
+- MobileNav
+- NavItem
+- NavGroup
+- ThemeSwitcher
+
+### Forms
+- Input
+- Textarea
+- Select
+- Checkbox
+- Switch
+- RadioGroup / RadioItem
+- Label / Field / Description / Error / Helper
+
+### Media and utilities
+- Image / ResponsiveImage
+- Figure / CodeBlock
+- CopyButton
+- ExternalLink
+- GradientText
+- Highlight
+- Metric
+
+### Motion
+- FadeIn
+- SlideIn
+- ScaleIn
+- StaggerChildren
+- RevealOnScroll
+- HoverLift
+- MagneticHover
+
 ## Component Conventions
 
 ### Naming
@@ -221,6 +285,54 @@ import { cn } from '@/lib/utils'
 
 <div className={cn('base-classes', conditional && 'conditional-class', className)}>
 ```
+
+## Button System
+
+### Variants
+
+| Variant | Purpose |
+|---------|---------|
+| `primary` | Main CTAs, form submission |
+| `secondary` | Secondary actions |
+| `outline` | Tertiary actions, filters |
+| `ghost` | Minimal actions, icon buttons |
+| `link` | Text links styled as links |
+| `destructive` | Delete, remove, destructive actions |
+| `success` | Confirm, save, positive actions |
+
+### Sizes
+
+| Size | Height | Padding | Text |
+|------|--------|---------|------|
+| `xs` | 28px | 8px 12px | 12px |
+| `sm` | 32px | 12px 16px | 14px |
+| `md` | 40px | 16px 24px | 14px |
+| `lg` | 44px | 24px 32px | 16px |
+| `xl` | 48px | 32px 40px | 16px |
+| `icon` | 36px | 0 | — |
+
+### Usage
+
+```tsx
+import { Button } from '@/components/ui/button'
+
+<Button variant="primary" size="md" loading={isSubmitting}>
+  Submit
+</Button>
+```
+
+## Accessibility notes
+
+- Use semantic elements such as `button`, `nav`, `section`, and `label`.
+- Make focus rings visible and keep keyboard navigation logical.
+- Respect reduced motion preferences for motion wrappers.
+- Use `role="alert"` for important feedback and keep contrast aligned with WCAG AA.
+
+## Motion notes
+
+- Motion wrappers use centralized motion tokens and fall back to static rendering when reduced motion is preferred.
+- Interactive movement should remain subtle and purposeful.
+- Avoid coupling motion to decorative effects alone.
 
 ## Button System
 

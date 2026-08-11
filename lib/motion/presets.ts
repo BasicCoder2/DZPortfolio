@@ -18,6 +18,13 @@ import {
   fadeLeftVariants,
   fadeRightVariants,
   scaleInVariants,
+  heroEyebrowVariants,
+  heroTitleVariants,
+  heroStatementVariants,
+  heroBodyVariants,
+  heroActionsVariants,
+  heroPortraitVariants,
+  codeMarkFloatVariants,
 } from './variants'
 
 /** Preset for the sticky navigation bar entrance. */
@@ -97,4 +104,29 @@ export const scaleInPreset = {
   whileInView: 'visible',
   viewport: { once: true, margin: '-60px' },
   variants: scaleInVariants,
+} as const
+
+const heroPreset = (variants: typeof heroEyebrowVariants) => ({
+  initial: 'hidden',
+  animate: 'visible',
+  variants,
+}) as const
+
+export const heroEyebrowPreset = heroPreset(heroEyebrowVariants)
+export const heroTitlePreset = heroPreset(heroTitleVariants)
+export const heroStatementPreset = heroPreset(heroStatementVariants)
+export const heroBodyPreset = heroPreset(heroBodyVariants)
+export const heroActionsPreset = heroPreset(heroActionsVariants)
+export const heroPortraitPreset = heroPreset(heroPortraitVariants)
+
+export const codeMarkFloatPreset = {
+  initial: 'hidden',
+  animate: 'visible',
+  variants: codeMarkFloatVariants,
+} as const
+
+export const codeMarkRotatePreset = {
+  initial: { rotate: 0 },
+  animate: { rotate: 360 },
+  transition: { duration: 21, ease: 'linear', repeat: Infinity },
 } as const

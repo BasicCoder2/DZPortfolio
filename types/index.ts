@@ -28,6 +28,9 @@ export interface SocialLink {
 /** Represents a portfolio project entry. */
 export interface Project {
   id: string
+  slug?: string
+  shortTitle?: string
+  category?: string
   title: string
   description: string
   longDescription?: string
@@ -39,6 +42,23 @@ export interface Project {
   featured: boolean
   status: 'completed' | 'in-progress' | 'archived'
   date: string // ISO date string
+  coverImage?: string
+  gallery?: string[]
+  year?: string
+  role?: string
+  caseStudy?: ProjectCaseStudy
+}
+
+export interface ProjectCaseStudy {
+  overview: string
+  problem: string
+  role: string
+  solution: string
+  architecture: string
+  decisions: string[]
+  challenges: string
+  outcome: string
+  reflection: string
 }
 
 // ─── Experience ───────────────────────────────────────────────────────────────
@@ -50,13 +70,13 @@ export interface Experience {
   companyUrl?: string
   role: string
   period: string
-  startDate: string // ISO date
+  startDate?: string // ISO date
   endDate?: string // ISO date — undefined if current
-  current: boolean
-  location: string
-  locationType: 'remote' | 'onsite' | 'hybrid'
+  current?: boolean
+  location?: string
+  locationType?: 'remote' | 'onsite' | 'hybrid'
   highlights: string[]
-  technologies: string[]
+  technologies?: string[]
 }
 
 // ─── Services ─────────────────────────────────────────────────────────────────
@@ -96,6 +116,16 @@ export interface BlogPost {
   published: boolean
   featured: boolean
   readingTime?: string
+  coverImage?: string
+  draft?: boolean
+}
+
+export interface Certification {
+  title: string
+  issuer: string
+  issueDate?: string
+  credentialUrl?: string
+  image?: string
 }
 
 // ─── Site Config ──────────────────────────────────────────────────────────────
@@ -113,6 +143,7 @@ export interface SiteConfig {
   }
   keywords: string[]
   ogImage: string
+  cvPath: string
 }
 
 // ─── Component Utilities ──────────────────────────────────────────────────────

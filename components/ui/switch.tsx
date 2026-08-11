@@ -9,6 +9,7 @@ export type SwitchVariant = 'default' | 'primary'
 export interface SwitchProps extends Omit<ComponentPropsWithoutRef<typeof RadixSwitch.Root>, 'checked'> {
   variant?: SwitchVariant
   checked?: boolean
+  readOnly?: boolean
 }
 
 const rootVariantStyles: Record<SwitchVariant, string> = {
@@ -31,6 +32,7 @@ const disabledStyles = 'disabled:cursor-not-allowed disabled:opacity-50'
 
 export function Switch({
   variant = 'default',
+  readOnly: _readOnly,
   checked,
   disabled,
   className,

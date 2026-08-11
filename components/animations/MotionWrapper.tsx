@@ -2,6 +2,7 @@
 
 import { m, useReducedMotion } from 'framer-motion'
 import type { ElementType, ComponentPropsWithoutRef } from 'react'
+import { useEffect, useState } from 'react'
 import {
   fadeUpPreset,
   fadeDownPreset,
@@ -9,6 +10,12 @@ import {
   fadeRightPreset,
   scaleInPreset,
   footerPreset,
+  heroEyebrowPreset,
+  heroTitlePreset,
+  heroStatementPreset,
+  heroBodyPreset,
+  heroActionsPreset,
+  heroPortraitPreset,
 } from '@/lib/motion'
 
 const PRESETS = {
@@ -18,6 +25,12 @@ const PRESETS = {
   fadeRight: fadeRightPreset,
   scaleIn: scaleInPreset,
   footer: footerPreset,
+  heroEyebrow: heroEyebrowPreset,
+  heroTitle: heroTitlePreset,
+  heroStatement: heroStatementPreset,
+  heroBody: heroBodyPreset,
+  heroActions: heroActionsPreset,
+  heroPortrait: heroPortraitPreset,
 }
 
 type MotionVariant = keyof typeof PRESETS
@@ -46,9 +59,16 @@ export function MotionWrapper<T extends ElementType = 'div'>({
 }: Props<T>) {
   const Component = as || 'div'
   const prefersReducedMotion = useReducedMotion()
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   // If user prefers reduced motion, render without animation wrappers
-  if (prefersReducedMotion) {
+  // Keep the first client render identical to SSR. `useReducedMotion()` can
+  // resolve differently on the client when the OS preference is available.
+  if (!isMounted || prefersReducedMotion) {
     return (
       <Component className={className} {...props}>
         {children}

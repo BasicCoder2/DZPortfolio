@@ -26,7 +26,7 @@ export function useNavigationState(): NavigationState {
   // Track scroll position for header styling
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
+      setIsScrolled(window.scrollY > 16)
     }
 
     // Initialize on mount
@@ -39,7 +39,7 @@ export function useNavigationState(): NavigationState {
   // Track active section via IntersectionObserver
   useEffect(() => {
     // Only track sections on the homepage for now, or generally sections with ids
-    const sectionElements = document.querySelectorAll('section[id]')
+    const sectionElements = document.querySelectorAll<HTMLElement>('[data-nav-section]')
 
     if (sectionElements.length === 0) return
 
@@ -47,19 +47,10 @@ export function useNavigationState(): NavigationState {
       (entries) => {
         // Find the intersection entry that is currently intersecting
         // If multiple are intersecting, take the one with the highest intersection ratio
-        let maxRatio = 0
-        let activeId = ''
-
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
-            maxRatio = entry.intersectionRatio
-            activeId = entry.target.id
-          }
-        })
-
-        if (activeId) {
-          setActiveSection(activeId)
-        }
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+        if (visible) setActiveSection(visible.target.id)
       },
       {
         // Adjust the root margin to account for the sticky header (SCROLL_OFFSET)
@@ -72,7 +63,6 @@ export function useNavigationState(): NavigationState {
     sectionElements.forEach((el) => observer.observe(el))
 
     return () => {
-      sectionElements.forEach((el) => observer.unobserve(el))
       observer.disconnect()
     }
   }, [pathname]) // Re-run when pathname changes to pick up new sections

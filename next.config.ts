@@ -1,16 +1,6 @@
 import type { NextConfig } from 'next'
-import createMDX from '@next/mdx'
-
-const withMDX = createMDX({
-  options: {
-    remarkPlugins: [],
-    rehypePlugins: [],
-  },
-})
-
 const nextConfig: NextConfig = {
-  // Enable MDX support for .md and .mdx files
-  pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
 
   // Image optimization
   images: {
@@ -22,4 +12,4 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
 }
 
-export default withMDX(nextConfig)
+export default nextConfig

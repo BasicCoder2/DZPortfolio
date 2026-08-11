@@ -17,7 +17,7 @@ export function Section<T extends ElementType = 'section'>({
   const Component = as || 'section'
 
   return (
-    <Component className={cn('section', className)} {...props}>
+    <Component className={cn('section scroll-mt-24', className)} {...props}>
       {children}
     </Component>
   )

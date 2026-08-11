@@ -1,18 +1,56 @@
 import Link from 'next/link'
 import { Container, Section } from '@/components/layout'
-import { Button } from '@/components/ui'
+import {
+  Alert,
+  Badge,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  CopyButton,
+  DesktopNav,
+  Feedback,
+  Field,
+  FieldDescription,
+  FieldLabel,
+  FormCheckbox,
+  FormInput,
+  FormSelect,
+  FormSwitch,
+  FormTextarea,
+  FormRadioGroup,
+  FormRadioItem,
+  GradientText,
+  Highlight,
+  IconButton,
+  LinkButton,
+  Metric,
+  MobileNav,
+  Surface,
+  Tag,
+  Text,
+  ThemeSwitcher,
+  Tooltip,
+} from '@/components/ui'
 
 const spacingScale = ['2', '4', '8', '12', '16', '20', '24', '32', '40', '48', '64', '80', '96']
 const radiusScale = ['xs', 'sm', 'md', 'lg', 'xl', '2xl', 'pill']
 const elevationScale = ['none', 'sm', 'md', 'lg', 'xl', 'glass', 'overlay']
 
+const navItems = [
+  { href: '#typography', label: 'Typography' },
+  { href: '#buttons', label: 'Buttons' },
+  { href: '#forms', label: 'Forms' },
+  { href: '#feedback', label: 'Feedback' },
+]
+
 export default function DesignSystemPage() {
   return (
     <Container size="site">
-      <Section className="pt-20 pb-12" id="overview">
+      <Section className="pb-12 pt-20" id="overview">
         <div className="max-w-3xl space-y-4">
           <span className="token-chip">Design system</span>
-          <h1 className="text-h1">Visual language showcase</h1>
+          <h1 className="text-h1">Component library showcase</h1>
           <p className="text-body-lg text-muted">
             Development-only reference for typography, colors, spacing, surfaces, motion, and focus behavior.
           </p>
@@ -127,6 +165,144 @@ export default function DesignSystemPage() {
         </div>
       </Section>
 
+      <Section className="py-8" id="buttons">
+        <div className="section-shell space-y-8">
+          <div className="space-y-2">
+            <p className="text-label uppercase tracking-[0.24em] text-muted">Buttons</p>
+            <h2 className="text-h2">Core interactions</h2>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Button variant="primary">Primary</Button>
+            <Button variant="secondary">Secondary</Button>
+            <Button variant="outline">Outline</Button>
+            <Button variant="ghost">Ghost</Button>
+            <Button variant="destructive">Destructive</Button>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <IconButton aria-label="Open menu" variant="default">
+              <span>+</span>
+            </IconButton>
+            <LinkButton href="/design-system" variant="primary">Link button</LinkButton>
+            <Tooltip content="Helpful hint" side="top">
+              <Badge variant="info">Tooltip</Badge>
+            </Tooltip>
+          </div>
+        </div>
+      </Section>
+
+      <Section className="py-8" id="forms">
+        <div className="section-shell space-y-8">
+          <div className="space-y-2">
+            <p className="text-label uppercase tracking-[0.24em] text-muted">Forms</p>
+            <h2 className="text-h2">Accessible primitives</h2>
+          </div>
+          <div className="grid gap-6 lg:grid-cols-2">
+            <div className="space-y-4">
+              <Field>
+                <FieldLabel htmlFor="name">Name</FieldLabel>
+                <FieldDescription>Use a concise label.</FieldDescription>
+                <FormInput id="name" placeholder="Ada Lovelace" />
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="role">Role</FieldLabel>
+                <FormSelect id="role">
+                  <option value="engineer">Engineer</option>
+                  <option value="designer">Designer</option>
+                </FormSelect>
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="notes">Notes</FieldLabel>
+                <FormTextarea id="notes" placeholder="Add context here." />
+              </Field>
+            </div>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-[var(--foreground)]">Preferences</label>
+                <div className="flex flex-wrap gap-3">
+                  <FormCheckbox checked readOnly>Receive updates</FormCheckbox>
+                  <FormSwitch checked readOnly>Enable notifications</FormSwitch>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-[var(--foreground)]">Delivery</label>
+                <FormRadioGroup defaultValue="fast">
+                  <div className="flex items-center gap-2">
+                    <FormRadioItem value="fast" />
+                    <span className="text-sm">Fast</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <FormRadioItem value="balanced" />
+                    <span className="text-sm">Balanced</span>
+                  </div>
+                </FormRadioGroup>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <Section className="py-8" id="cards">
+        <div className="section-shell space-y-8">
+          <div className="space-y-2">
+            <p className="text-label uppercase tracking-[0.24em] text-muted">Cards & surfaces</p>
+            <h2 className="text-h2">Composable containers</h2>
+          </div>
+          <div className="grid gap-4 lg:grid-cols-2">
+            <Card className="p-0" variant="elevated">
+              <CardHeader>
+                <Text as="h3">Surface card</Text>
+              </CardHeader>
+              <CardBody>
+                <p className="text-body-sm text-muted">Cards inherit the surface system and stay neutral enough to host any content.</p>
+              </CardBody>
+            </Card>
+            <Surface className="p-6" shadow="md" tone="overlay">
+              <div className="space-y-3">
+                <Tag tone="accent">Glass surface</Tag>
+                <p className="text-body-sm text-muted">Overlay surfaces provide a lightweight glass effect for immersive layouts.</p>
+              </div>
+            </Surface>
+          </div>
+        </div>
+      </Section>
+
+      <Section className="py-8" id="navigation-primitives">
+        <div className="section-shell space-y-8">
+          <div className="space-y-2">
+            <p className="text-label uppercase tracking-[0.24em] text-muted">Navigation</p>
+            <h2 className="text-h2">Responsive primitives</h2>
+          </div>
+          <div className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface-muted)] p-4">
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <span className="text-sm font-semibold text-[var(--foreground)]">Internal UI</span>
+                <Badge variant="secondary">v1</Badge>
+              </div>
+              <div className="flex items-center gap-2">
+                <DesktopNav items={navItems} />
+                <ThemeSwitcher />
+                <MobileNav items={navItems} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <Section className="py-8" id="feedback">
+        <div className="section-shell space-y-8">
+          <div className="space-y-2">
+            <p className="text-label uppercase tracking-[0.24em] text-muted">Feedback</p>
+            <h2 className="text-h2">Status and empty states</h2>
+          </div>
+          <div className="grid gap-4 lg:grid-cols-2">
+            <Alert description="The operation completed successfully." title="Success" variant="success" />
+            <Feedback action={<Button size="sm" variant="primary">Retry</Button>} description="No content is available yet." kind="empty" title="Nothing to show" />
+            <Feedback description="Loading details for the current view." kind="loading" title="Loading" />
+            <Alert description="Please review the input before proceeding." title="Warning" variant="warning" />
+          </div>
+        </div>
+      </Section>
+
       <Section className="py-8" id="motion">
         <div className="section-shell space-y-8">
           <div className="space-y-2">
@@ -150,28 +326,36 @@ export default function DesignSystemPage() {
         </div>
       </Section>
 
-      <Section className="py-8" id="accessibility">
+      <Section className="py-8" id="utilities">
         <div className="section-shell space-y-8">
           <div className="space-y-2">
-            <p className="text-label uppercase tracking-[0.24em] text-muted">Accessibility</p>
-            <h2 className="text-h2">WCAG AA support</h2>
+            <p className="text-label uppercase tracking-[0.24em] text-muted">Utilities</p>
+            <h2 className="text-h2">Helpful helpers</h2>
           </div>
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-4 lg:grid-cols-3">
+            <Metric label="System readiness" value="100%" />
             <div className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-muted)] p-4">
-              <p className="text-body-sm font-medium">Visible focus</p>
-              <p className="text-caption text-muted">Interactive states expose a high-contrast ring with clear offset.</p>
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-body-sm font-medium">Copy snippet</p>
+                  <p className="text-caption text-muted">Useful for quick demos.</p>
+                </div>
+                <CopyButton aria-label="Copy snippet" value="Design systems are composable." />
+              </div>
             </div>
             <div className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-muted)] p-4">
-              <p className="text-body-sm font-medium">Keyboard friendly</p>
-              <p className="text-caption text-muted">All controls remain operable using a logical tab sequence.</p>
+              <div className="flex flex-wrap gap-2">
+                <Highlight>Highlighted text</Highlight>
+                <GradientText>Gradient text</GradientText>
+              </div>
             </div>
           </div>
         </div>
       </Section>
 
-      <Section className="py-8" id="navigation">
+      <Section className="py-8" id="overview-footer">
         <div className="flex items-center justify-between rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface-elevated)] p-4 shadow-[var(--shadow-sm)]">
-          <p className="text-body-sm text-muted">Developer only route for future component reviews.</p>
+          <p className="text-body-sm text-muted">Developer-only route for future component reviews.</p>
           <Link className="text-body-sm font-medium text-[var(--primary)]" href="/">Return home</Link>
         </div>
       </Section>

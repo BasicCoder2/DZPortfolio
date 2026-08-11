@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
 interface CTAButtonProps {
   label: string
@@ -17,25 +18,8 @@ export function CTAButton({ label, href, className, onClick, external }: CTAButt
   const isInternal = !external && href.startsWith('/')
 
   if (isInternal) {
-    return (
-      <Button asChild className={className} size="sm" variant="primary">
-        <Link href={href} onClick={onClick}>
-          {label}
-        </Link>
-      </Button>
-    )
+    return <Link className={cn(buttonVariants({ size: 'sm', variant: 'primary' }), className)} href={href} onClick={onClick}>{label}</Link>
   }
 
-  return (
-    <Button asChild className={className} size="sm" variant="primary">
-      <a
-        href={href}
-        rel={external ? 'noopener noreferrer' : undefined}
-        target={external ? '_blank' : undefined}
-        onClick={onClick}
-      >
-        {label}
-      </a>
-    </Button>
-  )
+  return <a className={cn(buttonVariants({ size: 'sm', variant: 'primary' }), className)} href={href} rel={external ? 'noopener noreferrer' : undefined} target={external ? '_blank' : undefined} onClick={onClick}>{label}</a>
 }

@@ -70,6 +70,44 @@ export const scaleInVariants: Variants = {
   },
 }
 
+/** Hero entrance choreography. Kept as named presets so the opening sequence is tunable in one place. */
+export const heroEyebrowVariants: Variants = {
+  hidden: { opacity: 0, y: 12, filter: 'blur(6px)' },
+  visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { ...transitionDefault, delay: 0.12 } },
+}
+
+export const heroTitleVariants: Variants = {
+  hidden: { opacity: 0, y: 22, filter: 'blur(8px)' },
+  visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { ...transitionDefault, delay: 0.22 } },
+}
+
+export const heroStatementVariants: Variants = {
+  hidden: { opacity: 0, y: 18 },
+  visible: { opacity: 1, y: 0, transition: { ...transitionDefault, delay: 0.36 } },
+}
+
+export const heroBodyVariants: Variants = {
+  hidden: { opacity: 0, y: 14 },
+  visible: { opacity: 1, y: 0, transition: { ...transitionDefault, delay: 0.48 } },
+}
+
+export const heroActionsVariants: Variants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: { opacity: 1, y: 0, transition: { ...transitionDefault, delay: 0.6 } },
+}
+
+export const heroPortraitVariants: Variants = {
+  hidden: { opacity: 0, scale: 0.96, x: 20 },
+  visible: { opacity: 1, scale: 1, x: 0, transition: { ...transitionDefault, delay: 0.3 } },
+}
+
+/** Ambient CodeMark layers: separate float and rotation transforms. */
+export const codeMarkFloatVariants: Variants = {
+  hidden: { opacity: 0, y: 0 },
+  visible: { opacity: 1, y: -3, transition: { duration: 5.5, ease: 'easeInOut', repeat: Infinity, repeatType: 'reverse' } },
+}
+
+
 // ─── Stagger Container Variants ───────────────────────────────────────────────
 
 /** Stagger container — slow (section cards, project grids). */

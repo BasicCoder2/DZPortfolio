@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { m, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { ArrowUp } from 'lucide-react'
 import { backToTopVariants } from '@/lib/motion'
 
@@ -11,6 +11,7 @@ import { backToTopVariants } from '@/lib/motion'
  */
 export function BackToTop() {
   const [isVisible, setIsVisible] = useState(false)
+  const prefersReducedMotion = useReducedMotion()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,7 +29,7 @@ export function BackToTop() {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
     })
   }
 

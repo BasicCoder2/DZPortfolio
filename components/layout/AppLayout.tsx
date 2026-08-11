@@ -17,7 +17,7 @@ interface AppLayoutProps {
  */
 export function AppLayout({ children }: AppLayoutProps) {
   return (
-    <div className="relative min-h-screen flex flex-col bg-bg text-text-primary selection:bg-accent-green-dim selection:text-text-primary">
+    <div className="relative flex min-h-dvh flex-col bg-bg text-text-primary selection:bg-accent-green-dim selection:text-text-primary">
       <Navigation />
 
       <MainContent>

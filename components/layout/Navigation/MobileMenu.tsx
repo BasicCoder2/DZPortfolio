@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { m, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
@@ -29,18 +29,37 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   useScrollLock(isOpen)
 
   const { pathname, activeSection } = useNavigationState()
-  const resumeUrl = process.env.NEXT_PUBLIC_RESUME_URL
+  const resumeUrl = process.env.NEXT_PUBLIC_RESUME_URL ?? '/cv.pdf'
+  const panelRef = useRef<HTMLDivElement>(null)
+  const previouslyFocused = useRef<HTMLElement | null>(null)
+
+  useEffect(() => {
+    if (!isOpen) return
+    previouslyFocused.current = document.activeElement as HTMLElement
+    panelRef.current?.querySelector<HTMLElement>('a, button')?.focus()
+    return () => previouslyFocused.current?.focus()
+  }, [isOpen])
 
   // Close menu on Escape key press
   useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
-        onClose()
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!isOpen) return
+      if (e.key === 'Escape') return onClose()
+      if (e.key !== 'Tab' || !panelRef.current) return
+      const focusable = Array.from(panelRef.current.querySelectorAll<HTMLElement>('a, button'))
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last?.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first?.focus()
       }
     }
 
-    document.addEventListener('keydown', handleEscape)
-    return () => document.removeEventListener('keydown', handleEscape)
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
   }, [isOpen, onClose])
 
   const isLinkActive = (href: string) => {
@@ -48,7 +67,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       const targetId = href.replace('/#', '')
       return activeSection === targetId
     }
-    if (href === '/') return pathname === '/'
+    if (href === '/') return pathname === '/' && activeSection === ''
     return pathname.startsWith(href)
   }
 
@@ -69,7 +88,9 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             {...mobileMenuPreset}
             aria-label="Mobile navigation menu"
             aria-modal="true"
-            className="fixed top-0 right-0 bottom-0 z-50 w-[85vw] max-w-sm bg-surface-raised border-l border-border shadow-2xl md:hidden flex flex-col"
+            className="fixed inset-y-0 right-0 z-50 flex w-[min(88vw,24rem)] flex-col border-l border-border bg-surface-raised shadow-2xl md:hidden"
+            id="mobile-navigation"
+            ref={panelRef}
             role="dialog"
           >
             {/* Header */}

@@ -5,6 +5,7 @@ import { m } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useNavigationState } from '@/hooks/useNavigationState'
+import { useScrollProgress } from '@/hooks/useScrollProgress'
 import { navPreset } from '@/lib/motion'
 import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/ui/theme-toggle'
@@ -20,8 +21,9 @@ import { CTAButton } from './CTAButton'
  */
 export function Navigation() {
   const { isScrolled } = useNavigationState()
+  const scrollProgress = useScrollProgress()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const resumeUrl = process.env.NEXT_PUBLIC_RESUME_URL
+  const resumeUrl = process.env.NEXT_PUBLIC_RESUME_URL ?? '/cv.pdf'
 
   return (
     <>
@@ -29,14 +31,14 @@ export function Navigation() {
         {...navPreset}
         aria-label="Main navigation"
         className={cn(
-          'fixed top-0 left-0 right-0 z-40 transition-all duration-300',
+          'fixed inset-x-0 top-0 z-40 transition-[height,background-color,backdrop-filter,border-color,box-shadow] duration-300',
           isScrolled
             ? 'h-[72px] bg-bg/80 backdrop-blur-md border-b border-border shadow-sm'
             : 'h-[88px] bg-transparent border-transparent'
         )}
         role="banner"
       >
-        <div className="w-full max-w-[1200px] mx-auto h-full px-6 md:px-8 lg:px-12 flex items-center justify-between">
+        <div className="mx-auto flex h-full w-full max-w-[1200px] items-center justify-between px-6 md:px-8 lg:px-12">
           {/* Brand */}
           <div className="flex-shrink-0">
             <Wordmark onClick={() => setIsMobileMenuOpen(false)} />
@@ -51,7 +53,7 @@ export function Navigation() {
             <div className="hidden lg:flex items-center gap-3">
               <ThemeToggle />
               {resumeUrl && (
-                <CTAButton className="hidden lg:inline-flex" href={resumeUrl} label="Download CV" />
+                <CTAButton className="hidden border border-border-strong bg-transparent text-text-primary hover:bg-surface-muted lg:inline-flex" href={resumeUrl} label="Download CV" />
               )}
             </div>
           </nav>
@@ -60,11 +62,13 @@ export function Navigation() {
           <div className="flex items-center gap-2 md:hidden">
             <ThemeToggle />
             <Button
+              data-menu-trigger
+              aria-controls="mobile-navigation"
               aria-expanded={isMobileMenuOpen}
               aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
               size="icon"
               variant="ghost"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              onClick={() => setIsMobileMenuOpen((open) => !open)}
             >
               {isMobileMenuOpen ? (
                 <X aria-hidden="true" className="h-5 w-5" />
@@ -75,6 +79,12 @@ export function Navigation() {
           </div>
         </div>
       </m.header>
+
+      <div
+        aria-hidden="true"
+        className="fixed inset-x-0 top-0 z-50 h-px origin-left bg-accent-green"
+        style={{ transform: `scaleX(${scrollProgress})` }}
+      />
 
       {/* Full-screen mobile menu overlay */}
       <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />

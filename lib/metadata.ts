@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { absoluteUrl } from '@/lib/utils'
+import { siteConfig } from '@/data/site'
 
 /** Canonical site URL from environment. */
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://danielzimba.dev'
@@ -15,17 +16,16 @@ export const defaultMetadata: Metadata = {
   metadataBase: new URL(siteUrl),
 
   title: {
-    default: 'Daniel Zimba — Software Engineer',
+    default: siteConfig.title,
     template: '%s | Daniel Zimba',
   },
 
   description:
-    'Senior Software Engineer specializing in enterprise systems, scalable architecture, and full-stack development. Building software that matters.',
+    siteConfig.description,
 
   keywords: [
     'Daniel Zimba',
-    'Software Engineer',
-    'Full Stack Developer',
+    'Software Developer',
     'Enterprise Systems',
     'Next.js',
     'TypeScript',
@@ -56,24 +56,24 @@ export const defaultMetadata: Metadata = {
     locale: 'en_US',
     url: siteUrl,
     siteName: 'Daniel Zimba',
-    title: 'Daniel Zimba — Software Engineer',
+    title: siteConfig.title,
     description:
-      'Senior Software Engineer specializing in enterprise systems, scalable architecture, and full-stack development.',
+      siteConfig.description,
     images: [
       {
         url: defaultOgImage,
         width: 1200,
         height: 630,
-        alt: 'Daniel Zimba — Software Engineer',
+        alt: siteConfig.title,
       },
     ],
   },
 
   twitter: {
     card: 'summary_large_image',
-    title: 'Daniel Zimba — Software Engineer',
+    title: siteConfig.title,
     description:
-      'Senior Software Engineer specializing in enterprise systems, scalable architecture, and full-stack development.',
+      siteConfig.description,
     images: [defaultOgImage],
     creator: '@danielzimba',
   },
@@ -115,7 +115,7 @@ export function constructMetadata({
   path = '/',
   noIndex = false,
 }: ConstructMetadataOptions = {}): Metadata {
-  const pageTitle = title ?? 'Daniel Zimba — Software Engineer'
+  const pageTitle = title ?? siteConfig.title
   const pageDescription = description ?? (defaultMetadata.description as string)
   const pageImage = image ?? defaultOgImage
   const canonicalUrl = absoluteUrl(path)
