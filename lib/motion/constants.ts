@@ -69,3 +69,16 @@ export const STAGGER_SLOW = {
   staggerChildren: 0.1,
   delayChildren: 0.2,
 } as const
+
+/**
+ * Signature ambient motion is part of the visual identity, not an
+ * accessibility-sensitive transition. These transforms remain continuous
+ * when prefers-reduced-motion is enabled.
+ */
+export const SIGNATURE_AMBIENT_MOTION = {
+  codeMark: { duration: 21, ease: 'linear', repeat: Infinity },
+  technologyRing: { duration: 28, ease: 'linear', repeat: Infinity },
+} as const
+
+/** Entrance, interaction, and route motion must continue to honor reduced motion. */
+export const ACCESSIBLE_TRANSITION_MOTION = 'reduced-by-preference' as const

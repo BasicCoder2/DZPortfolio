@@ -1,6 +1,8 @@
+import createMDX from '@next/mdx'
 import type { NextConfig } from 'next'
+
 const nextConfig: NextConfig = {
-  pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
+  pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
 
   // Image optimization
   images: {
@@ -12,4 +14,6 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
 }
 
-export default nextConfig
+const withMDX = createMDX({})
+
+export default withMDX(nextConfig)

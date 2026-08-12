@@ -26,6 +26,7 @@ import {
   heroPortraitVariants,
   codeMarkFloatVariants,
 } from './variants'
+import { SIGNATURE_AMBIENT_MOTION } from './constants'
 
 /** Preset for the sticky navigation bar entrance. */
 export const navPreset = {
@@ -106,11 +107,12 @@ export const scaleInPreset = {
   variants: scaleInVariants,
 } as const
 
-const heroPreset = (variants: typeof heroEyebrowVariants) => ({
-  initial: 'hidden',
-  animate: 'visible',
-  variants,
-}) as const
+const heroPreset = (variants: typeof heroEyebrowVariants) =>
+  ({
+    initial: 'hidden',
+    animate: 'visible',
+    variants,
+  }) as const
 
 export const heroEyebrowPreset = heroPreset(heroEyebrowVariants)
 export const heroTitlePreset = heroPreset(heroTitleVariants)
@@ -128,5 +130,11 @@ export const codeMarkFloatPreset = {
 export const codeMarkRotatePreset = {
   initial: { rotate: 0 },
   animate: { rotate: 360 },
-  transition: { duration: 21, ease: 'linear', repeat: Infinity },
+  transition: SIGNATURE_AMBIENT_MOTION.codeMark,
+} as const
+
+export const technologyRingRotatePreset = {
+  initial: { rotate: 0 },
+  animate: { rotate: 360 },
+  transition: SIGNATURE_AMBIENT_MOTION.technologyRing,
 } as const

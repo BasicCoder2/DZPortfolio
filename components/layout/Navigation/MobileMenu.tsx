@@ -86,7 +86,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           {/* Menu Panel */}
           <m.div
             {...mobileMenuPreset}
-            aria-label="Mobile navigation menu"
+            aria-labelledby="mobile-navigation-title"
             aria-modal="true"
             className="fixed inset-y-0 right-0 z-50 flex w-[min(88vw,24rem)] flex-col border-l border-border bg-surface-raised shadow-2xl md:hidden"
             id="mobile-navigation"
@@ -95,6 +95,9 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           >
             {/* Header */}
             <div className="flex items-center justify-end p-6 h-[80px]">
+              <h2 className="sr-only" id="mobile-navigation-title">
+                Mobile navigation
+              </h2>
               <button
                 aria-label="Close menu"
                 className="p-2 text-text-secondary hover:text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-green rounded-md"

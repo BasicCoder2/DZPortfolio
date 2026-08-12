@@ -40,6 +40,7 @@ const config: Config = {
         accent: {
           green: 'var(--color-accent-green)',
           'green-dim': 'var(--color-accent-green-dim)',
+          'green-glow': 'var(--color-accent-green-glow)',
           blue: 'var(--color-accent-blue)',
           'blue-dim': 'var(--color-accent-blue-dim)',
         },
@@ -53,7 +54,7 @@ const config: Config = {
       fontFamily: {
         heading: 'var(--font-heading)',
         body: 'var(--font-body)',
-        mono: 'var(--font-mono)',
+        mono: 'var(--font-code)',
       },
 
       // ── Border radius mapped to CSS variables ──

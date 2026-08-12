@@ -73,12 +73,22 @@ export const scaleInVariants: Variants = {
 /** Hero entrance choreography. Kept as named presets so the opening sequence is tunable in one place. */
 export const heroEyebrowVariants: Variants = {
   hidden: { opacity: 0, y: 12, filter: 'blur(6px)' },
-  visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { ...transitionDefault, delay: 0.12 } },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { ...transitionDefault, delay: 0.12 },
+  },
 }
 
 export const heroTitleVariants: Variants = {
   hidden: { opacity: 0, y: 22, filter: 'blur(8px)' },
-  visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { ...transitionDefault, delay: 0.22 } },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { ...transitionDefault, delay: 0.22 },
+  },
 }
 
 export const heroStatementVariants: Variants = {
@@ -104,9 +114,12 @@ export const heroPortraitVariants: Variants = {
 /** Ambient CodeMark layers: separate float and rotation transforms. */
 export const codeMarkFloatVariants: Variants = {
   hidden: { opacity: 0, y: 0 },
-  visible: { opacity: 1, y: -3, transition: { duration: 5.5, ease: 'easeInOut', repeat: Infinity, repeatType: 'reverse' } },
+  visible: {
+    opacity: 1,
+    y: -3,
+    transition: { duration: 5.5, ease: 'easeInOut', repeat: Infinity, repeatType: 'reverse' },
+  },
 }
-
 
 // ─── Stagger Container Variants ───────────────────────────────────────────────
 
@@ -161,14 +174,14 @@ export const navLinkVariants: Variants = {
 
 /** Mobile menu overlay — slide in from left. */
 export const mobileMenuVariants: Variants = {
-  hidden: { x: '-100%', opacity: 0 },
+  hidden: { x: '100%', opacity: 0 },
   visible: {
     x: '0%',
     opacity: 1,
     transition: transitionMobileMenu,
   },
   exit: {
-    x: '-100%',
+    x: '100%',
     opacity: 0,
     transition: { ...transitionMobileMenu, duration: 0.25 },
   },

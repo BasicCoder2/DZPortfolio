@@ -89,6 +89,11 @@
     --color-secondary-foreground: var(--secondary-foreground);
     --color-accent: var(--accent);
     --color-accent-foreground: var(--accent-foreground);
+    --color-accent-green: var(--accent);
+    --color-accent-green-dim: var(--primary-glow);
+    --color-accent-green-glow: rgba(20, 184, 166, 0.2);
+    --color-accent-blue: var(--primary);
+    --color-accent-blue-dim: var(--primary-glow);
     --color-muted: var(--muted);
     --color-muted-foreground: var(--muted-foreground);
     --color-border: var(--border);
@@ -169,6 +174,11 @@
     --color-secondary-foreground: var(--secondary-foreground);
     --color-accent: var(--accent);
     --color-accent-foreground: var(--accent-foreground);
+    --color-accent-green: var(--accent);
+    --color-accent-green-dim: rgba(53, 213, 195, 0.16);
+    --color-accent-green-glow: rgba(53, 213, 195, 0.2);
+    --color-accent-blue: var(--primary);
+    --color-accent-blue-dim: var(--primary-glow);
     --color-muted: var(--muted);
     --color-muted-foreground: var(--muted-foreground);
     --color-border: var(--border);
@@ -188,7 +198,7 @@
   :root {
     --font-heading: var(--font-geist), system-ui, sans-serif;
     --font-body: var(--font-inter), system-ui, sans-serif;
-    --font-mono: var(--font-mono), 'Courier New', monospace;
+    --font-code: var(--font-mono), 'Courier New', monospace;
 
     /* Spacing (8px base unit) */
     --space-0: 0;
@@ -460,9 +470,9 @@
 
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
+    *:not(.signature-ambient-motion),
+    *:not(.signature-ambient-motion)::before,
+    *:not(.signature-ambient-motion)::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
@@ -481,8 +491,12 @@
     max-width: 1200px;
     margin-inline: auto;
     padding-inline: var(--space-6);
-    @media (min-width: 768px) { padding-inline: var(--space-8); }
-    @media (min-width: 1024px) { padding-inline: var(--space-12); }
+    @media (min-width: 768px) {
+      padding-inline: var(--space-8);
+    }
+    @media (min-width: 1024px) {
+      padding-inline: var(--space-12);
+    }
   }
 
   .container-prose {
@@ -494,7 +508,9 @@
 
   .section {
     padding-block: var(--space-20);
-    @media (min-width: 768px) { padding-block: var(--space-32); }
+    @media (min-width: 768px) {
+      padding-block: var(--space-32);
+    }
   }
 }
 
@@ -563,11 +579,30 @@
     line-height: 1.75;
     color: var(--muted-foreground);
   }
-  .text-body-lg { font-size: 1.125rem; line-height: 1.75; color: var(--muted-foreground); }
-  .text-body { font-size: 1rem; line-height: 1.7; color: var(--muted-foreground); }
-  .text-body-sm { font-size: 0.875rem; line-height: 1.6; color: var(--muted-foreground); }
-  .text-small { font-size: 0.8125rem; line-height: 1.5; }
-  .text-caption { font-size: 0.75rem; line-height: 1.4; color: var(--muted-foreground); }
+  .text-body-lg {
+    font-size: 1.125rem;
+    line-height: 1.75;
+    color: var(--muted-foreground);
+  }
+  .text-body {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--muted-foreground);
+  }
+  .text-body-sm {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--muted-foreground);
+  }
+  .text-small {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+  .text-caption {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: var(--muted-foreground);
+  }
   .text-overline {
     font-family: var(--font-mono);
     font-size: 0.75rem;
@@ -599,7 +634,10 @@
     font-weight: 400;
     color: var(--foreground);
   }
-  .text-mono { font-family: var(--font-mono); font-size: 0.875rem; }
+  .text-mono {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+  }
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -616,12 +654,24 @@
     color: transparent;
   }
 
-  .text-primary { color: var(--primary); }
-  .text-secondary { color: var(--secondary); }
-  .text-success { color: var(--success); }
-  .text-warning { color: var(--warning); }
-  .text-danger { color: var(--danger); }
-  .text-info { color: var(--info); }
+  .text-primary {
+    color: var(--primary);
+  }
+  .text-secondary {
+    color: var(--secondary);
+  }
+  .text-success {
+    color: var(--success);
+  }
+  .text-warning {
+    color: var(--warning);
+  }
+  .text-danger {
+    color: var(--danger);
+  }
+  .text-info {
+    color: var(--info);
+  }
 
   /* Subtle dot-grid background — use on sections for texture */
   .dot-grid {
@@ -637,12 +687,13 @@
   .hero-canvas {
     background:
       radial-gradient(circle at 76% 42%, rgba(20, 184, 166, 0.12), transparent 28rem),
-      radial-gradient(circle at 14% 18%, var(--primary-glow), transparent 34rem),
-      var(--background);
+      radial-gradient(circle at 14% 18%, var(--primary-glow), transparent 34rem), var(--background);
   }
 
   .hero-grid {
-    background-image: linear-gradient(to right, var(--border) 1px, transparent 1px), linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+    background-image:
+      linear-gradient(to right, var(--border) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--border) 1px, transparent 1px);
     background-size: 5rem 5rem;
     mask-image: linear-gradient(to bottom, black, transparent 82%);
     opacity: 0.35;
@@ -656,16 +707,25 @@
   }
 
   /* Glow shadows */
-  .shadow-glow { box-shadow: var(--shadow-glow); }
-  .shadow-glow-blue { box-shadow: var(--shadow-glow-blue); }
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+  .shadow-glow-blue {
+    box-shadow: var(--shadow-glow-blue);
+  }
 
   /* Scroll-driven reveal helper (CSS-only, reduced-motion aware) */
   @media (prefers-reduced-motion: no-preference) {
     .reveal {
       opacity: 0;
       transform: translateY(var(--space-2));
-      transition: opacity var(--transition-base), transform var(--transition-base);
+      transition:
+        opacity var(--transition-base),
+        transform var(--transition-base);
     }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
