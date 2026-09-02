@@ -6,16 +6,14 @@ import { cn } from '@/lib/utils'
 
 const popoverVariants = cva(
   cn(
-      'z-50 rounded-lg border shadow-floating',
+    'z-50 rounded-lg border shadow-floating',
     'transition-[opacity,transform] duration-[var(--transition-fast)]'
   ),
   {
     variants: {
       variant: {
-        default:
-          'bg-[var(--popover)] text-[var(--popover-foreground)] border-[var(--border)]',
-        primary:
-          'bg-[var(--primary)] text-[var(--primary-foreground)] border-transparent',
+        default: 'bg-[var(--popover)] text-[var(--popover-foreground)] border-[var(--border)]',
+        primary: 'bg-[var(--primary)] text-[var(--primary-foreground)] border-transparent',
       },
     },
     defaultVariants: {
@@ -24,8 +22,7 @@ const popoverVariants = cva(
   }
 )
 
-export interface PopoverProps
-  extends VariantProps<typeof popoverVariants> {
+export interface PopoverProps extends VariantProps<typeof popoverVariants> {
   children: React.ReactNode
   content: React.ReactNode
   side?: 'top' | 'right' | 'bottom' | 'left'
@@ -50,9 +47,7 @@ export function Popover({
 }: PopoverProps) {
   return (
     <PopoverPrimitive.Root open={open} onOpenChange={onOpenChange}>
-      <PopoverPrimitive.Trigger asChild>
-        {children}
-      </PopoverPrimitive.Trigger>
+      <PopoverPrimitive.Trigger asChild>{children}</PopoverPrimitive.Trigger>
       <PopoverPrimitive.Portal>
         <PopoverPrimitive.Content
           align={align}
@@ -66,7 +61,3 @@ export function Popover({
     </PopoverPrimitive.Root>
   )
 }
-
-
-
-

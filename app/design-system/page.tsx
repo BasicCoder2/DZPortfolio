@@ -52,12 +52,19 @@ export default function DesignSystemPage() {
           <span className="token-chip">Design system</span>
           <h1 className="text-h1">Component library showcase</h1>
           <p className="text-body-lg text-muted">
-            Development-only reference for typography, colors, spacing, surfaces, motion, and focus behavior.
+            Development-only reference for typography, colors, spacing, surfaces, motion, and focus
+            behavior.
           </p>
           <div className="flex flex-wrap gap-3">
-            <Button size="sm" variant="primary">Primary action</Button>
-            <Button size="sm" variant="outline">Secondary action</Button>
-            <Button size="sm" variant="ghost">Ghost action</Button>
+            <Button size="sm" variant="primary">
+              Primary action
+            </Button>
+            <Button size="sm" variant="outline">
+              Secondary action
+            </Button>
+            <Button size="sm" variant="ghost">
+              Ghost action
+            </Button>
           </div>
         </div>
       </Section>
@@ -65,7 +72,7 @@ export default function DesignSystemPage() {
       <Section className="py-0" id="typography">
         <div className="section-shell space-y-8">
           <div className="space-y-2">
-            <p className="text-label uppercase tracking-[0.24em] text-muted">Typography</p>
+            <p className="text-label uppercase tracking-[0.16em] text-muted">Typography</p>
             <h2 className="text-h2">Fluid hierarchy</h2>
           </div>
           <div className="grid gap-6 lg:grid-cols-2">
@@ -74,15 +81,23 @@ export default function DesignSystemPage() {
               <h2 className="text-h1">Heading 1</h2>
               <h3 className="text-h2">Heading 2</h3>
               <h4 className="text-h3">Heading 3</h4>
-              <p className="text-lead">Lead copy carries a calm, confident rhythm with generous line height.</p>
-              <p className="text-body">Body copy remains highly legible and restrained, prioritizing clarity over ornament.</p>
+              <p className="text-lead">
+                Lead copy carries a calm, confident rhythm with generous line height.
+              </p>
+              <p className="text-body">
+                Body copy remains highly legible and restrained, prioritizing clarity over ornament.
+              </p>
             </div>
             <div className="space-y-4 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface-muted)] p-6">
-              <p className="text-overline uppercase tracking-[0.24em]">Label</p>
+              <p className="text-overline uppercase tracking-[0.16em]">Label</p>
               <p className="text-body-sm">Body small for metadata and captions.</p>
               <p className="text-caption">Caption with subdued contrast.</p>
-              <code className="block rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] p-3 text-code">const quality = 'precision'</code>
-              <blockquote className="border-l-2 border-[var(--primary)] pl-4 text-quote">System thinking is expressed through clarity, rhythm, and restraint.</blockquote>
+              <code className="block rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] p-3 text-code">
+                const quality = 'precision'
+              </code>
+              <blockquote className="border-l-2 border-[var(--primary)] pl-4 text-quote">
+                System thinking is expressed through clarity, rhythm, and restraint.
+              </blockquote>
             </div>
           </div>
         </div>
@@ -91,7 +106,7 @@ export default function DesignSystemPage() {
       <Section className="py-8" id="colors">
         <div className="section-shell space-y-8">
           <div className="space-y-2">
-            <p className="text-label uppercase tracking-[0.24em] text-muted">Color system</p>
+            <p className="text-label uppercase tracking-[0.16em] text-muted">Color system</p>
             <h2 className="text-h2">Semantic tokens</h2>
           </div>
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -105,8 +120,14 @@ export default function DesignSystemPage() {
               ['Success', 'var(--success)'],
               ['Danger', 'var(--danger)'],
             ].map(([name, value]) => (
-              <div className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-elevated)] p-4 shadow-[var(--shadow-sm)]" key={name}>
-                <div className="mb-4 h-16 rounded-[var(--radius-md)] border border-[var(--border)]" style={{ backgroundColor: value }} />
+              <div
+                className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-elevated)] p-4 shadow-[var(--shadow-sm)]"
+                key={name}
+              >
+                <div
+                  className="mb-4 h-16 rounded-[var(--radius-md)] border border-[var(--border)]"
+                  style={{ backgroundColor: value }}
+                />
                 <p className="text-body-sm font-medium">{name}</p>
                 <p className="text-caption text-muted">{value}</p>
               </div>
@@ -118,14 +139,17 @@ export default function DesignSystemPage() {
       <Section className="py-8" id="spacing">
         <div className="section-shell space-y-8">
           <div className="space-y-2">
-            <p className="text-label uppercase tracking-[0.24em] text-muted">Spacing</p>
+            <p className="text-label uppercase tracking-[0.16em] text-muted">Spacing</p>
             <h2 className="text-h2">Formal rhythm</h2>
           </div>
           <div className="space-y-3">
             {spacingScale.map((size) => (
               <div className="flex items-center gap-4" key={size}>
                 <div className="w-12 text-caption text-muted">{size}</div>
-                <div className="h-3 flex-1 rounded-full bg-[var(--primary)]/75" style={{ width: `calc(${size}px * 1.4)` }} />
+                <div
+                  className="h-3 flex-1 rounded-full bg-[var(--primary)]/75"
+                  style={{ width: `calc(${size}px * 1.4)` }}
+                />
               </div>
             ))}
           </div>
@@ -135,13 +159,19 @@ export default function DesignSystemPage() {
       <Section className="py-8" id="radius">
         <div className="section-shell space-y-8">
           <div className="space-y-2">
-            <p className="text-label uppercase tracking-[0.24em] text-muted">Radius</p>
+            <p className="text-label uppercase tracking-[0.16em] text-muted">Radius</p>
             <h2 className="text-h2">Soft precision</h2>
           </div>
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {radiusScale.map((token) => (
-              <div className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-elevated)] p-4" key={token}>
-                <div className="mb-3 h-12 border border-[var(--border)] bg-[var(--surface-muted)]" style={{ borderRadius: `var(--radius-${token})` }} />
+              <div
+                className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-elevated)] p-4"
+                key={token}
+              >
+                <div
+                  className="mb-3 h-12 border border-[var(--border)] bg-[var(--surface-muted)]"
+                  style={{ borderRadius: `var(--radius-${token})` }}
+                />
                 <p className="text-body-sm font-medium">{token}</p>
               </div>
             ))}
@@ -152,12 +182,18 @@ export default function DesignSystemPage() {
       <Section className="py-8" id="elevation">
         <div className="section-shell space-y-8">
           <div className="space-y-2">
-            <p className="text-label uppercase tracking-[0.24em] text-muted">Elevation</p>
+            <p className="text-label uppercase tracking-[0.16em] text-muted">Elevation</p>
             <h2 className="text-h2">Surface hierarchy</h2>
           </div>
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {elevationScale.map((token) => (
-              <div className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-elevated)] p-4" key={token} style={{ boxShadow: `var(--shadow-${token === 'glass' ? 'glass' : token === 'overlay' ? 'overlay' : token})` }}>
+              <div
+                className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-elevated)] p-4"
+                key={token}
+                style={{
+                  boxShadow: `var(--shadow-${token === 'glass' ? 'glass' : token === 'overlay' ? 'overlay' : token})`,
+                }}
+              >
                 <p className="text-body-sm font-medium">{token}</p>
               </div>
             ))}
@@ -168,7 +204,7 @@ export default function DesignSystemPage() {
       <Section className="py-8" id="buttons">
         <div className="section-shell space-y-8">
           <div className="space-y-2">
-            <p className="text-label uppercase tracking-[0.24em] text-muted">Buttons</p>
+            <p className="text-label uppercase tracking-[0.16em] text-muted">Buttons</p>
             <h2 className="text-h2">Core interactions</h2>
           </div>
           <div className="flex flex-wrap gap-3">
@@ -182,7 +218,9 @@ export default function DesignSystemPage() {
             <IconButton aria-label="Open menu" variant="default">
               <span>+</span>
             </IconButton>
-            <LinkButton href="/design-system" variant="primary">Link button</LinkButton>
+            <LinkButton href="/design-system" variant="primary">
+              Link button
+            </LinkButton>
             <Tooltip content="Helpful hint" side="top">
               <Badge variant="info">Tooltip</Badge>
             </Tooltip>
@@ -193,7 +231,7 @@ export default function DesignSystemPage() {
       <Section className="py-8" id="forms">
         <div className="section-shell space-y-8">
           <div className="space-y-2">
-            <p className="text-label uppercase tracking-[0.24em] text-muted">Forms</p>
+            <p className="text-label uppercase tracking-[0.16em] text-muted">Forms</p>
             <h2 className="text-h2">Accessible primitives</h2>
           </div>
           <div className="grid gap-6 lg:grid-cols-2">
@@ -219,8 +257,12 @@ export default function DesignSystemPage() {
               <div className="space-y-2">
                 <label className="text-sm font-medium text-[var(--foreground)]">Preferences</label>
                 <div className="flex flex-wrap gap-3">
-                  <FormCheckbox checked readOnly>Receive updates</FormCheckbox>
-                  <FormSwitch checked readOnly>Enable notifications</FormSwitch>
+                  <FormCheckbox checked readOnly>
+                    Receive updates
+                  </FormCheckbox>
+                  <FormSwitch checked readOnly>
+                    Enable notifications
+                  </FormSwitch>
                 </div>
               </div>
               <div className="space-y-2">
@@ -244,7 +286,7 @@ export default function DesignSystemPage() {
       <Section className="py-8" id="cards">
         <div className="section-shell space-y-8">
           <div className="space-y-2">
-            <p className="text-label uppercase tracking-[0.24em] text-muted">Cards & surfaces</p>
+            <p className="text-label uppercase tracking-[0.16em] text-muted">Cards & surfaces</p>
             <h2 className="text-h2">Composable containers</h2>
           </div>
           <div className="grid gap-4 lg:grid-cols-2">
@@ -253,13 +295,17 @@ export default function DesignSystemPage() {
                 <Text as="h3">Surface card</Text>
               </CardHeader>
               <CardBody>
-                <p className="text-body-sm text-muted">Cards inherit the surface system and stay neutral enough to host any content.</p>
+                <p className="text-body-sm text-muted">
+                  Cards inherit the surface system and stay neutral enough to host any content.
+                </p>
               </CardBody>
             </Card>
             <Surface className="p-6" shadow="md" tone="overlay">
               <div className="space-y-3">
                 <Tag tone="accent">Glass surface</Tag>
-                <p className="text-body-sm text-muted">Overlay surfaces provide a lightweight glass effect for immersive layouts.</p>
+                <p className="text-body-sm text-muted">
+                  Overlay surfaces provide a lightweight glass effect for immersive layouts.
+                </p>
               </div>
             </Surface>
           </div>
@@ -269,7 +315,7 @@ export default function DesignSystemPage() {
       <Section className="py-8" id="navigation-primitives">
         <div className="section-shell space-y-8">
           <div className="space-y-2">
-            <p className="text-label uppercase tracking-[0.24em] text-muted">Navigation</p>
+            <p className="text-label uppercase tracking-[0.16em] text-muted">Navigation</p>
             <h2 className="text-h2">Responsive primitives</h2>
           </div>
           <div className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface-muted)] p-4">
@@ -291,14 +337,35 @@ export default function DesignSystemPage() {
       <Section className="py-8" id="feedback">
         <div className="section-shell space-y-8">
           <div className="space-y-2">
-            <p className="text-label uppercase tracking-[0.24em] text-muted">Feedback</p>
+            <p className="text-label uppercase tracking-[0.16em] text-muted">Feedback</p>
             <h2 className="text-h2">Status and empty states</h2>
           </div>
           <div className="grid gap-4 lg:grid-cols-2">
-            <Alert description="The operation completed successfully." title="Success" variant="success" />
-            <Feedback action={<Button size="sm" variant="primary">Retry</Button>} description="No content is available yet." kind="empty" title="Nothing to show" />
-            <Feedback description="Loading details for the current view." kind="loading" title="Loading" />
-            <Alert description="Please review the input before proceeding." title="Warning" variant="warning" />
+            <Alert
+              description="The operation completed successfully."
+              title="Success"
+              variant="success"
+            />
+            <Feedback
+              action={
+                <Button size="sm" variant="primary">
+                  Retry
+                </Button>
+              }
+              description="No content is available yet."
+              kind="empty"
+              title="Nothing to show"
+            />
+            <Feedback
+              description="Loading details for the current view."
+              kind="loading"
+              title="Loading"
+            />
+            <Alert
+              description="Please review the input before proceeding."
+              title="Warning"
+              variant="warning"
+            />
           </div>
         </div>
       </Section>
@@ -306,7 +373,7 @@ export default function DesignSystemPage() {
       <Section className="py-8" id="motion">
         <div className="section-shell space-y-8">
           <div className="space-y-2">
-            <p className="text-label uppercase tracking-[0.24em] text-muted">Motion</p>
+            <p className="text-label uppercase tracking-[0.16em] text-muted">Motion</p>
             <h2 className="text-h2">Measured transitions</h2>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
@@ -329,7 +396,7 @@ export default function DesignSystemPage() {
       <Section className="py-8" id="utilities">
         <div className="section-shell space-y-8">
           <div className="space-y-2">
-            <p className="text-label uppercase tracking-[0.24em] text-muted">Utilities</p>
+            <p className="text-label uppercase tracking-[0.16em] text-muted">Utilities</p>
             <h2 className="text-h2">Helpful helpers</h2>
           </div>
           <div className="grid gap-4 lg:grid-cols-3">
@@ -355,8 +422,12 @@ export default function DesignSystemPage() {
 
       <Section className="py-8" id="overview-footer">
         <div className="flex items-center justify-between rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface-elevated)] p-4 shadow-[var(--shadow-sm)]">
-          <p className="text-body-sm text-muted">Developer-only route for future component reviews.</p>
-          <Link className="text-body-sm font-medium text-[var(--primary)]" href="/">Return home</Link>
+          <p className="text-body-sm text-muted">
+            Developer-only route for future component reviews.
+          </p>
+          <Link className="text-body-sm font-medium text-[var(--primary)]" href="/">
+            Return home
+          </Link>
         </div>
       </Section>
     </Container>

@@ -24,6 +24,6 @@ export const siteConfig: SiteConfig = {
     'React',
     'System Architecture',
   ],
-  ogImage: '/og/og-default.png',
-  cvPath: '/cv/daniel-zimba-cv.pdf',
+  ogImage: '/assets/og/og-default.png',
+  cvPath: '/assets/cv/daniel-zimba-cv.pdf',
 }

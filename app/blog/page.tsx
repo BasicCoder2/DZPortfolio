@@ -16,7 +16,7 @@ export default function BlogPage() {
     <Section>
       <Container size="prose">
         <header className="max-w-2xl">
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent-green">Notes</p>
+          <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">Notes</p>
           <h1 className="mt-3 text-display-lg">Blog</h1>
           <p className="mt-5 text-lg leading-8 text-text-secondary">
             Working notes on software, systems, and the decisions behind them.

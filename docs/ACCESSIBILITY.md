@@ -6,12 +6,12 @@ DZPortfolio Design System meets WCAG AA standards across all components.
 
 ## Color Contrast
 
-| Element | Ratio | Requirement | Status |
-|---------|-------|-------------|--------|
-| Primary text on bg | 15.2:1 | 4.5:1 | PASS |
-| Secondary text on bg | 8.1:1 | 4.5:1 | PASS |
-| Primary on primary-foreground | 7.2:1 | 4.5:1 | PASS |
-| Focus ring on any bg | 3.0:1 | 3.0:1 | PASS |
+| Element                       | Ratio  | Requirement | Status |
+| ----------------------------- | ------ | ----------- | ------ |
+| Primary text on bg            | 15.2:1 | 4.5:1       | PASS   |
+| Secondary text on bg          | 8.1:1  | 4.5:1       | PASS   |
+| Primary on primary-foreground | 7.2:1  | 4.5:1       | PASS   |
+| Focus ring on any bg          | 3.0:1  | 3.0:1       | PASS   |
 
 ## Keyboard Navigation
 
@@ -43,7 +43,9 @@ Global rule in `app/globals.css`:
 
 ```css
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -54,22 +56,22 @@ Global rule in `app/globals.css`:
 
 ## Component Accessibility Checklist
 
-| Component | Keyboard | Focus | ARIA | Reduced Motion |
-|-----------|----------|-------|------|----------------|
-| Button | Yes | Yes | Yes | Yes |
-| Input | Yes | Yes | Yes | Yes |
-| Textarea | Yes | Yes | Yes | Yes |
-| Select | Yes | Yes | Yes | Yes |
-| Checkbox | Yes | Yes | Yes | Yes |
-| Switch | Yes | Yes | Yes | Yes |
-| Radio | Yes | Yes | Yes | Yes |
-| Card | Yes | Yes | Yes | Yes |
-| Alert | Yes | Yes | Yes | Yes |
-| Tooltip | Yes | Yes | Yes | Yes |
-| Popover | Yes | Yes | Yes | Yes |
-| Toast | Yes | Yes | Yes | Yes |
-| Navigation | Yes | Yes | Yes | Yes |
-| MobileMenu | Yes | Yes | Yes | Yes |
+| Component  | Keyboard | Focus | ARIA | Reduced Motion |
+| ---------- | -------- | ----- | ---- | -------------- |
+| Button     | Yes      | Yes   | Yes  | Yes            |
+| Input      | Yes      | Yes   | Yes  | Yes            |
+| Textarea   | Yes      | Yes   | Yes  | Yes            |
+| Select     | Yes      | Yes   | Yes  | Yes            |
+| Checkbox   | Yes      | Yes   | Yes  | Yes            |
+| Switch     | Yes      | Yes   | Yes  | Yes            |
+| Radio      | Yes      | Yes   | Yes  | Yes            |
+| Card       | Yes      | Yes   | Yes  | Yes            |
+| Alert      | Yes      | Yes   | Yes  | Yes            |
+| Tooltip    | Yes      | Yes   | Yes  | Yes            |
+| Popover    | Yes      | Yes   | Yes  | Yes            |
+| Toast      | Yes      | Yes   | Yes  | Yes            |
+| Navigation | Yes      | Yes   | Yes  | Yes            |
+| MobileMenu | Yes      | Yes   | Yes  | Yes            |
 
 ## Testing
 

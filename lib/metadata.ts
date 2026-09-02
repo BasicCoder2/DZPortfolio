@@ -20,8 +20,7 @@ export const defaultMetadata: Metadata = {
     template: '%s | Daniel Zimba',
   },
 
-  description:
-    siteConfig.description,
+  description: siteConfig.description,
 
   keywords: [
     'Daniel Zimba',
@@ -57,8 +56,7 @@ export const defaultMetadata: Metadata = {
     url: siteUrl,
     siteName: 'Daniel Zimba',
     title: siteConfig.title,
-    description:
-      siteConfig.description,
+    description: siteConfig.description,
     images: [
       {
         url: defaultOgImage,
@@ -72,19 +70,14 @@ export const defaultMetadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: siteConfig.title,
-    description:
-      siteConfig.description,
+    description: siteConfig.description,
     images: [defaultOgImage],
     creator: '@danielzimba',
   },
 
-  icons: {
-    icon: '/favicons/favicon.ico',
-    shortcut: '/favicons/favicon-16x16.png',
-    apple: '/favicons/apple-touch-icon.png',
-  },
-
-  manifest: '/favicons/site.webmanifest',
+  // Icons and the web manifest come from the app-directory file conventions
+  // (app/icon.svg, app/apple-icon.tsx, app/manifest.ts) so Next emits the link
+  // tags itself. Declaring them here pointed at /favicons/*, which was empty.
 }
 
 // ─── Metadata Constructor ─────────────────────────────────────────────────────

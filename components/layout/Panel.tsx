@@ -17,9 +17,7 @@ export function Panel({ header, children, footer, className }: PanelProps) {
         </div>
       )}
       <div className="p-6">{children}</div>
-      {footer && (
-        <div className="border-t border-border px-6 py-4">{footer}</div>
-      )}
+      {footer && <div className="border-t border-border px-6 py-4">{footer}</div>}
     </div>
   )
 }

@@ -23,7 +23,7 @@ export function Navigation() {
   const { isScrolled } = useNavigationState()
   const scrollProgress = useScrollProgress()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const resumeUrl = process.env.NEXT_PUBLIC_RESUME_URL ?? '/cv/daniel-zimba-cv.pdf'
+  const resumeUrl = process.env.NEXT_PUBLIC_RESUME_URL || '/assets/cv/daniel-zimba-cv.pdf'
 
   return (
     <>
@@ -33,8 +33,8 @@ export function Navigation() {
         className={cn(
           'fixed inset-x-0 top-0 z-40 transition-[height,background-color,backdrop-filter,border-color,box-shadow] duration-300',
           isScrolled
-            ? 'h-[72px] bg-bg/80 backdrop-blur-md border-b border-border shadow-sm'
-            : 'h-[88px] bg-transparent border-transparent'
+            ? 'h-[var(--nav-h-scrolled)] bg-bg/80 backdrop-blur-md border-b border-border shadow-sm'
+            : 'h-[var(--nav-h)] bg-transparent border-transparent'
         )}
         role="banner"
       >
@@ -53,7 +53,11 @@ export function Navigation() {
             <div className="hidden lg:flex items-center gap-3">
               <ThemeToggle />
               {resumeUrl && (
-                <CTAButton className="hidden border border-border-strong bg-transparent text-text-primary hover:bg-surface-muted lg:inline-flex" href={resumeUrl} label="Download CV" />
+                <CTAButton
+                  className="hidden border border-border-strong bg-transparent text-text-primary hover:bg-surface-muted lg:inline-flex"
+                  href={resumeUrl}
+                  label="Download CV"
+                />
               )}
             </div>
           </nav>

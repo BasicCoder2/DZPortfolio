@@ -16,8 +16,7 @@ const spinnerVariants = cva('animate-spin text-[var(--muted-foreground)]', {
 })
 
 export interface SpinnerProps
-  extends React.SVGAttributes<SVGElement>,
-    VariantProps<typeof spinnerVariants> {}
+  extends React.SVGAttributes<SVGElement>, VariantProps<typeof spinnerVariants> {}
 
 function Spinner({ className, size, ...props }: SpinnerProps) {
   return (
@@ -26,7 +25,3 @@ function Spinner({ className, size, ...props }: SpinnerProps) {
 }
 
 export { Spinner }
-
-
-
-

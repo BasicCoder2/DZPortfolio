@@ -35,7 +35,14 @@ export interface LinkButtonProps extends VariantProps<typeof linkButtonVariants>
   external?: boolean
 }
 
-function LinkButton({ href, children, className, variant, size, external = false }: LinkButtonProps) {
+function LinkButton({
+  href,
+  children,
+  className,
+  variant,
+  size,
+  external = false,
+}: LinkButtonProps) {
   const sharedProps = {
     className: cn(linkButtonVariants({ variant, size }), className),
   }

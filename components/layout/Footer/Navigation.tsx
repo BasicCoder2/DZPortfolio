@@ -15,7 +15,10 @@ export function Navigation() {
           key={link.label}
         >
           {link.label}
-          <span aria-hidden="true" className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-accent-green transition-transform duration-300 group-hover:scale-x-100" />
+          <span
+            aria-hidden="true"
+            className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-accent-green transition-transform duration-300 group-hover:scale-x-100"
+          />
         </Link>
       ))}
     </nav>

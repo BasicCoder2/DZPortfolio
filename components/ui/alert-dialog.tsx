@@ -4,25 +4,19 @@ import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
-const alertDialogVariants = cva(
-    cn(
-      'fixed inset-0 z-50 flex items-center justify-center p-4'
-    ),
-  {
-    variants: {
-      variant: {
-        default: '',
-        primary: '',
-      },
+const alertDialogVariants = cva(cn('fixed inset-0 z-50 flex items-center justify-center p-4'), {
+  variants: {
+    variant: {
+      default: '',
+      primary: '',
     },
-    defaultVariants: {
-      variant: 'default',
-    },
-  }
-)
+  },
+  defaultVariants: {
+    variant: 'default',
+  },
+})
 
-export interface AlertDialogProps
-  extends VariantProps<typeof alertDialogVariants> {
+export interface AlertDialogProps extends VariantProps<typeof alertDialogVariants> {
   open?: boolean
   onOpenChange?: (open: boolean) => void
   title: string
@@ -98,7 +92,3 @@ export function AlertDialog({
     </AlertDialogPrimitive.Root>
   )
 }
-
-
-
-

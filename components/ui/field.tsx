@@ -106,14 +106,21 @@ function FieldError({ className, children }: FieldErrorProps) {
   const { errorId } = useFieldContext()
 
   return (
-    <p className={cn('text-xs text-[var(--danger)] flex items-center gap-1', className)} id={errorId} role="alert">
+    <p
+      className={cn('text-xs text-[var(--danger)] flex items-center gap-1', className)}
+      id={errorId}
+      role="alert"
+    >
       {children}
     </p>
   )
 }
 
-export { FieldRoot as Field, FieldLabel, FieldDescription, FieldHelper, FieldError, useFieldContext }
-
-
-
-
+export {
+  FieldRoot as Field,
+  FieldLabel,
+  FieldDescription,
+  FieldHelper,
+  FieldError,
+  useFieldContext,
+}

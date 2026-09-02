@@ -19,36 +19,43 @@
 /* Light theme — default (:root) */
 @layer base {
   :root {
-    /* ── Surface / Background ── */
-    --background: #f4f6f9;
+    /* ── Surface / Background ──
+       The ground sits low enough that each rung above it is perceptible:
+       ground → resting → elevated spans ~13% relative luminance, and
+       `surface-muted` reads as recessed rather than as another light tier. */
+    --background: #eceff5;
     --foreground: #0f172a;
-    --surface: #f7f9fc;
-    --surface-muted: #eef2f7;
+    --surface: #f8fafd;
+    --surface-muted: #e0e5ee;
     --surface-elevated: #ffffff;
-    --surface-overlay: rgba(255, 255, 255, 0.78);
+    --surface-overlay: rgba(255, 255, 255, 0.82);
     --card: var(--surface-elevated);
     --card-foreground: var(--foreground);
     --popover: var(--surface-elevated);
     --popover-foreground: var(--foreground);
 
-    /* ── Accent system ── */
-    --primary: #3b82f6;
+    /* ── Accent system ──
+       Accents are darkened for the light theme so they clear 4.5:1 against the
+       ground; the dark theme keeps the bright variants. Because the light
+       accent is dark, its foreground flips light — pair them via the token,
+       never with a hardcoded hex. */
+    --primary: #1d4ed8;
     --primary-foreground: #f8fbff;
-    --secondary: #6d6de8;
+    --secondary: #4f46e5;
     --secondary-foreground: #f8fbff;
-    --accent: #14b8a6;
-    --accent-foreground: #031615;
-    --primary-glow: rgba(59, 130, 246, 0.18);
-    --secondary-glow: rgba(109, 109, 232, 0.16);
+    --accent: #0f766e;
+    --accent-foreground: #f0fdfa;
+    --primary-glow: rgba(29, 78, 216, 0.16);
+    --secondary-glow: rgba(79, 70, 229, 0.14);
 
     /* ── Text tiers ── */
-    --muted: #eef2f7;
-    --muted-foreground: #5f6b7a;
-    --tertiary: #7d8797;
-    --border: rgba(15, 23, 42, 0.08);
-    --border-strong: rgba(15, 23, 42, 0.16);
-    --divider: rgba(15, 23, 42, 0.12);
-    --input: rgba(15, 23, 42, 0.08);
+    --muted: #e0e5ee;
+    --muted-foreground: #4f5a69;
+    --tertiary: #5b6674;
+    --border: rgba(15, 23, 42, 0.12);
+    --border-strong: rgba(15, 23, 42, 0.22);
+    --divider: rgba(15, 23, 42, 0.14);
+    --input: rgba(15, 23, 42, 0.14);
     --ring: var(--primary);
     --focus-ring: var(--primary);
     --focus: var(--primary);
@@ -90,8 +97,8 @@
     --color-accent: var(--accent);
     --color-accent-foreground: var(--accent-foreground);
     --color-accent-green: var(--accent);
-    --color-accent-green-dim: var(--primary-glow);
-    --color-accent-green-glow: rgba(20, 184, 166, 0.2);
+    --color-accent-green-dim: rgba(15, 118, 110, 0.16);
+    --color-accent-green-glow: rgba(15, 118, 110, 0.2);
     --color-accent-blue: var(--primary);
     --color-accent-blue-dim: var(--primary-glow);
     --color-muted: var(--muted);
@@ -196,9 +203,17 @@
 /* ────────────── Typography / Font tokens ────────────── */
 @layer base {
   :root {
+    /* One sans (Geist) carries display and body; JetBrains Mono is the
+       contrasting voice for labels, eyebrows, tags and code. */
     --font-heading: var(--font-geist), system-ui, sans-serif;
-    --font-body: var(--font-inter), system-ui, sans-serif;
+    --font-body: var(--font-geist), system-ui, sans-serif;
     --font-code: var(--font-mono), 'Courier New', monospace;
+
+    /* Height of the fixed header. Single source of truth for the header box,
+       the <main> offset, and the hero's negative pull — these must agree or a
+       seam appears under the nav. --nav-h-scrolled is the condensed state. */
+    --nav-h: 5.5rem;
+    --nav-h-scrolled: 4.5rem;
 
     /* Spacing (8px base unit) */
     --space-0: 0;
@@ -506,12 +521,8 @@
     padding-inline: var(--space-6);
   }
 
-  .section {
-    padding-block: var(--space-20);
-    @media (min-width: 768px) {
-      padding-block: var(--space-32);
-    }
-  }
+  /* Section rhythm lives in components/layout/Section.tsx, which varies
+     density by the section's role rather than applying one value to all. */
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────

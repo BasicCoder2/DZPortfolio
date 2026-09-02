@@ -22,8 +22,7 @@ export const services: Service[] = [
   {
     id: 'web-applications',
     title: 'Web Applications',
-    description:
-      'Modern web platforms, business applications, portals, APIs, and dashboards.',
+    description: 'Modern web platforms, business applications, portals, APIs, and dashboards.',
     icon: 'Globe2',
     highlights: [
       'React and Next.js',
@@ -48,8 +47,14 @@ export const services: Service[] = [
   {
     id: 'mobile-applications',
     title: 'Mobile Applications',
-    description: 'Cross-platform mobile products for connected, offline-first, and operational workflows.',
+    description:
+      'Cross-platform mobile products for connected, offline-first, and operational workflows.',
     icon: 'Smartphone',
-    highlights: ['Flutter applications', 'Firebase-backed workflows', 'Cross-platform interfaces', 'Offline-first thinking'],
+    highlights: [
+      'Flutter applications',
+      'Firebase-backed workflows',
+      'Cross-platform interfaces',
+      'Offline-first thinking',
+    ],
   },
 ]

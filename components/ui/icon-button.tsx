@@ -10,10 +10,13 @@ const iconButtonVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-[var(--surface-elevated)] text-[var(--foreground)] shadow-[var(--shadow-sm)] hover:bg-[var(--surface-muted)]',
-        primary: 'bg-[var(--primary)] text-[var(--primary-foreground)] shadow-[var(--shadow-sm)] hover:brightness-110',
+        default:
+          'bg-[var(--surface-elevated)] text-[var(--foreground)] shadow-[var(--shadow-sm)] hover:bg-[var(--surface-muted)]',
+        primary:
+          'bg-[var(--primary)] text-[var(--primary-foreground)] shadow-[var(--shadow-sm)] hover:brightness-110',
         ghost: 'bg-transparent text-[var(--foreground)] hover:bg-[var(--surface-muted)]',
-        outline: 'border-[var(--border)] bg-transparent text-[var(--foreground)] hover:bg-[var(--surface-muted)]',
+        outline:
+          'border-[var(--border)] bg-transparent text-[var(--foreground)] hover:bg-[var(--surface-muted)]',
       },
       size: {
         sm: 'h-8 w-8',
@@ -28,11 +31,19 @@ const iconButtonVariants = cva(
   }
 )
 
-export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof iconButtonVariants> {}
+export interface IconButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof iconButtonVariants> {}
 
-const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(({ className, variant, size, ...props }, ref) => (
-  <button className={cn(iconButtonVariants({ variant, size }), className)} ref={ref} type="button" {...props} />
-))
+const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
+  ({ className, variant, size, ...props }, ref) => (
+    <button
+      className={cn(iconButtonVariants({ variant, size }), className)}
+      ref={ref}
+      type="button"
+      {...props}
+    />
+  )
+)
 
 IconButton.displayName = 'IconButton'
 

@@ -14,7 +14,7 @@ export function ProjectCard({ project }: { project: Project }) {
             alt={`${project.title} project preview`}
             className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
             sizes="(max-width: 767px) 100vw, 50vw"
-            src={project.coverImage ?? '/images/projects/lmmu-governance-admissions.svg'}
+            src={project.coverImage ?? '/assets/projects/lmmu-governance-admissions.svg'}
           />
         </div>
         <div className="p-6 md:p-7">

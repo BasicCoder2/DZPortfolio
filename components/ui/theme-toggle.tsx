@@ -22,7 +22,3 @@ export function ThemeToggle() {
     </Button>
   )
 }
-
-
-
-

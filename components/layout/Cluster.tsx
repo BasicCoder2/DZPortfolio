@@ -13,8 +13,6 @@ const gapClasses = {
 
 export function Cluster({ children, className, gap = 'md' }: ClusterProps) {
   return (
-    <div className={cn('flex flex-wrap items-center', gapClasses[gap], className)}>
-      {children}
-    </div>
+    <div className={cn('flex flex-wrap items-center', gapClasses[gap], className)}>{children}</div>
   )
 }

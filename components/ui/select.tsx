@@ -11,7 +11,8 @@ const triggerVariants = {
     'bg-[var(--surface-subtle)] border border-transparent rounded-[var(--radius-md)] focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--ring)] focus:ring-offset-2',
 }
 
-const errorTriggerStyles = 'border-[var(--danger)] focus:border-[var(--danger)] focus:ring-[var(--danger)]'
+const errorTriggerStyles =
+  'border-[var(--danger)] focus:border-[var(--danger)] focus:ring-[var(--danger)]'
 
 export interface SelectProps extends RadixSelect.SelectProps {
   variant?: 'default' | 'filled'
@@ -22,7 +23,15 @@ export interface SelectProps extends RadixSelect.SelectProps {
   id?: string
 }
 
-export function Select({ variant = 'default', error = false, placeholder, children, className, id, ...props }: SelectProps) {
+export function Select({
+  variant = 'default',
+  error = false,
+  placeholder,
+  children,
+  className,
+  id,
+  ...props
+}: SelectProps) {
   return (
     <RadixSelect.Root {...props}>
       <RadixSelect.Trigger
@@ -48,9 +57,7 @@ export function Select({ variant = 'default', error = false, placeholder, childr
           <RadixSelect.ScrollUpButton className="flex items-center justify-center py-1">
             <ChevronDown className="h-4 w-4 rotate-180" />
           </RadixSelect.ScrollUpButton>
-          <RadixSelect.Viewport className="p-1">
-            {children}
-          </RadixSelect.Viewport>
+          <RadixSelect.Viewport className="p-1">{children}</RadixSelect.Viewport>
           <RadixSelect.ScrollDownButton className="flex items-center justify-center py-1">
             <ChevronDown className="h-4 w-4" />
           </RadixSelect.ScrollDownButton>
@@ -84,7 +91,3 @@ export function SelectItem({ children, className, ...props }: SelectItemProps) {
 }
 
 export { RadixSelect }
-
-
-
-

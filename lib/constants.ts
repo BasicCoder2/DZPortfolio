@@ -27,7 +27,7 @@ export const FEATURED_PROJECTS_COUNT = 3
 export const RECENT_POSTS_COUNT = 3
 
 /** Default OG image path (relative to /public). */
-export const DEFAULT_OG_IMAGE = '/og/og-default.png'
+export const DEFAULT_OG_IMAGE = '/assets/og/og-default.png'
 
 /** Contact email for the portfolio owner. */
 export const CONTACT_EMAIL = 'daniel@zimba.dev'
@@ -57,16 +57,31 @@ export const NAV_LINKS: NavItem[] = [
  * resolved from environment variables (with local fallbacks) so the same
  * codebase can point at different profiles per environment.
  */
+/**
+ * Builds a profile URL from an environment value that may be either a bare
+ * handle (`BasicCoder2`) or an already-absolute profile URL.
+ *
+ * These variables get filled in by hand, and both shapes are natural to paste —
+ * one of them is even named `_URL` and the other `_USERNAME`. Blindly
+ * concatenating the base onto a value that already carried one produced
+ * `https://github.com/https://github.com/BasicCoder2`.
+ */
+function profileUrl(base: string, value: string | undefined, fallbackHandle: string): string {
+  const raw = value?.trim().replace(/\/+$/, '') || fallbackHandle
+  if (/^https?:\/\//i.test(raw)) return raw
+  return `${base}/${raw.replace(/^\/+/, '')}`
+}
+
 export const SOCIAL_LINKS: SocialLink[] = [
   {
     name: 'GitHub',
-    href: `${GITHUB_BASE_URL}/${process.env.NEXT_PUBLIC_GITHUB_USERNAME ?? 'danielzimba'}`,
+    href: profileUrl(GITHUB_BASE_URL, process.env.NEXT_PUBLIC_GITHUB_USERNAME, 'danielzimba'),
     icon: 'github',
     ariaLabel: 'Visit my GitHub profile',
   },
   {
     name: 'LinkedIn',
-    href: process.env.NEXT_PUBLIC_LINKEDIN_URL ?? `${LINKEDIN_BASE_URL}/danielzimba`,
+    href: profileUrl(LINKEDIN_BASE_URL, process.env.NEXT_PUBLIC_LINKEDIN_URL, 'danielzimba'),
     icon: 'linkedin',
     ariaLabel: 'Connect with me on LinkedIn',
   },

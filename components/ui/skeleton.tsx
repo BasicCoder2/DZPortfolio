@@ -16,8 +16,7 @@ const skeletonVariants = cva('animate-pulse', {
 })
 
 export interface SkeletonProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof skeletonVariants> {
+  extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof skeletonVariants> {
   width?: string | number
   height?: string | number
 }
@@ -38,7 +37,3 @@ function Skeleton({ className, variant, width, height, style, ...props }: Skelet
 }
 
 export { Skeleton }
-
-
-
-

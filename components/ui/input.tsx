@@ -20,12 +20,15 @@ const variantStyles = {
 }
 
 const errorVariantStyles = {
-  default: 'border-[var(--danger)] focus-visible:border-[var(--danger)] focus-visible:ring-[var(--danger)]',
-  filled: 'border-[var(--danger)] focus-visible:border-[var(--danger)] focus-visible:ring-[var(--danger)]',
+  default:
+    'border-[var(--danger)] focus-visible:border-[var(--danger)] focus-visible:ring-[var(--danger)]',
+  filled:
+    'border-[var(--danger)] focus-visible:border-[var(--danger)] focus-visible:ring-[var(--danger)]',
   underlined: 'border-b-[var(--danger)] focus-visible:border-[var(--danger)]',
 }
 
-const disabledStyles = 'disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-[var(--surface-subtle)]'
+const disabledStyles =
+  'disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-[var(--surface-subtle)]'
 const readOnlyStyles = 'read-only:bg-[var(--surface-subtle)] read-only:cursor-default'
 
 export function Input({
@@ -76,7 +79,3 @@ export function Input({
     </div>
   )
 }
-
-
-
-

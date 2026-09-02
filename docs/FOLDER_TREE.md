@@ -117,12 +117,12 @@ dz-portfolio/
 
 ## Statistics
 
-| Category | Count |
-|----------|-------|
-| UI Primitives | 28 |
-| Layout Primitives | 12 |
-| Providers | 3 |
-| Animation Components | 5 |
-| Hooks | 6 |
-| Design Tokens | 50+ |
-| Documentation Files | 9 |
+| Category             | Count |
+| -------------------- | ----- |
+| UI Primitives        | 28    |
+| Layout Primitives    | 12    |
+| Providers            | 3     |
+| Animation Components | 5     |
+| Hooks                | 6     |
+| Design Tokens        | 50+   |
+| Documentation Files  | 9     |

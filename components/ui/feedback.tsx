@@ -13,11 +13,16 @@ export interface FeedbackProps {
 function Feedback({ kind = 'info', title, description, action }: FeedbackProps) {
   if (kind === 'loading') {
     return (
-      <div className="flex items-center gap-3 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-muted)] p-4 text-[var(--foreground)]" role="status">
+      <div
+        className="flex items-center gap-3 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-muted)] p-4 text-[var(--foreground)]"
+        role="status"
+      >
         <Spinner size="md" />
         <div>
           <p className="text-sm font-medium">{title}</p>
-          {description ? <p className="text-sm text-[var(--muted-foreground)]">{description}</p> : null}
+          {description ? (
+            <p className="text-sm text-[var(--muted-foreground)]">{description}</p>
+          ) : null}
         </div>
       </div>
     )
@@ -27,7 +32,13 @@ function Feedback({ kind = 'info', title, description, action }: FeedbackProps) 
     return <Empty action={action} description={description} title={title} />
   }
 
-  return <Alert description={description} title={title} variant={kind === 'danger' ? 'destructive' : kind} />
+  return (
+    <Alert
+      description={description}
+      title={title}
+      variant={kind === 'danger' ? 'destructive' : kind}
+    />
+  )
 }
 
 export { Feedback }

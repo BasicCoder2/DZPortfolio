@@ -17,13 +17,18 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: 'bg-[var(--primary)] text-[var(--primary-foreground)] shadow-sm hover:brightness-110',
-        secondary: 'bg-[var(--secondary)] text-[var(--secondary-foreground)] shadow-sm hover:brightness-110',
-        outline: 'border border-[var(--border-strong)] text-[var(--foreground)] hover:bg-[var(--surface-subtle)] hover:border-[var(--border)]',
+        primary:
+          'bg-[var(--primary)] text-[var(--primary-foreground)] shadow-sm hover:brightness-110',
+        secondary:
+          'bg-[var(--secondary)] text-[var(--secondary-foreground)] shadow-sm hover:brightness-110',
+        outline:
+          'border border-[var(--border-strong)] text-[var(--foreground)] hover:bg-[var(--surface-subtle)] hover:border-[var(--border)]',
         ghost: 'text-[var(--foreground)] hover:bg-[var(--surface-subtle)]',
         link: 'text-[var(--primary)] underline-offset-4 hover:underline',
-        destructive: 'bg-[var(--danger)] text-[var(--danger-foreground)] shadow-sm hover:brightness-110',
-        success: 'bg-[var(--success)] text-[var(--success-foreground)] shadow-sm hover:brightness-110',
+        destructive:
+          'bg-[var(--danger)] text-[var(--danger-foreground)] shadow-sm hover:brightness-110',
+        success:
+          'bg-[var(--success)] text-[var(--success-foreground)] shadow-sm hover:brightness-110',
       },
       size: {
         icon: 'h-9 w-9',
@@ -42,15 +47,17 @@ const buttonVariants = cva(
 )
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
   asChild?: boolean
   loading?: boolean
   fullWidth?: boolean
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, loading, disabled, fullWidth, children, ...props }, ref) => {
+  (
+    { className, variant, size, asChild = false, loading, disabled, fullWidth, children, ...props },
+    ref
+  ) => {
     const Comp = asChild ? Slot : 'button'
 
     return (
@@ -70,7 +77,3 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 Button.displayName = 'Button'
 
 export { Button, buttonVariants }
-
-
-
-

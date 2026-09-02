@@ -1,31 +1,27 @@
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
-const cardVariants = cva(
-  'rounded-xl border border-border bg-surface text-text-primary',
-  {
-    variants: {
-      variant: {
-        default: 'shadow-card',
-        elevated: 'shadow-card-elevated bg-surface-raised',
-        outlined: 'border-2 border-border-strong shadow-none',
-        filled: 'bg-surface-subtle border-transparent shadow-none',
-      },
-      interactive: {
-        true: 'transition-all duration-200 hover:shadow-md hover:border-border-strong cursor-pointer',
-        false: '',
-      },
+const cardVariants = cva('rounded-xl border border-border bg-surface text-text-primary', {
+  variants: {
+    variant: {
+      default: 'shadow-card',
+      elevated: 'shadow-card-elevated bg-surface-raised',
+      outlined: 'border-2 border-border-strong shadow-none',
+      filled: 'bg-surface-subtle border-transparent shadow-none',
     },
-    defaultVariants: {
-      variant: 'default',
-      interactive: false,
+    interactive: {
+      true: 'transition-all duration-200 hover:shadow-md hover:border-border-strong cursor-pointer',
+      false: '',
     },
-  }
-)
+  },
+  defaultVariants: {
+    variant: 'default',
+    interactive: false,
+  },
+})
 
 export interface CardProps
-  extends VariantProps<typeof cardVariants>,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends VariantProps<typeof cardVariants>, React.HTMLAttributes<HTMLDivElement> {}
 
 const Card = ({ variant, interactive, className, ...props }: CardProps) => (
   <div className={cn(cardVariants({ variant, interactive }), className)} {...props} />
@@ -64,16 +60,4 @@ const CardActions = ({ className, ...props }: React.HTMLAttributes<HTMLDivElemen
   <div className={cn('flex items-center gap-2', className)} {...props} />
 )
 
-export {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  CardMedia,
-  CardActions,
-  cardVariants,
-}
-
-
-
-
+export { Card, CardHeader, CardBody, CardFooter, CardMedia, CardActions, cardVariants }

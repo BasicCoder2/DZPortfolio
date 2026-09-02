@@ -17,13 +17,24 @@ const chipVariants = cva(
   }
 )
 
-export interface ChipProps extends React.HTMLAttributes<HTMLButtonElement>, VariantProps<typeof chipVariants> {}
+export interface ChipProps
+  extends React.HTMLAttributes<HTMLButtonElement>, VariantProps<typeof chipVariants> {}
 
 function Chip({ className, interactive = false, ...props }: ChipProps) {
   if (interactive) {
-    return <button className={cn(chipVariants({ interactive }), className)} {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)} />
+    return (
+      <button
+        className={cn(chipVariants({ interactive }), className)}
+        {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+      />
+    )
   }
-  return <div className={cn(chipVariants({ interactive }), className)} {...(props as React.HTMLAttributes<HTMLDivElement>)} />
+  return (
+    <div
+      className={cn(chipVariants({ interactive }), className)}
+      {...(props as React.HTMLAttributes<HTMLDivElement>)}
+    />
+  )
 }
 
 export { Chip, chipVariants }

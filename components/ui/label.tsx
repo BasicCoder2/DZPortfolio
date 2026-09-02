@@ -25,7 +25,13 @@ const sizeStyles: Record<LabelSize, string> = {
 
 const weightStyles = 'font-medium'
 
-export function Label({ variant = 'default', size = 'md', className, children, ...props }: LabelProps) {
+export function Label({
+  variant = 'default',
+  size = 'md',
+  className,
+  children,
+  ...props
+}: LabelProps) {
   return (
     <RadixLabel.Root
       className={cn(
@@ -41,7 +47,3 @@ export function Label({ variant = 'default', size = 'md', className, children, .
     </RadixLabel.Root>
   )
 }
-
-
-
-

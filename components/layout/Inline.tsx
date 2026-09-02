@@ -35,8 +35,7 @@ const inlineVariants = cva('flex flex-wrap', {
 })
 
 interface InlineProps
-  extends VariantProps<typeof inlineVariants>,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends VariantProps<typeof inlineVariants>, React.HTMLAttributes<HTMLDivElement> {}
 
 function Inline({ gap, align, justify, className, ...props }: InlineProps) {
   return <div className={cn(inlineVariants({ gap, align, justify }), className)} {...props} />

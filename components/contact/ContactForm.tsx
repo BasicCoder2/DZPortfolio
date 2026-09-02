@@ -23,7 +23,10 @@ export function ContactForm() {
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const form = event.currentTarget
-    const result = contactSchema.safeParse({ ...values, website: new FormData(form).get('website') })
+    const result = contactSchema.safeParse({
+      ...values,
+      website: new FormData(form).get('website'),
+    })
 
     if (!result.success) {
       const nextErrors = Object.fromEntries(
@@ -45,9 +48,10 @@ export function ContactForm() {
         body: JSON.stringify(result.data),
       })
       const body: unknown = await response.json().catch(() => null)
-      const message = body && typeof body === 'object' && 'message' in body && typeof body.message === 'string'
-        ? body.message
-        : 'Unable to send your message right now. Please try again later.'
+      const message =
+        body && typeof body === 'object' && 'message' in body && typeof body.message === 'string'
+          ? body.message
+          : 'Unable to send your message right now. Please try again later.'
 
       if (!response.ok) {
         setStatus('error')
@@ -151,7 +155,7 @@ export function ContactForm() {
         )}
       </div>
       <button
-        className="inline-flex min-h-12 items-center justify-center bg-accent-green px-6 py-3 font-medium text-[#07111f] transition-transform hover:-translate-y-0.5 focus-visible:ring-offset-bg disabled:cursor-not-allowed disabled:opacity-70"
+        className="inline-flex min-h-12 items-center justify-center bg-accent-green px-6 py-3 font-medium text-accent-foreground transition-transform hover:-translate-y-0.5 focus-visible:ring-offset-bg disabled:cursor-not-allowed disabled:opacity-70"
         disabled={isSubmitting}
         type="submit"
       >

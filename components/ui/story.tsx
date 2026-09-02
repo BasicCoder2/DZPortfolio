@@ -20,11 +20,26 @@ function StorySection({ title, description, children }: StorySectionProps) {
     <section className="space-y-4 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface-elevated)] p-6 shadow-[var(--shadow-sm)]">
       <div className="space-y-1">
         <Text as="h3">{title}</Text>
-        {description ? <p className="text-sm text-[var(--muted-foreground)]">{description}</p> : null}
+        {description ? (
+          <p className="text-sm text-[var(--muted-foreground)]">{description}</p>
+        ) : null}
       </div>
       {children}
     </section>
   )
 }
 
-export { Badge, Button, Card, CardBody, CardHeader, Chip, Input, Progress, StorySection, Surface, Tag, Text }
+export {
+  Badge,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Chip,
+  Input,
+  Progress,
+  StorySection,
+  Surface,
+  Tag,
+  Text,
+}

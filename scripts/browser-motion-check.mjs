@@ -2,7 +2,9 @@ const debugPort = process.env.BROWSER_DEBUG_PORT ?? '9223'
 const targets = await fetch(`http://127.0.0.1:${debugPort}/json/list`).then((response) =>
   response.json()
 )
-const page = targets.find((target) => target.type === 'page' && target.url.includes('127.0.0.1:3105'))
+const page = targets.find(
+  (target) => target.type === 'page' && target.url.includes('127.0.0.1:3105')
+)
 if (!page?.webSocketDebuggerUrl)
   throw new Error('No page target available from the browser debugger.')
 const socket = new WebSocket(page.webSocketDebuggerUrl)

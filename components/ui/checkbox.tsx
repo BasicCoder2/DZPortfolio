@@ -7,7 +7,10 @@ import { cn } from '@/lib/utils'
 
 export type CheckboxVariant = 'default' | 'primary'
 
-export interface CheckboxProps extends Omit<ComponentPropsWithoutRef<typeof RadixCheckbox.Root>, 'checked'> {
+export interface CheckboxProps extends Omit<
+  ComponentPropsWithoutRef<typeof RadixCheckbox.Root>,
+  'checked'
+> {
   variant?: CheckboxVariant
   checked?: boolean | 'indeterminate'
   error?: boolean
@@ -30,7 +33,8 @@ const indicatorColors: Record<CheckboxVariant, string> = {
   primary: 'text-[var(--primary-foreground)]',
 }
 
-const errorStyles = 'border-[var(--danger)] data-[state=checked]:bg-[var(--danger)] data-[state=checked]:border-[var(--danger)] focus-visible:border-[var(--danger)] focus-visible:ring-[var(--danger)]'
+const errorStyles =
+  'border-[var(--danger)] data-[state=checked]:bg-[var(--danger)] data-[state=checked]:border-[var(--danger)] focus-visible:border-[var(--danger)] focus-visible:ring-[var(--danger)]'
 
 export function Checkbox({
   'aria-describedby': ariaDescribedBy,
@@ -79,7 +83,3 @@ export function Checkbox({
     </RadixCheckbox.Root>
   )
 }
-
-
-
-

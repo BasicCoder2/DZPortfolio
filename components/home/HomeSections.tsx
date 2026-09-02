@@ -21,18 +21,28 @@ function SectionIntro({
   eyebrow,
   title,
   children,
+  className = 'mb-12',
+  quiet = false,
 }: {
   eyebrow: string
   title: string
   children?: ReactNode
+  /** Lets a caller hand the bottom margin to a shared row instead. */
+  className?: string
+  /** Reference sections announce themselves more softly than the centrepieces. */
+  quiet?: boolean
 }) {
   return (
-    <MotionWrapper className="mb-12 max-w-2xl" variant="fadeUp">
-      <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-accent-green">
+    <MotionWrapper className={`max-w-2xl ${className}`} variant="fadeUp">
+      <p className="mb-3 font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
         {eyebrow}
       </p>
-      <h2 className="text-h2">{title}</h2>
-      {children && <p className="mt-4 text-lg leading-8 text-text-secondary">{children}</p>}
+      <h2 className={quiet ? 'text-h3' : 'text-h2'}>{title}</h2>
+      {children && (
+        <p className={`mt-4 text-text-secondary ${quiet ? 'leading-7' : 'text-lg leading-8'}`}>
+          {children}
+        </p>
+      )}
     </MotionWrapper>
   )
 }
@@ -43,7 +53,7 @@ export function AboutSection() {
       <Container>
         <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.55fr)] lg:items-center lg:gap-24">
           <div>
-            <SectionIntro eyebrow="01 / About" title="About">
+            <SectionIntro eyebrow="About" title="About">
               I’m Daniel Zimba, a Software Developer focused on building practical digital systems
               that solve real-world problems.
             </SectionIntro>
@@ -71,19 +81,18 @@ export function ServicesSection() {
   return (
     <Section data-nav-section id="services">
       <Container>
-        <SectionIntro eyebrow="02 / Capabilities" title="What I Build">
+        <SectionIntro eyebrow="Capabilities" title="What I Build">
           Building enterprise systems, AI-powered applications and digital products.
         </SectionIntro>
         <div className="divide-y divide-border border-y border-border">
-          {services.map((service, index) => {
+          {services.map((service) => {
             const Icon = icons[service.icon as keyof typeof icons] ?? Layers3
             return (
               <MotionWrapper
-                className="group grid gap-5 py-7 md:grid-cols-[4rem_minmax(0,0.8fr)_minmax(0,1.2fr)] md:items-start md:gap-8"
+                className="group grid gap-5 py-7 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] md:items-start md:gap-8"
                 key={service.id}
                 variant="fadeUp"
               >
-                <span className="font-mono text-xs text-text-tertiary">0{index + 1}</span>
                 <div>
                   <Icon
                     aria-hidden="true"
@@ -105,7 +114,7 @@ export function ServicesSection() {
         </div>
         <div className="mt-20 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.7fr)] lg:items-center">
           <div>
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent-green">
+            <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
               A considered stack
             </p>
             <h3 className="mt-3 text-h3">Technology with a point of view.</h3>
@@ -134,8 +143,10 @@ export function PricingSection() {
               key={option.id}
               variant="fadeUp"
             >
+              {/* The badge straddles the column rule instead of sitting in the
+                  flow, so all three headings keep full width and one baseline. */}
               {option.recommended && (
-                <span className="mb-5 inline-flex rounded-full bg-accent-green px-3 py-1 text-xs font-medium text-[#07111f]">
+                <span className="absolute right-0 top-0 -translate-y-1/2 rounded-full bg-accent-green px-3 py-1 text-xs font-medium text-accent-foreground">
                   Recommended
                 </span>
               )}
@@ -155,20 +166,28 @@ export function PricingSection() {
   )
 }
 
-function ProjectCard({ project }: { project: (typeof projects)[number] }) {
+function ProjectCard({ project, lead }: { project: (typeof projects)[number]; lead?: boolean }) {
   return (
-    <MotionWrapper variant="fadeUp">
-      <article className="group overflow-hidden border-y border-border bg-surface">
-        <div className="relative aspect-[16/9] overflow-hidden border-b border-border">
+    <MotionWrapper className={lead ? 'md:col-span-2' : undefined} variant="fadeUp">
+      {/* The lead card splits horizontally rather than stacking, so spanning
+          two columns doesn't hand the cover image half the section's height. */}
+      <article
+        className={`group h-full overflow-hidden rounded-xl border border-border bg-surface-elevated shadow-card transition-shadow duration-300 hover:shadow-card-elevated ${lead ? 'md:grid md:grid-cols-2 md:items-stretch' : ''}`}
+      >
+        {/* Neutral fill behind the cover so a real screenshot that doesn't fill
+            the frame (or carries transparency) still sits on a defined plane. */}
+        <div
+          className={`relative overflow-hidden bg-surface-muted border-border ${lead ? 'aspect-[16/9] border-b md:aspect-auto md:min-h-64 md:border-b-0 md:border-r' : 'aspect-[16/9] border-b'}`}
+        >
           <Image
             fill
             alt={`${project.title} project preview`}
             className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
             sizes="(max-width: 767px) 100vw, 50vw"
-            src={project.coverImage ?? '/images/projects/lmmu-governance-admissions.svg'}
+            src={project.coverImage ?? '/assets/projects/lmmu-governance-admissions.svg'}
           />
         </div>
-        <div className="p-6 md:p-7">
+        <div className={`p-6 md:p-7 ${lead ? 'md:flex md:flex-col md:justify-center' : ''}`}>
           <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
             {project.category}
           </p>
@@ -197,16 +216,22 @@ function ProjectCard({ project }: { project: (typeof projects)[number] }) {
 
 export function ProjectsSection() {
   return (
-    <Section data-nav-section id="projects">
+    <Section data-nav-section id="projects" size="spacious">
       <Container>
-        <SectionIntro eyebrow="03 / Selected work" title="Selected Work">
+        <SectionIntro eyebrow="Selected work" title="Selected Work">
           A small selection of systems and products from the work archive.
         </SectionIntro>
-        <div className="grid gap-10 md:grid-cols-2 md:gap-8">
+        {/* An odd number of featured projects would orphan the last card in a
+            two-column grid, so the first one leads across the full width. */}
+        <div className="grid items-stretch gap-8 md:grid-cols-2">
           {projects
             .filter((project) => project.featured)
-            .map((project) => (
-              <ProjectCard key={project.id} project={project} />
+            .map((project, index, list) => (
+              <ProjectCard
+                key={project.id}
+                lead={list.length % 2 === 1 && index === 0}
+                project={project}
+              />
             ))}
         </div>
         <div className="mt-10 flex justify-start">
@@ -219,7 +244,7 @@ export function ProjectsSection() {
         </div>
         <div className="mt-20 grid gap-8 border-t border-border pt-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)] lg:items-center">
           <div>
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent-green">
+            <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
               Engineering in motion
             </p>
             <h3 className="mt-3 text-h3">Small decisions compound.</h3>
@@ -236,10 +261,10 @@ export function ProjectsSection() {
 
 export function PhilosophySection() {
   return (
-    <Section>
+    <Section size="spacious" tone="surface">
       <Container>
         <MotionWrapper className="mx-auto max-w-4xl py-8 text-center md:py-16" variant="fadeUp">
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent-green">
+          <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
             Engineering philosophy
           </p>
           <h2 className="mt-5 text-[clamp(2rem,5vw,4.5rem)] font-heading font-semibold leading-tight tracking-tight">
@@ -259,7 +284,7 @@ export function ExperienceSection() {
   return (
     <Section>
       <Container>
-        <SectionIntro eyebrow="04 / Experience" title="Where the work has taken me" />
+        <SectionIntro eyebrow="Experience" title="Where the work has taken me" />
         <div className="mx-auto max-w-4xl divide-y divide-border border-y border-border">
           {experience.map((item) => (
             <MotionWrapper
@@ -322,9 +347,9 @@ export function TechnologiesSection() {
   ]
   const evidenced = new Set(technologies.map((technology) => technology.name))
   return (
-    <Section>
+    <Section size="compact">
       <Container>
-        <SectionIntro eyebrow="05 / Tools" title="Technologies">
+        <SectionIntro quiet eyebrow="Tools" title="Technologies">
           A practical stack shaped by the systems and products being built.
         </SectionIntro>
         <div className="grid gap-x-10 gap-y-8 border-y border-border py-2 md:grid-cols-2 lg:grid-cols-3">
@@ -372,9 +397,9 @@ export function TechnologiesSection() {
 
 export function CertificationsSection() {
   return (
-    <Section>
+    <Section size="compact">
       <Container>
-        <SectionIntro eyebrow="06 / Learning" title="Certifications" />
+        <SectionIntro quiet eyebrow="Learning" title="Certifications" />
         <div className="divide-y divide-border border-y border-border">
           {certifications.map((certification) => (
             <MotionWrapper
@@ -384,7 +409,7 @@ export function CertificationsSection() {
             >
               <p className="text-lg font-semibold">{certification.title}</p>
               <p className="text-text-secondary">{certification.issuer}</p>
-              <p className="font-mono text-xs uppercase tracking-[0.12em] text-text-tertiary md:text-right">
+              <p className="font-mono text-xs uppercase tracking-[0.16em] text-text-tertiary md:text-right">
                 {certification.issueDate}
               </p>
             </MotionWrapper>
@@ -399,10 +424,12 @@ export function BlogPreviewSection() {
   return (
     <Section>
       <Container>
-        <div className="flex items-end justify-between gap-6">
-          <SectionIntro eyebrow="07 / Notes" title="Latest Blog Posts" />
+        {/* The row owns the bottom margin so the link aligns with the heading
+            block without mirroring SectionIntro's spacing by hand. */}
+        <div className="mb-12 flex items-end justify-between gap-6">
+          <SectionIntro className="" eyebrow="Notes" title="Latest Blog Posts" />
           <Link
-            className="mb-12 hidden items-center gap-2 border-b border-border-strong pb-2 font-medium hover:border-accent-green hover:text-accent-green sm:inline-flex"
+            className="hidden shrink-0 items-center gap-2 border-b border-border-strong pb-2 font-medium hover:border-accent-green hover:text-accent-green sm:inline-flex"
             href="/blog"
           >
             Read all <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
@@ -436,11 +463,11 @@ export function BlogPreviewSection() {
 
 export function ContactSection() {
   return (
-    <Section data-nav-section id="contact">
+    <Section data-nav-section id="contact" size="spacious" tone="surface">
       <Container>
         <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
           <div>
-            <SectionIntro eyebrow="08 / Contact" title="Let’s Build Something Useful">
+            <SectionIntro eyebrow="Contact" title="Let’s Build Something Useful">
               I’m open to software development opportunities, collaborations, and projects where
               thoughtful engineering can make a practical difference.
             </SectionIntro>
@@ -461,7 +488,12 @@ export function ContactSection() {
               ))}
             </div>
           </div>
-          <MotionWrapper className="border-t border-border bg-surface p-6 md:p-8" variant="fadeUp">
+          {/* The section sits on the surface plane, so the form has to rise to
+              the elevated one to stay legible as a distinct panel. */}
+          <MotionWrapper
+            className="rounded-xl border border-border bg-surface-elevated p-6 shadow-card md:p-8"
+            variant="fadeUp"
+          >
             <ContactForm />
           </MotionWrapper>
         </div>

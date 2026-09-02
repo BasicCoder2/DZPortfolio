@@ -1,8 +1,11 @@
-import { Geist, Inter, JetBrains_Mono } from 'next/font/google'
+import { Geist, JetBrains_Mono } from 'next/font/google'
 
 /**
- * Geist — heading font.
- * Used for all display text, h1–h3, and UI labels.
+ * Geist — the single sans face, used for both display and body text.
+ *
+ * Hierarchy comes from weight, size and colour rather than from a second sans.
+ * The previous Geist/Inter pairing cost an extra download for two neo-grotesques
+ * close enough to read as one family.
  */
 export const geist = Geist({
   subsets: ['latin'],
@@ -12,25 +15,16 @@ export const geist = Geist({
 })
 
 /**
- * Inter — body font.
- * Used for paragraph text, descriptions, and UI copy.
- */
-export const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-  preload: true,
-})
-
-/**
- * JetBrains Mono — monospace font.
- * Used for code blocks, tags, technical labels, and accent text.
+ * JetBrains Mono — the contrasting voice.
+ *
+ * Carries every label, eyebrow, tag and code sample, so it is on the critical
+ * path alongside Geist rather than lazily loaded.
  */
 export const jetBrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
   display: 'swap',
-  preload: false, // Not critical path
+  preload: true,
 })
 
 /**
@@ -40,4 +34,4 @@ export const jetBrainsMono = JetBrains_Mono({
  * @example
  * <html className={fontVariables}>
  */
-export const fontVariables = [geist.variable, inter.variable, jetBrainsMono.variable].join(' ')
+export const fontVariables = [geist.variable, jetBrainsMono.variable].join(' ')

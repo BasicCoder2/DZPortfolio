@@ -7,9 +7,9 @@ const actionBase =
 
 export function HeroActions() {
   return (
-    <MotionWrapper className="flex flex-col gap-3 sm:flex-row" variant="heroActions">
+    <MotionWrapper className="mt-10 flex flex-col gap-3 sm:flex-row" variant="heroActions">
       <Link
-        className={`${actionBase} bg-accent-green text-[#07111f] shadow-sm hover:brightness-110 group`}
+        className={`${actionBase} bg-accent-green text-accent-foreground shadow-sm hover:brightness-110 group`}
         href="/#projects"
       >
         View Projects
@@ -21,7 +21,7 @@ export function HeroActions() {
       <a
         download
         className={`${actionBase} border border-border-strong text-text-primary hover:bg-surface-muted group`}
-        href="/cv/daniel-zimba-cv.pdf"
+        href="/assets/cv/daniel-zimba-cv.pdf"
       >
         Download CV
         <Download

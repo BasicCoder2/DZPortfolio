@@ -16,7 +16,15 @@ export interface NavItemProps {
 
 function NavItem({ href, label, active = false, onClick }: NavItemProps) {
   return (
-    <Link aria-current={active ? 'page' : undefined} className={cn('rounded-[var(--radius-md)] px-3 py-2 text-sm font-medium text-[var(--muted-foreground)] transition-colors duration-[var(--transition-fast)] hover:text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2', active && 'bg-[var(--surface-muted)] text-[var(--foreground)]')} href={href} onClick={onClick}>
+    <Link
+      aria-current={active ? 'page' : undefined}
+      className={cn(
+        'rounded-[var(--radius-md)] px-3 py-2 text-sm font-medium text-[var(--muted-foreground)] transition-colors duration-[var(--transition-fast)] hover:text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2',
+        active && 'bg-[var(--surface-muted)] text-[var(--foreground)]'
+      )}
+      href={href}
+      onClick={onClick}
+    >
       {label}
     </Link>
   )
@@ -58,7 +66,11 @@ function MobileNav({ items }: MobileNavProps) {
 
   return (
     <div className="md:hidden">
-      <IconButton aria-label={open ? 'Close navigation' : 'Open navigation'} variant="ghost" onClick={() => setOpen((value) => !value)}>
+      <IconButton
+        aria-label={open ? 'Close navigation' : 'Open navigation'}
+        variant="ghost"
+        onClick={() => setOpen((value) => !value)}
+      >
         {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
       </IconButton>
       {open ? (
@@ -82,7 +94,12 @@ function ThemeSwitcher({ className }: ThemeSwitcherProps) {
   const { resolvedTheme, toggleTheme } = useTheme()
 
   return (
-    <IconButton aria-label="Toggle theme" className={className} variant="ghost" onClick={toggleTheme}>
+    <IconButton
+      aria-label="Toggle theme"
+      className={className}
+      variant="ghost"
+      onClick={toggleTheme}
+    >
       {resolvedTheme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
     </IconButton>
   )

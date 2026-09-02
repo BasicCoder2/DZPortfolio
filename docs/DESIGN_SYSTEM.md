@@ -40,9 +40,9 @@ Colors are defined as CSS custom properties in `app/globals.css` and consumed vi
 ### Theme Variants
 
 | Theme | Background | Surface | Primary |
-|-------|-----------|---------|---------|
-| Light | #ffffff | #f7f7f8 | #22c55e |
-| Dark | #0b0d10 | #14161a | #7cff4f |
+| ----- | ---------- | ------- | ------- |
+| Light | #ffffff    | #f7f7f8 | #22c55e |
+| Dark  | #0b0d10    | #14161a | #7cff4f |
 
 ### Usage
 
@@ -58,18 +58,18 @@ All typography uses `clamp()` for fluid scaling between viewport breakpoints, en
 
 ### Hierarchy
 
-| Token | Size | Weight | Line Height | Usage |
-|-------|------|--------|-------------|-------|
-| `text-display` | clamp(3rem, 8vw, 6rem) | 700 | 1.05 | Hero headlines |
-| `text-h1` | clamp(2.25rem, 5vw, 4rem) | 700 | 1.1 | Page titles |
-| `text-h2` | clamp(1.75rem, 3.5vw, 3rem) | 700 | 1.15 | Section headers |
-| `text-h3` | clamp(1.25rem, 2.5vw, 2rem) | 600 | 1.2 | Subsection headers |
-| `text-lead` | clamp(1.125rem, 2.5vw, 1.25rem) | 400 | 1.75 | Intro paragraphs |
-| `text-body` | 1rem | 400 | 1.7 | Body text |
-| `text-small` | 0.8125rem | 400 | 1.5 | Fine print |
-| `text-caption` | 0.75rem | 400 | 1.4 | Captions |
-| `text-overline` | 0.75rem | 500 | 1.4 | Labels |
-| `text-code` | 0.875rem | 400 | 1.5 | Code |
+| Token           | Size                            | Weight | Line Height | Usage              |
+| --------------- | ------------------------------- | ------ | ----------- | ------------------ |
+| `text-display`  | clamp(3rem, 8vw, 6rem)          | 700    | 1.05        | Hero headlines     |
+| `text-h1`       | clamp(2.25rem, 5vw, 4rem)       | 700    | 1.1         | Page titles        |
+| `text-h2`       | clamp(1.75rem, 3.5vw, 3rem)     | 700    | 1.15        | Section headers    |
+| `text-h3`       | clamp(1.25rem, 2.5vw, 2rem)     | 600    | 1.2         | Subsection headers |
+| `text-lead`     | clamp(1.125rem, 2.5vw, 1.25rem) | 400    | 1.75        | Intro paragraphs   |
+| `text-body`     | 1rem                            | 400    | 1.7         | Body text          |
+| `text-small`    | 0.8125rem                       | 400    | 1.5         | Fine print         |
+| `text-caption`  | 0.75rem                         | 400    | 1.4         | Captions           |
+| `text-overline` | 0.75rem                         | 500    | 1.4         | Labels             |
+| `text-code`     | 0.875rem                        | 400    | 1.5         | Code               |
 
 ### Usage
 
@@ -86,27 +86,27 @@ import { Text } from '@/components/ui/text'
 
 The spacing system uses an 8px base unit. All spacing variables are defined in `app/globals.css`.
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `space-1` | 0.25rem | Tight gaps |
-| `space-2` | 0.5rem | Compact spacing |
-| `space-4` | 1rem | Default spacing |
-| `space-6` | 1.5rem | Section padding |
-| `space-8` | 2rem | Large gaps |
-| `space-12` | 3rem | Component separation |
-| `space-16` | 4rem | Section spacing |
-| `space-20` | 5rem | Large sections |
-| `space-32` | 8rem | Hero spacing |
+| Token      | Value   | Usage                |
+| ---------- | ------- | -------------------- |
+| `space-1`  | 0.25rem | Tight gaps           |
+| `space-2`  | 0.5rem  | Compact spacing      |
+| `space-4`  | 1rem    | Default spacing      |
+| `space-6`  | 1.5rem  | Section padding      |
+| `space-8`  | 2rem    | Large gaps           |
+| `space-12` | 3rem    | Component separation |
+| `space-16` | 4rem    | Section spacing      |
+| `space-20` | 5rem    | Large sections       |
+| `space-32` | 8rem    | Hero spacing         |
 
 ### Primitives
 
-| Component | Purpose |
-|-----------|---------|
-| `Stack` | Vertical layout with controlled gaps |
-| `Inline` | Horizontal layout with wrap |
-| `Cluster` | Tight horizontal grouping |
-| `AutoGrid` | Responsive auto-fill grid |
-| `Spacer` | Quick vertical spacing |
+| Component  | Purpose                              |
+| ---------- | ------------------------------------ |
+| `Stack`    | Vertical layout with controlled gaps |
+| `Inline`   | Horizontal layout with wrap          |
+| `Cluster`  | Tight horizontal grouping            |
+| `AutoGrid` | Responsive auto-fill grid            |
+| `Spacer`   | Quick vertical spacing               |
 
 ## Layout Primitives
 
@@ -117,9 +117,7 @@ Centered content with responsive horizontal padding and constrained max-width.
 ```tsx
 import { Container } from '@/components/layout'
 
-<Container size="site">
-  Content
-</Container>
+;<Container size="site">Content</Container>
 ```
 
 Sizes: `sm`, `md`, `lg`, `xl`, `2xl`, `full`, `site` (1200px), `prose` (720px)
@@ -131,9 +129,7 @@ Vertical rhythm wrapper using the `.section` utility.
 ```tsx
 import { Section } from '@/components/layout'
 
-<Section id="about">
-  Content
-</Section>
+;<Section id="about">Content</Section>
 ```
 
 ### Page
@@ -143,9 +139,7 @@ Top-level page wrapper with consistent padding.
 ```tsx
 import { Page } from '@/components/layout'
 
-<Page size="default">
-  Content
-</Page>
+;<Page size="default">Content</Page>
 ```
 
 ### Shell
@@ -155,7 +149,7 @@ Application shell with header, main, and footer slots.
 ```tsx
 import { Shell } from '@/components/layout'
 
-<Shell header={<Header />} footer={<Footer />}>
+;<Shell header={<Header />} footer={<Footer />}>
   <main>Content</main>
 </Shell>
 ```
@@ -167,9 +161,7 @@ Elevated surface with shadow variants.
 ```tsx
 import { Surface } from '@/components/layout'
 
-<Surface variant="raised">
-  Elevated content
-</Surface>
+;<Surface variant="raised">Elevated content</Surface>
 ```
 
 ### Panel
@@ -179,7 +171,7 @@ Bordered panel with header, body, and footer slots.
 ```tsx
 import { Panel } from '@/components/layout'
 
-<Panel header={<h3>Title</h3>} footer={<Button>Action</Button>}>
+;<Panel header={<h3>Title</h3>} footer={<Button>Action</Button>}>
   Content
 </Panel>
 ```
@@ -189,6 +181,7 @@ import { Panel } from '@/components/layout'
 The component library now includes reusable primitives for layout, navigation, forms, feedback, motion, media, and utility patterns.
 
 ### Core
+
 - Button
 - IconButton
 - LinkButton
@@ -215,6 +208,7 @@ The component library now includes reusable primitives for layout, navigation, f
 - Feedback
 
 ### Navigation
+
 - DesktopNav
 - MobileNav
 - NavItem
@@ -222,6 +216,7 @@ The component library now includes reusable primitives for layout, navigation, f
 - ThemeSwitcher
 
 ### Forms
+
 - Input
 - Textarea
 - Select
@@ -231,6 +226,7 @@ The component library now includes reusable primitives for layout, navigation, f
 - Label / Field / Description / Error / Helper
 
 ### Media and utilities
+
 - Image / ResponsiveImage
 - Figure / CodeBlock
 - CopyButton
@@ -240,6 +236,7 @@ The component library now includes reusable primitives for layout, navigation, f
 - Metric
 
 ### Motion
+
 - FadeIn
 - SlideIn
 - ScaleIn
@@ -290,33 +287,33 @@ import { cn } from '@/lib/utils'
 
 ### Variants
 
-| Variant | Purpose |
-|---------|---------|
-| `primary` | Main CTAs, form submission |
-| `secondary` | Secondary actions |
-| `outline` | Tertiary actions, filters |
-| `ghost` | Minimal actions, icon buttons |
-| `link` | Text links styled as links |
+| Variant       | Purpose                             |
+| ------------- | ----------------------------------- |
+| `primary`     | Main CTAs, form submission          |
+| `secondary`   | Secondary actions                   |
+| `outline`     | Tertiary actions, filters           |
+| `ghost`       | Minimal actions, icon buttons       |
+| `link`        | Text links styled as links          |
 | `destructive` | Delete, remove, destructive actions |
-| `success` | Confirm, save, positive actions |
+| `success`     | Confirm, save, positive actions     |
 
 ### Sizes
 
-| Size | Height | Padding | Text |
-|------|--------|---------|------|
-| `xs` | 28px | 8px 12px | 12px |
-| `sm` | 32px | 12px 16px | 14px |
-| `md` | 40px | 16px 24px | 14px |
-| `lg` | 44px | 24px 32px | 16px |
-| `xl` | 48px | 32px 40px | 16px |
-| `icon` | 36px | 0 | — |
+| Size   | Height | Padding   | Text |
+| ------ | ------ | --------- | ---- |
+| `xs`   | 28px   | 8px 12px  | 12px |
+| `sm`   | 32px   | 12px 16px | 14px |
+| `md`   | 40px   | 16px 24px | 14px |
+| `lg`   | 44px   | 24px 32px | 16px |
+| `xl`   | 48px   | 32px 40px | 16px |
+| `icon` | 36px   | 0         | —    |
 
 ### Usage
 
 ```tsx
 import { Button } from '@/components/ui/button'
 
-<Button variant="primary" size="md" loading={isSubmitting}>
+;<Button variant="primary" size="md" loading={isSubmitting}>
   Submit
 </Button>
 ```
@@ -338,33 +335,33 @@ import { Button } from '@/components/ui/button'
 
 ### Variants
 
-| Variant | Purpose |
-|---------|---------|
-| `primary` | Main CTAs, form submission |
-| `secondary` | Secondary actions |
-| `outline` | Tertiary actions, filters |
-| `ghost` | Minimal actions, icon buttons |
-| `link` | Text links styled as links |
+| Variant       | Purpose                             |
+| ------------- | ----------------------------------- |
+| `primary`     | Main CTAs, form submission          |
+| `secondary`   | Secondary actions                   |
+| `outline`     | Tertiary actions, filters           |
+| `ghost`       | Minimal actions, icon buttons       |
+| `link`        | Text links styled as links          |
 | `destructive` | Delete, remove, destructive actions |
-| `success` | Confirm, save, positive actions |
+| `success`     | Confirm, save, positive actions     |
 
 ### Sizes
 
-| Size | Height | Padding | Text |
-|------|--------|---------|------|
-| `xs` | 28px | 8px 12px | 12px |
-| `sm` | 32px | 12px 16px | 14px |
-| `md` | 40px | 16px 24px | 14px |
-| `lg` | 44px | 24px 32px | 16px |
-| `xl` | 48px | 32px 40px | 16px |
-| `icon` | 36px | 0 | — |
+| Size   | Height | Padding   | Text |
+| ------ | ------ | --------- | ---- |
+| `xs`   | 28px   | 8px 12px  | 12px |
+| `sm`   | 32px   | 12px 16px | 14px |
+| `md`   | 40px   | 16px 24px | 14px |
+| `lg`   | 44px   | 24px 32px | 16px |
+| `xl`   | 48px   | 32px 40px | 16px |
+| `icon` | 36px   | 0         | —    |
 
 ### Usage
 
 ```tsx
 import { Button } from '@/components/ui/button'
 
-<Button variant="primary" size="md" loading={isSubmitting}>
+;<Button variant="primary" size="md" loading={isSubmitting}>
   Submit
 </Button>
 ```
@@ -378,7 +375,7 @@ Forms use a composable `Field` component that auto-associates labels and error m
 ```tsx
 import { Field, Input, Label, ErrorMessage } from '@/components/ui'
 
-<Field>
+;<Field>
   <FieldLabel>Email</FieldLabel>
   <Input type="email" />
   <FieldError>Invalid email</FieldError>
@@ -398,15 +395,15 @@ import { Field, Input, Label, ErrorMessage } from '@/components/ui'
 
 All motion values are defined in `lib/motion/` and referenced consistently.
 
-| Constant | Purpose |
-|----------|---------|
-| `SPRING_SMOOTH` | Cards, modals, drawers |
+| Constant        | Purpose                         |
+| --------------- | ------------------------------- |
+| `SPRING_SMOOTH` | Cards, modals, drawers          |
 | `SPRING_SNAPPY` | Buttons, toggles, hover effects |
 | `SPRING_GENTLE` | Hero elements, page transitions |
-| `EASE_OUT` | Standard entrance |
-| `EASE_EXPO` | Dramatic reveals |
-| `STAGGER_FAST` | Nav items, tag lists |
-| `STAGGER_SLOW` | Section cards, grids |
+| `EASE_OUT`      | Standard entrance               |
+| `EASE_EXPO`     | Dramatic reveals                |
+| `STAGGER_FAST`  | Nav items, tag lists            |
+| `STAGGER_SLOW`  | Section cards, grids            |
 
 ### Usage
 
@@ -414,9 +411,7 @@ All motion values are defined in `lib/motion/` and referenced consistently.
 import { motion } from 'framer-motion'
 import { fadeUpPreset } from '@/lib/motion'
 
-<motion.div {...fadeUpPreset}>
-  Content
-</motion.div>
+;<motion.div {...fadeUpPreset}>Content</motion.div>
 ```
 
 ### Reduced Motion
@@ -431,18 +426,18 @@ All animations respect `prefers-reduced-motion` via the global CSS rule in `app/
 import { Icon } from '@/components/ui/icon'
 import { Mail } from 'lucide-react'
 
-<Icon icon={Mail} size="md" decorative />
+;<Icon icon={Mail} size="md" decorative />
 ```
 
 ### Sizes
 
 | Size | Dimensions |
-|------|-----------|
-| `xs` | 12px |
-| `sm` | 16px |
-| `md` | 20px |
-| `lg` | 24px |
-| `xl` | 32px |
+| ---- | ---------- |
+| `xs` | 12px       |
+| `sm` | 16px       |
+| `md` | 20px       |
+| `lg` | 24px       |
+| `xl` | 32px       |
 
 ### Accessibility
 
@@ -492,15 +487,15 @@ Every component must satisfy:
 
 ## Naming Conventions
 
-| Type | Convention | Example |
-|------|-----------|---------|
-| Components | PascalCase | `Button`, `CardHeader` |
-| Props | camelCase | `onClick`, `ariaLabel` |
-| Variants | kebab-case | `size="sm"`, `variant="outline"` |
-| CSS Classes | kebab-case | `text-h1`, `bg-surface` |
-| Hooks | camelCase with `use` prefix | `useTheme`, `useNavigationState` |
-| Constants | UPPER_SNAKE_CASE | `NAV_LINKS`, `BREAKPOINTS` |
-| Types | PascalCase | `ButtonProps`, `Theme` |
+| Type        | Convention                  | Example                          |
+| ----------- | --------------------------- | -------------------------------- |
+| Components  | PascalCase                  | `Button`, `CardHeader`           |
+| Props       | camelCase                   | `onClick`, `ariaLabel`           |
+| Variants    | kebab-case                  | `size="sm"`, `variant="outline"` |
+| CSS Classes | kebab-case                  | `text-h1`, `bg-surface`          |
+| Hooks       | camelCase with `use` prefix | `useTheme`, `useNavigationState` |
+| Constants   | UPPER_SNAKE_CASE            | `NAV_LINKS`, `BREAKPOINTS`       |
+| Types       | PascalCase                  | `ButtonProps`, `Theme`           |
 
 ## File Structure
 

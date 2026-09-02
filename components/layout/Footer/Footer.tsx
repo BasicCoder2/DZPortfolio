@@ -1,4 +1,4 @@
-import { MaxWidth } from '@/components/layout/MaxWidth'
+import { Container } from '@/components/layout/Container'
 import { Brand } from './Brand'
 import { Navigation } from './Navigation'
 import { Socials } from './Socials'
@@ -14,7 +14,7 @@ export function Footer() {
   return (
     <footer className="border-t border-border mt-auto overflow-hidden">
       <MotionWrapper className="py-16 md:py-24" variant="footer">
-        <MaxWidth className="px-6 md:px-8 lg:px-12 flex flex-col gap-12">
+        <Container className="flex flex-col gap-12">
           {/* Top section: Brand and Navigation */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
             <Brand />
@@ -28,7 +28,7 @@ export function Footer() {
             <Copyright />
             <Socials />
           </div>
-        </MaxWidth>
+        </Container>
       </MotionWrapper>
     </footer>
   )

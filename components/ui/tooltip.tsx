@@ -6,18 +6,15 @@ import { cn } from '@/lib/utils'
 
 const tooltipVariants = cva(
   cn(
-      'z-50 overflow-hidden rounded-md px-3 py-1.5 text-sm shadow-md',
+    'z-50 overflow-hidden rounded-md px-3 py-1.5 text-sm shadow-md',
     'transition-[opacity,transform] duration-[var(--transition-fast)]'
   ),
   {
     variants: {
       variant: {
-        default:
-          'bg-[var(--foreground)] text-[var(--background)]',
-        primary:
-          'bg-[var(--primary)] text-[var(--primary-foreground)]',
-        destructive:
-          'bg-[var(--danger)] text-[var(--danger-foreground)]',
+        default: 'bg-[var(--foreground)] text-[var(--background)]',
+        primary: 'bg-[var(--primary)] text-[var(--primary-foreground)]',
+        destructive: 'bg-[var(--danger)] text-[var(--danger-foreground)]',
       },
     },
     defaultVariants: {
@@ -26,8 +23,7 @@ const tooltipVariants = cva(
   }
 )
 
-export interface TooltipProps
-  extends VariantProps<typeof tooltipVariants> {
+export interface TooltipProps extends VariantProps<typeof tooltipVariants> {
   content: React.ReactNode
   children: React.ReactNode
   side?: 'top' | 'right' | 'bottom' | 'left'
@@ -48,9 +44,7 @@ export function Tooltip({
   return (
     <TooltipPrimitive.Provider delayDuration={150}>
       <TooltipPrimitive.Root>
-        <TooltipPrimitive.Trigger asChild>
-          {children}
-        </TooltipPrimitive.Trigger>
+        <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
         <TooltipPrimitive.Portal>
           <TooltipPrimitive.Content
             align={align}
@@ -59,18 +53,10 @@ export function Tooltip({
             sideOffset={sideOffset}
           >
             {content}
-            <TooltipPrimitive.Arrow
-              className="fill-current"
-              height={5}
-              width={10}
-            />
+            <TooltipPrimitive.Arrow className="fill-current" height={5} width={10} />
           </TooltipPrimitive.Content>
         </TooltipPrimitive.Portal>
       </TooltipPrimitive.Root>
     </TooltipPrimitive.Provider>
   )
 }
-
-
-
-

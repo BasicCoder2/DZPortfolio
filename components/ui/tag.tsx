@@ -3,7 +3,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
 const tagVariants = cva(
-  'inline-flex items-center gap-2 rounded-[var(--radius-pill)] border border-[var(--border)] bg-[var(--surface-muted)] px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] text-[var(--muted-foreground)]',
+  'inline-flex items-center gap-2 rounded-[var(--radius-pill)] border border-[var(--border)] bg-[var(--surface-muted)] px-3 py-1 text-xs font-medium uppercase tracking-[0.16em] text-[var(--muted-foreground)]',
   {
     variants: {
       tone: {
@@ -19,7 +19,8 @@ const tagVariants = cva(
   }
 )
 
-export interface TagProps extends React.HTMLAttributes<HTMLSpanElement>, VariantProps<typeof tagVariants> {}
+export interface TagProps
+  extends React.HTMLAttributes<HTMLSpanElement>, VariantProps<typeof tagVariants> {}
 
 function Tag({ className, tone, ...props }: TagProps) {
   return <span className={cn(tagVariants({ tone }), className)} {...props} />

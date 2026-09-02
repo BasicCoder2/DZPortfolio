@@ -20,13 +20,18 @@ export function NavLinks({ className }: NavLinksProps) {
       return activeSection === targetId
     }
 
-    if (href === '/') return pathname === '/' && activeSection === ''
+    // The hero is observed as `home`; the empty string covers the moment before
+    // the first scroll measurement lands.
+    if (href === '/') return pathname === '/' && (activeSection === 'home' || activeSection === '')
 
     return pathname.startsWith(href)
   }
 
   return (
-    <nav aria-label="Primary navigation" className={cn('hidden items-center gap-6 md:flex', className)}>
+    <nav
+      aria-label="Primary navigation"
+      className={cn('hidden items-center gap-6 md:flex', className)}
+    >
       {NAV_LINKS.map((link) => {
         const isActive = isLinkActive(link.href)
 

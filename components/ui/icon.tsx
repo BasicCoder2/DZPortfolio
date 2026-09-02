@@ -23,7 +23,8 @@ const iconVariants = cva('inline-flex shrink-0', {
   },
 })
 
-export interface IconProps extends React.HTMLAttributes<HTMLSpanElement>, VariantProps<typeof iconVariants> {
+export interface IconProps
+  extends React.HTMLAttributes<HTMLSpanElement>, VariantProps<typeof iconVariants> {
   strokeWidth?: number
   decorative?: boolean
   label?: string
@@ -51,16 +52,15 @@ function Icon({
       {...props}
     >
       {child &&
-        React.cloneElement(child as React.ReactElement<{ strokeWidth?: number; 'aria-hidden'?: string }>, {
-          strokeWidth,
-          'aria-hidden': decorative ? 'true' : undefined,
-        })}
+        React.cloneElement(
+          child as React.ReactElement<{ strokeWidth?: number; 'aria-hidden'?: string }>,
+          {
+            strokeWidth,
+            'aria-hidden': decorative ? 'true' : undefined,
+          }
+        )}
     </span>
   )
 }
 
 export { Icon }
-
-
-
-

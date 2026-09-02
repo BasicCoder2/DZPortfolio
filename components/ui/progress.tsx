@@ -20,7 +20,8 @@ const progressIndicatorVariants = cva('h-full w-full rounded-full transition-all
 })
 
 export interface ProgressProps
-  extends React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>,
+  extends
+    React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>,
     VariantProps<typeof progressIndicatorVariants> {
   indicatorClassName?: string
 }
@@ -44,7 +45,3 @@ function Progress({ className, value, variant, indicatorClassName, ...props }: P
 }
 
 export { Progress }
-
-
-
-

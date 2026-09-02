@@ -50,7 +50,14 @@ const indicatorVariantStyles: Record<RadioVariant, string> = {
 
 const errorStyles = 'border-[var(--danger)] data-[state=checked]:border-[var(--danger)]'
 
-export function RadioGroup({ variant = 'default', error = false, orientation = 'vertical', className, children, ...props }: RadioGroupProps) {
+export function RadioGroup({
+  variant = 'default',
+  error = false,
+  orientation = 'vertical',
+  className,
+  children,
+  ...props
+}: RadioGroupProps) {
   return (
     <RadioContext.Provider value={{ variant, error }}>
       <RadixRadio.Root
@@ -95,7 +102,10 @@ export function RadioItem({ label, className, children, id, ...props }: RadioIte
         </RadixRadio.Indicator>
       </RadixRadio.Item>
       {label && (
-        <label className="text-sm font-medium text-[var(--foreground)] cursor-pointer select-none" htmlFor={id}>
+        <label
+          className="text-sm font-medium text-[var(--foreground)] cursor-pointer select-none"
+          htmlFor={id}
+        >
           {label}
         </label>
       )}
@@ -103,7 +113,3 @@ export function RadioItem({ label, className, children, id, ...props }: RadioIte
     </div>
   )
 }
-
-
-
-

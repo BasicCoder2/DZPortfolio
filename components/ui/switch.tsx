@@ -6,7 +6,10 @@ import { cn } from '@/lib/utils'
 
 export type SwitchVariant = 'default' | 'primary'
 
-export interface SwitchProps extends Omit<ComponentPropsWithoutRef<typeof RadixSwitch.Root>, 'checked'> {
+export interface SwitchProps extends Omit<
+  ComponentPropsWithoutRef<typeof RadixSwitch.Root>,
+  'checked'
+> {
   variant?: SwitchVariant
   checked?: boolean
   readOnly?: boolean
@@ -24,8 +27,10 @@ const rootVariantStyles: Record<SwitchVariant, string> = {
 }
 
 const thumbVariantStyles: Record<SwitchVariant, string> = {
-  default: 'bg-[var(--background)] data-[state=checked]:bg-[var(--background)] shadow-[var(--shadow-sm)]',
-  primary: 'bg-[var(--background)] data-[state=checked]:bg-[var(--primary-foreground)] shadow-[var(--shadow-sm)]',
+  default:
+    'bg-[var(--background)] data-[state=checked]:bg-[var(--background)] shadow-[var(--shadow-sm)]',
+  primary:
+    'bg-[var(--background)] data-[state=checked]:bg-[var(--primary-foreground)] shadow-[var(--shadow-sm)]',
 }
 
 const disabledStyles = 'disabled:cursor-not-allowed disabled:opacity-50'
@@ -75,7 +80,3 @@ export function Switch({
     </RadixSwitch.Root>
   )
 }
-
-
-
-

@@ -1,7 +1,31 @@
 import { cn } from '@/lib/utils'
 import type { ElementType, ComponentPropsWithoutRef, ReactNode } from 'react'
 
-type TextAs = 'p' | 'span' | 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'label' | 'blockquote' | 'code' | 'pre' | 'small' | 'caption' | 'display' | 'display-lg' | 'lead' | 'body-lg' | 'body-sm' | 'overline' | 'quote' | 'mono' | 'body'
+type TextAs =
+  | 'p'
+  | 'span'
+  | 'div'
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5'
+  | 'h6'
+  | 'label'
+  | 'blockquote'
+  | 'code'
+  | 'pre'
+  | 'small'
+  | 'caption'
+  | 'display'
+  | 'display-lg'
+  | 'lead'
+  | 'body-lg'
+  | 'body-sm'
+  | 'overline'
+  | 'quote'
+  | 'mono'
+  | 'body'
 
 const textStyles: Record<string, string> = {
   display: 'text-display font-heading font-bold leading-[1.05] tracking-tight',

@@ -15,8 +15,9 @@ export function MainContent({ children, className }: MainContentProps) {
   return (
     <main
       className={cn(
-        // pt-24 provides 96px top padding (nav is usually ~80px + some breathing room)
-        'flex-1 w-full pt-20 md:pt-24',
+        // Offset matches the fixed header exactly (--nav-h). Sections that want
+        // to run their background under the nav pull back up by the same token.
+        'flex-1 w-full pt-[var(--nav-h)]',
         className
       )}
     >

@@ -14,7 +14,8 @@ const dividerVariants = cva('shrink-0', {
   },
 })
 
-export interface DividerProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof dividerVariants> {
+export interface DividerProps
+  extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof dividerVariants> {
   label?: React.ReactNode
 }
 
@@ -27,11 +28,15 @@ function Divider({ className, orientation = 'horizontal', label, ...props }: Div
         role="separator"
         {...props}
       >
-        <div className={cn('flex-1 bg-[var(--border)]', orientation === 'vertical' && 'h-full w-px')} />
+        <div
+          className={cn('flex-1 bg-[var(--border)]', orientation === 'vertical' && 'h-full w-px')}
+        />
         {orientation !== 'vertical' && (
           <span className="text-sm text-[var(--muted-foreground)] whitespace-nowrap">{label}</span>
         )}
-        <div className={cn('flex-1 bg-[var(--border)]', orientation === 'vertical' && 'h-full w-px')} />
+        <div
+          className={cn('flex-1 bg-[var(--border)]', orientation === 'vertical' && 'h-full w-px')}
+        />
       </div>
     )
   }
@@ -47,7 +52,3 @@ function Divider({ className, orientation = 'horizontal', label, ...props }: Div
 }
 
 export { Divider }
-
-
-
-

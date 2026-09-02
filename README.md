@@ -19,9 +19,12 @@ A modern, performance-focused developer portfolio built with **Next.js 16 (App R
 
 ## Getting Started
 
+Use Node.js 24.20.0 and pnpm 11.24.0. The expected Node version is recorded in
+`.node-version`, and pnpm is pinned through the `packageManager` field.
+
 ```bash
-npm install
-npm run dev
+pnpm install --frozen-lockfile
+pnpm dev
 ```
 
 Then open [http://localhost:3000](http://localhost:3000).
@@ -29,13 +32,17 @@ Then open [http://localhost:3000](http://localhost:3000).
 ### Build & Verify
 
 ```bash
-npm run build    # production build
-npm run lint     # eslint .
-npm run type-check   # tsc --noEmit
-npm run format:check  # prettier --check .
+pnpm build         # production build
+pnpm lint          # eslint .
+pnpm type-check    # tsc --noEmit
+pnpm format:check  # prettier --check .
 ```
 
-> Next.js 16 removed `next lint`; linting now runs ESLint directly (`npm run lint`).
+> Next.js 16 removed `next lint`; linting now runs ESLint directly (`pnpm lint`).
+
+Use [http://localhost:3000](http://localhost:3000) on this computer. Devices on
+the same network can use `http://192.168.21.37:3000`; that development origin is
+allowed in `next.config.ts` so Next.js development assets and HMR are not blocked.
 
 ## Tailwind CSS v4 Setup
 

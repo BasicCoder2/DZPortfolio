@@ -17,14 +17,11 @@ const spacerVariants = cva('shrink-0', {
   },
 })
 
-export interface SpacerProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof spacerVariants> {}
+export interface SpacerProps
+  extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof spacerVariants> {}
 
 function Spacer({ className, size, ...props }: SpacerProps) {
   return <div aria-hidden="true" className={cn(spacerVariants({ size }), className)} {...props} />
 }
 
 export { Spacer }
-
-
-
-

@@ -11,7 +11,20 @@ export interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElemen
 }
 
 function Image({ className, aspectRatio, height = 800, width = 1200, ...props }: ImageProps) {
-  return <NextImage {...props} className={cn('h-full w-full object-cover', aspectRatio === 'square' && 'aspect-square', aspectRatio === 'video' && 'aspect-video', aspectRatio === 'wide' && 'aspect-[21/9]', className)} height={height} width={width} />
+  return (
+    <NextImage
+      {...props}
+      className={cn(
+        'h-full w-full object-cover',
+        aspectRatio === 'square' && 'aspect-square',
+        aspectRatio === 'video' && 'aspect-video',
+        aspectRatio === 'wide' && 'aspect-[21/9]',
+        className
+      )}
+      height={height}
+      width={width}
+    />
+  )
 }
 
 export interface ResponsiveImageProps extends ImageProps {
@@ -34,7 +47,9 @@ function Figure({ caption, className, children, ...props }: FigureProps) {
   return (
     <figure className={cn('space-y-3', className)} {...props}>
       {children}
-      {caption ? <figcaption className="text-sm text-[var(--muted-foreground)]">{caption}</figcaption> : null}
+      {caption ? (
+        <figcaption className="text-sm text-[var(--muted-foreground)]">{caption}</figcaption>
+      ) : null}
     </figure>
   )
 }
@@ -45,8 +60,18 @@ export interface CodeBlockProps extends React.HTMLAttributes<HTMLElement> {
 
 function CodeBlock({ className, children, language, ...props }: CodeBlockProps) {
   return (
-    <pre className={cn('overflow-x-auto rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-muted)] p-4 text-sm text-[var(--foreground)]', className)} {...props}>
-      {language ? <code className={`language-${language}`}>{children}</code> : <code>{children}</code>}
+    <pre
+      className={cn(
+        'overflow-x-auto rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-muted)] p-4 text-sm text-[var(--foreground)]',
+        className
+      )}
+      {...props}
+    >
+      {language ? (
+        <code className={`language-${language}`}>{children}</code>
+      ) : (
+        <code>{children}</code>
+      )}
     </pre>
   )
 }

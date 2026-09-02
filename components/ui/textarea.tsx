@@ -16,11 +16,14 @@ const variantStyles = {
 }
 
 const errorVariantStyles = {
-  default: 'border-[var(--danger)] focus-visible:border-[var(--danger)] focus-visible:ring-[var(--danger)]',
-  filled: 'border-[var(--danger)] focus-visible:border-[var(--danger)] focus-visible:ring-[var(--danger)]',
+  default:
+    'border-[var(--danger)] focus-visible:border-[var(--danger)] focus-visible:ring-[var(--danger)]',
+  filled:
+    'border-[var(--danger)] focus-visible:border-[var(--danger)] focus-visible:ring-[var(--danger)]',
 }
 
-const disabledStyles = 'disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-[var(--surface-subtle)]'
+const disabledStyles =
+  'disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-[var(--surface-subtle)]'
 const readOnlyStyles = 'read-only:bg-[var(--surface-subtle)] read-only:cursor-default'
 
 export function Textarea({
@@ -36,24 +39,20 @@ export function Textarea({
   const isInvalid = error || ariaInvalid === true
 
   return (
-      <textarea
-        aria-describedby={ariaDescribedBy}
-        aria-invalid={isInvalid || undefined}
-        className={cn(
-          'w-full px-3 py-2 text-sm text-[var(--foreground)] placeholder:text-[var(--tertiary)] transition-[border-color,box-shadow] duration-[var(--transition-fast)] outline-none resize-y',
-          variantStyles[variant],
-          isInvalid && errorVariantStyles[variant],
-          disabled && disabledStyles,
-          readOnly && readOnlyStyles,
-          className
-        )}
-        disabled={disabled}
-        readOnly={readOnly}
-        {...props}
-      />
+    <textarea
+      aria-describedby={ariaDescribedBy}
+      aria-invalid={isInvalid || undefined}
+      className={cn(
+        'w-full px-3 py-2 text-sm text-[var(--foreground)] placeholder:text-[var(--tertiary)] transition-[border-color,box-shadow] duration-[var(--transition-fast)] outline-none resize-y',
+        variantStyles[variant],
+        isInvalid && errorVariantStyles[variant],
+        disabled && disabledStyles,
+        readOnly && readOnlyStyles,
+        className
+      )}
+      disabled={disabled}
+      readOnly={readOnly}
+      {...props}
+    />
   )
 }
-
-
-
-

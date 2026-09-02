@@ -2,14 +2,7 @@
 
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
-import {
-  CheckCircle2,
-  Info,
-  X,
-  XCircle,
-  AlertTriangle,
-  type LucideIcon,
-} from 'lucide-react'
+import { CheckCircle2, Info, X, XCircle, AlertTriangle, type LucideIcon } from 'lucide-react'
 import * as React from 'react'
 
 const toastVariants = cva(
@@ -20,14 +13,10 @@ const toastVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          'bg-[var(--popover)] text-[var(--popover-foreground)] border-[var(--border)]',
-        success:
-          'bg-[var(--success)] text-[var(--success-foreground)] border-transparent',
-        warning:
-          'bg-[var(--warning)] text-[var(--warning-foreground)] border-transparent',
-        destructive:
-          'bg-[var(--danger)] text-[var(--danger-foreground)] border-transparent',
+        default: 'bg-[var(--popover)] text-[var(--popover-foreground)] border-[var(--border)]',
+        success: 'bg-[var(--success)] text-[var(--success-foreground)] border-transparent',
+        warning: 'bg-[var(--warning)] text-[var(--warning-foreground)] border-transparent',
+        destructive: 'bg-[var(--danger)] text-[var(--danger-foreground)] border-transparent',
         info: 'bg-[var(--info)] text-[var(--info-foreground)] border-transparent',
       },
     },
@@ -53,14 +42,7 @@ const variantIcons: Record<string, LucideIcon> = {
   info: Info,
 }
 
-export function Toast({
-  variant,
-  title,
-  description,
-  action,
-  onClose,
-  className,
-}: ToastProps) {
+export function Toast({ variant, title, description, action, onClose, className }: ToastProps) {
   const Icon = variant ? variantIcons[variant] : null
 
   React.useEffect(() => {
@@ -70,17 +52,11 @@ export function Toast({
   }, [onClose])
 
   return (
-    <div
-      aria-live="polite"
-      className={cn(toastVariants({ variant }), className)}
-      role="status"
-    >
+    <div aria-live="polite" className={cn(toastVariants({ variant }), className)} role="status">
       {Icon && <Icon className="h-5 w-5 flex-shrink-0" />}
       <div className="ml-3 flex-1">
         {title && <p className="font-medium">{title}</p>}
-        {description && (
-          <p className="mt-1 text-sm opacity-90">{description}</p>
-        )}
+        {description && <p className="mt-1 text-sm opacity-90">{description}</p>}
       </div>
       {action && <div className="ml-4 flex-shrink-0">{action}</div>}
       {onClose && (
@@ -109,19 +85,12 @@ export interface ToastContainerProps {
   className?: string
 }
 
-export function ToastContainer({
-  toasts,
-  onDismiss,
-  className,
-}: ToastContainerProps) {
+export function ToastContainer({ toasts, onDismiss, className }: ToastContainerProps) {
   return (
     <div
       aria-atomic="false"
       aria-live="polite"
-      className={cn(
-        'fixed bottom-4 right-4 z-50 flex flex-col gap-3',
-        className
-      )}
+      className={cn('fixed bottom-4 right-4 z-50 flex flex-col gap-3', className)}
     >
       {toasts.map((toast) => (
         <Toast
@@ -136,7 +105,3 @@ export function ToastContainer({
     </div>
   )
 }
-
-
-
-

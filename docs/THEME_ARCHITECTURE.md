@@ -31,10 +31,12 @@ app/layout.tsx
 ## Token Structure
 
 ### Light Theme (`:root`)
+
 - 30 CSS custom properties for colors, spacing, typography, shadows, transitions
 - All colors defined as semantic tokens (e.g., `--primary`, `--surface-raised`)
 
 ### Dark Theme (`.dark`)
+
 - Overrides the same 30 properties with dark values
 - Shadows are darker for contrast against dark backgrounds
 

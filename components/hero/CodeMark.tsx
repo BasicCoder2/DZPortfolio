@@ -19,7 +19,7 @@ export function CodeMark() {
     return (
       <div
         aria-hidden="true"
-        className="signature-ambient-motion pointer-events-none absolute right-[8%] top-[8%] hidden select-none lg:block"
+        className="signature-ambient-motion pointer-events-none absolute right-[8%] top-[calc(var(--nav-h)+2rem)] hidden select-none lg:block"
         data-testid="code-mark"
       >
         {mark}
@@ -31,7 +31,7 @@ export function CodeMark() {
     <m.div
       {...codeMarkFloatPreset}
       aria-hidden="true"
-      className="signature-ambient-motion pointer-events-none absolute right-[8%] top-[8%] hidden select-none lg:block"
+      className="signature-ambient-motion pointer-events-none absolute right-[8%] top-[calc(var(--nav-h)+2rem)] hidden select-none lg:block"
       data-testid="code-mark"
     >
       <m.div

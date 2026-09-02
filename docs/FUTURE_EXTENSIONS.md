@@ -7,6 +7,7 @@ When adding new components to the design system, follow these guidelines:
 ### 1. Check Primitives First
 
 Before creating a new component, ask:
+
 - Can this be composed from existing primitives?
 - Does a similar component already exist?
 
@@ -26,12 +27,12 @@ All visual properties must reference CSS custom properties:
 
 ### 3. Follow Naming Conventions
 
-| Type | Convention |
-|------|-----------|
-| Component file | `kebab-case.tsx` |
-| Component name | `PascalCase` |
-| Props interface | `XxxProps` |
-| Variants | `kebab-case` values |
+| Type            | Convention          |
+| --------------- | ------------------- |
+| Component file  | `kebab-case.tsx`    |
+| Component name  | `PascalCase`        |
+| Props interface | `XxxProps`          |
+| Variants        | `kebab-case` values |
 
 ### 4. Support Composition
 
@@ -63,6 +64,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 ### 7. Testing Requirements
 
 Before merging a new component:
+
 - [ ] `npm run type-check` passes
 - [ ] `npm run lint` passes
 - [ ] `npm run build` passes
