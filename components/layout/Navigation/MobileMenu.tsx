@@ -29,7 +29,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   useScrollLock(isOpen)
 
   const { pathname, activeSection } = useNavigationState()
-  const resumeUrl = process.env.NEXT_PUBLIC_RESUME_URL ?? '/cv.pdf'
+  const resumeUrl = process.env.NEXT_PUBLIC_RESUME_URL ?? '/cv/daniel-zimba-cv.pdf'
   const panelRef = useRef<HTMLDivElement>(null)
   const previouslyFocused = useRef<HTMLElement | null>(null)
 
