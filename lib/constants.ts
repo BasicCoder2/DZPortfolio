@@ -1,3 +1,4 @@
+import { siteConfig } from '@/data/site'
 import type { NavItem, SocialLink } from '@/types'
 
 /**
@@ -26,11 +27,11 @@ export const FEATURED_PROJECTS_COUNT = 3
 /** Number of recent blog posts to display on homepage. */
 export const RECENT_POSTS_COUNT = 3
 
-/** Default OG image path (relative to /public). */
-export const DEFAULT_OG_IMAGE = '/assets/og/og-default.png'
-
-/** Contact email for the portfolio owner. */
-export const CONTACT_EMAIL = 'daniel@zimba.dev'
+/**
+ * Contact email for the portfolio owner.
+ * Derived from `siteConfig` so the address is defined in exactly one place.
+ */
+export const CONTACT_EMAIL = siteConfig.author.email
 
 /** GitHub base URL. */
 export const GITHUB_BASE_URL = 'https://github.com'

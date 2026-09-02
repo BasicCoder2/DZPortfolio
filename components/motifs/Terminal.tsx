@@ -14,17 +14,21 @@ export function Terminal() {
     return () => window.clearInterval(timer)
   }, [reducedMotion])
   return (
+    // Uses the theme-invariant code tokens rather than the page palette: a
+    // terminal that inverts to white on a light page stops reading as a
+    // terminal. On light it becomes a deliberate dark island; on dark it looks
+    // as it always has.
     <div
       aria-hidden="true"
-      className="w-full max-w-sm rounded-xl border border-border bg-bg/70 p-4 font-mono text-sm text-accent-green shadow-lg"
+      className="w-full max-w-sm rounded-xl border border-[var(--code-border)] bg-[var(--code-surface)] p-5 font-mono text-sm text-[var(--code-accent)] shadow-lg"
       data-testid="terminal-motif"
     >
-      <div className="mb-4 flex gap-1.5">
-        <span className="h-2 w-2 rounded-full bg-danger" />
-        <span className="h-2 w-2 rounded-full bg-warning" />
-        <span className="h-2 w-2 rounded-full bg-success" />
+      <div className="mb-5 flex gap-2">
+        <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
+        <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
+        <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
       </div>
-      <div className="text-text-tertiary">$ dz --focus</div>
+      <div className="text-[var(--code-muted)]">$ dz --focus</div>
       <m.div
         animate={{ opacity: 1, y: 0 }}
         initial={reducedMotion ? false : { opacity: 0, y: 4 }}

@@ -14,6 +14,7 @@ import { Wordmark } from './Wordmark'
 import { NavLinks } from './NavLinks'
 import { MobileMenu } from './MobileMenu'
 import { CTAButton } from './CTAButton'
+import { ProfileLink } from './ProfileLink'
 
 /**
  * Main application navigation bar.
@@ -51,6 +52,7 @@ export function Navigation() {
             <div aria-hidden="true" className="hidden lg:block w-px h-6 bg-border mx-2" />
 
             <div className="hidden lg:flex items-center gap-3">
+              <ProfileLink />
               <ThemeToggle />
               {resumeUrl && (
                 <CTAButton
@@ -64,6 +66,7 @@ export function Navigation() {
 
           {/* Mobile Menu Toggle */}
           <div className="flex items-center gap-2 md:hidden">
+            <ProfileLink onClick={() => setIsMobileMenuOpen(false)} />
             <ThemeToggle />
             <Button
               data-menu-trigger

@@ -13,7 +13,7 @@ export const siteConfig: SiteConfig = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://danielzimba.dev',
   author: {
     name: 'Daniel Zimba',
-    email: 'daniel@zimba.dev',
+    email: 'dzimba180@gmail.com',
     role: 'Software Developer',
   },
   keywords: [
@@ -24,6 +24,15 @@ export const siteConfig: SiteConfig = {
     'React',
     'System Architecture',
   ],
-  ogImage: '/assets/og/og-default.png',
   cvPath: '/assets/cv/daniel-zimba-cv.pdf',
+
+  profile: {
+    avatar: '/assets/portrait/daniel-zimba-avatar.jpg',
+    summary:
+      'I build enterprise systems, AI-powered applications and digital products for businesses and institutions.',
+    // Mirrors the wording already used in the contact section.
+    availability: 'Open to opportunities and collaborations',
+    // Left blank deliberately — fill this in and the card shows it.
+    location: '',
+  },
 }

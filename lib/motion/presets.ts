@@ -138,3 +138,15 @@ export const technologyRingRotatePreset = {
   animate: { rotate: 360 },
   transition: SIGNATURE_AMBIENT_MOTION.technologyRing,
 } as const
+
+/**
+ * Applied to each label inside the technology ring to cancel the ring's spin,
+ * so words orbit without tumbling upside down. It shares
+ * `technologyRingRotatePreset`'s transition object rather than restating the
+ * duration — if the two ever disagreed, the labels would slowly rotate.
+ */
+export const technologyRingCounterRotatePreset = {
+  initial: { rotate: 0 },
+  animate: { rotate: -360 },
+  transition: SIGNATURE_AMBIENT_MOTION.technologyRing,
+} as const

@@ -142,8 +142,18 @@ export interface SiteConfig {
     role: string
   }
   keywords: string[]
-  ogImage: string
   cvPath: string
+  /** Drives the shareable profile card at /me. */
+  profile: {
+    /** Square head-and-shoulders crop. Distinct from the hero portrait. */
+    avatar: string
+    /** One sentence. Shown under the name on the card. */
+    summary: string
+    /** Short availability line. Empty string hides the status row. */
+    availability: string
+    /** e.g. "Lusaka, Zambia". Empty string hides the location. */
+    location: string
+  }
 }
 
 // ─── Component Utilities ──────────────────────────────────────────────────────

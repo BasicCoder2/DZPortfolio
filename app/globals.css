@@ -209,6 +209,22 @@
     --font-body: var(--font-geist), system-ui, sans-serif;
     --font-code: var(--font-mono), 'Courier New', monospace;
 
+    /* ── Code / terminal surface ──
+       DELIBERATELY THE SAME IN BOTH THEMES. A terminal that inverts to white
+       stops reading as a terminal, so this block stays dark on a light page and
+       becomes a deliberate dark island. Do not add `.dark` overrides for these:
+       they are theme-invariant by design, not by omission. Text colours here are
+       chosen against the dark surface, not against the page. */
+    --code-surface: #0b1524;
+    --code-border: rgba(255, 255, 255, 0.1);
+    --code-foreground: #e6edf6;
+    --code-muted: #8fa0b8;
+    --code-accent: #35d5c3;
+
+    /* Hero background wash. Was hardcoded to #14b8a6, which is no longer either
+       theme's accent; each theme now sets its own. */
+    --hero-glow: rgba(20, 184, 166, 0.1);
+
     /* Height of the fixed header. Single source of truth for the header box,
        the <main> offset, and the hero's negative pull — these must agree or a
        seam appears under the nav. --nav-h-scrolled is the condensed state. */
@@ -292,6 +308,12 @@
     --ease-entrance: cubic-bezier(0.24, 0.74, 0.24, 1);
     --spring-snappy: cubic-bezier(0.25, 0.1, 0.25, 1);
     --spring-soft: cubic-bezier(0.2, 0.8, 0.16, 1);
+  }
+
+  .dark {
+    /* Pinned to the value the dark hero has always used, so tokenising the
+       hardcode changes nothing here. */
+    --hero-glow: rgba(20, 184, 166, 0.12);
   }
 
   /* Dark overrides for theme-aware shadows (darker) */
@@ -697,7 +719,7 @@
 
   .hero-canvas {
     background:
-      radial-gradient(circle at 76% 42%, rgba(20, 184, 166, 0.12), transparent 28rem),
+      radial-gradient(circle at 76% 42%, var(--hero-glow), transparent 28rem),
       radial-gradient(circle at 14% 18%, var(--primary-glow), transparent 34rem), var(--background);
   }
 

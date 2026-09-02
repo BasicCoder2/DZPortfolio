@@ -6,6 +6,7 @@ import { siteConfig } from '@/data/site'
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: siteConfig.url, lastModified: new Date() },
+    { url: `${siteConfig.url}/me`, lastModified: new Date() },
     { url: `${siteConfig.url}/projects`, lastModified: new Date() },
     ...projects.map((project) => ({
       url: `${siteConfig.url}${project.href}`,

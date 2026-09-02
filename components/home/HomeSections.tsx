@@ -13,7 +13,7 @@ import { experience } from '@/data/experience'
 import { certifications } from '@/data/certifications'
 import { technologies } from '@/data/technologies'
 import { blogPosts } from '@/data/blog'
-import { SOCIAL_LINKS } from '@/lib/constants'
+import { CONTACT_EMAIL, SOCIAL_LINKS } from '@/lib/constants'
 
 const icons = { Building2, Globe2, Layers3, Smartphone, Sparkles }
 
@@ -68,7 +68,10 @@ export function AboutSection() {
               </p>
             </div>
           </div>
-          <MotionWrapper className="lg:justify-self-end" variant="fadeRight">
+          {/* w-full is required: justify-self-end makes the grid item shrink to
+              fit its content, which collapsed the terminal to the width of its
+              longest line instead of the column. */}
+          <MotionWrapper className="w-full lg:justify-self-end" variant="fadeRight">
             <Terminal />
           </MotionWrapper>
         </div>
@@ -472,8 +475,8 @@ export function ContactSection() {
               thoughtful engineering can make a practical difference.
             </SectionIntro>
             <div className="space-y-3 text-text-secondary">
-              <a className="block hover:text-accent-green" href="mailto:daniel@zimba.dev">
-                daniel@zimba.dev
+              <a className="block hover:text-accent-green" href={`mailto:${CONTACT_EMAIL}`}>
+                {CONTACT_EMAIL}
               </a>
               {SOCIAL_LINKS.filter((social) => social.name !== 'Email').map((social) => (
                 <a
