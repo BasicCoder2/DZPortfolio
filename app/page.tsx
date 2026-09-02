@@ -1,22 +1,39 @@
+import { PageWrapper } from '@/components/layout'
+import { Hero } from '@/components/hero'
+import {
+  AboutSection,
+  BlogPreviewSection,
+  CertificationsSection,
+  ContactSection,
+  ExperienceSection,
+  PhilosophySection,
+  PricingSection,
+  ProjectsSection,
+  ServicesSection,
+  TechnologiesSection,
+} from '@/components/home/HomeSections'
+
 /**
- * Root page — placeholder shell.
+ * Home page.
  *
- * Sections will be implemented in subsequent phases:
- * - Hero
- * - About
- * - Services (What I Build)
- * - Projects
- * - Experience
- * - Blog
- * - Contact
- *
- * This file intentionally contains no placeholder content
- * per the Phase 1 engineering foundation specification.
+ * Order runs identity → work → CV → commercial offer → notes → contact, so a
+ * recruiter reads the whole CV block (experience, stack, certifications)
+ * before being asked to read Daniel as a vendor.
  */
 export default function HomePage() {
   return (
-    <main>
-      {/* Sections to be implemented in Phase 2+ */}
-    </main>
+    <PageWrapper aria-label="Home page content">
+      <Hero />
+      <AboutSection />
+      <ServicesSection />
+      <ProjectsSection />
+      <PhilosophySection />
+      <ExperienceSection />
+      <TechnologiesSection />
+      <CertificationsSection />
+      <PricingSection />
+      <BlogPreviewSection />
+      <ContactSection />
+    </PageWrapper>
   )
 }

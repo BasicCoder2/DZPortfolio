@@ -14,16 +14,25 @@ export function useScrollProgress(): number {
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {
+    let frame = 0
     const handleScroll = () => {
-      const scrollTop = window.scrollY
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight
-      setProgress(docHeight > 0 ? scrollTop / docHeight : 0)
+      if (frame) return
+      frame = window.requestAnimationFrame(() => {
+        const scrollTop = window.scrollY
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight
+        const nextProgress = docHeight > 0 ? scrollTop / docHeight : 0
+        setProgress((current) => (current === nextProgress ? current : nextProgress))
+        frame = 0
+      })
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
     handleScroll() // Initialize
 
-    return () => window.removeEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      if (frame) window.cancelAnimationFrame(frame)
+    }
   }, [])
 
   return progress

@@ -28,6 +28,9 @@ export interface SocialLink {
 /** Represents a portfolio project entry. */
 export interface Project {
   id: string
+  slug?: string
+  shortTitle?: string
+  category?: string
   title: string
   description: string
   longDescription?: string
@@ -39,6 +42,23 @@ export interface Project {
   featured: boolean
   status: 'completed' | 'in-progress' | 'archived'
   date: string // ISO date string
+  coverImage?: string
+  gallery?: string[]
+  year?: string
+  role?: string
+  caseStudy?: ProjectCaseStudy
+}
+
+export interface ProjectCaseStudy {
+  overview: string
+  problem: string
+  role: string
+  solution: string
+  architecture: string
+  decisions: string[]
+  challenges: string
+  outcome: string
+  reflection: string
 }
 
 // ─── Experience ───────────────────────────────────────────────────────────────
@@ -50,13 +70,13 @@ export interface Experience {
   companyUrl?: string
   role: string
   period: string
-  startDate: string // ISO date
+  startDate?: string // ISO date
   endDate?: string // ISO date — undefined if current
-  current: boolean
-  location: string
-  locationType: 'remote' | 'onsite' | 'hybrid'
+  current?: boolean
+  location?: string
+  locationType?: 'remote' | 'onsite' | 'hybrid'
   highlights: string[]
-  technologies: string[]
+  technologies?: string[]
 }
 
 // ─── Services ─────────────────────────────────────────────────────────────────
@@ -74,12 +94,7 @@ export interface Service {
 // ─── Technologies ─────────────────────────────────────────────────────────────
 
 export type TechnologyCategory =
-  | 'language'
-  | 'framework'
-  | 'database'
-  | 'cloud'
-  | 'tool'
-  | 'platform'
+  'language' | 'framework' | 'database' | 'cloud' | 'tool' | 'platform'
 
 /** A technology / skill entry. */
 export interface Technology {
@@ -101,6 +116,16 @@ export interface BlogPost {
   published: boolean
   featured: boolean
   readingTime?: string
+  coverImage?: string
+  draft?: boolean
+}
+
+export interface Certification {
+  title: string
+  issuer: string
+  issueDate?: string
+  credentialUrl?: string
+  image?: string
 }
 
 // ─── Site Config ──────────────────────────────────────────────────────────────
@@ -117,7 +142,18 @@ export interface SiteConfig {
     role: string
   }
   keywords: string[]
-  ogImage: string
+  cvPath: string
+  /** Drives the shareable profile card at /me. */
+  profile: {
+    /** Square head-and-shoulders crop. Distinct from the hero portrait. */
+    avatar: string
+    /** One sentence. Shown under the name on the card. */
+    summary: string
+    /** Short availability line. Empty string hides the status row. */
+    availability: string
+    /** e.g. "Lusaka, Zambia". Empty string hides the location. */
+    location: string
+  }
 }
 
 // ─── Component Utilities ──────────────────────────────────────────────────────

@@ -28,7 +28,10 @@ const config: Config = {
         bg: 'var(--color-bg)',
         surface: {
           DEFAULT: 'var(--color-surface)',
+          subtle: 'var(--color-surface-subtle)',
+          muted: 'var(--color-surface-subtle)',
           raised: 'var(--color-surface-raised)',
+          elevated: 'var(--color-surface-raised)',
           overlay: 'var(--color-surface-overlay)',
         },
         text: {
@@ -38,8 +41,10 @@ const config: Config = {
           inverse: 'var(--color-text-inverse)',
         },
         accent: {
+          foreground: 'var(--color-accent-foreground)',
           green: 'var(--color-accent-green)',
           'green-dim': 'var(--color-accent-green-dim)',
+          'green-glow': 'var(--color-accent-green-glow)',
           blue: 'var(--color-accent-blue)',
           'blue-dim': 'var(--color-accent-blue-dim)',
         },
@@ -47,13 +52,32 @@ const config: Config = {
           DEFAULT: 'var(--color-border)',
           strong: 'var(--color-border-strong)',
         },
+
+        // Status colors — previously declared in globals.css but never mapped,
+        // so `bg-danger` / `bg-success` / `bg-warning` compiled to nothing.
+        danger: {
+          DEFAULT: 'var(--danger)',
+          foreground: 'var(--danger-foreground)',
+        },
+        warning: {
+          DEFAULT: 'var(--warning)',
+          foreground: 'var(--warning-foreground)',
+        },
+        success: {
+          DEFAULT: 'var(--success)',
+          foreground: 'var(--success-foreground)',
+        },
+        info: {
+          DEFAULT: 'var(--info)',
+          foreground: 'var(--info-foreground)',
+        },
       },
 
       // ── Font families mapped to CSS variables ──
       fontFamily: {
         heading: 'var(--font-heading)',
         body: 'var(--font-body)',
-        mono: 'var(--font-mono)',
+        mono: 'var(--font-code)',
       },
 
       // ── Border radius mapped to CSS variables ──
@@ -66,11 +90,22 @@ const config: Config = {
       },
 
       // ── Box shadows ──
+      // The elevation ladder lives in globals.css; every rung must be mapped
+      // here or the utility silently compiles to nothing.
       boxShadow: {
         sm: 'var(--shadow-sm)',
         md: 'var(--shadow-md)',
         lg: 'var(--shadow-lg)',
-        'glow-green': 'var(--shadow-glow-green)',
+        xl: 'var(--shadow-xl)',
+        '2xl': 'var(--shadow-2xl)',
+        card: 'var(--shadow-card)',
+        'card-elevated': 'var(--shadow-card-elevated)',
+        floating: 'var(--shadow-floating)',
+        overlay: 'var(--shadow-overlay)',
+        glass: 'var(--shadow-glass)',
+        inner: 'var(--shadow-inner)',
+        glow: 'var(--shadow-glow)',
+        'glow-green': 'var(--shadow-glow)',
         'glow-blue': 'var(--shadow-glow-blue)',
       },
 

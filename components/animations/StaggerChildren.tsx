@@ -48,9 +48,9 @@ export function StaggerChildren({
     <motion.div
       className={cn(className)}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: '-50px' }}
       variants={variants}
+      viewport={{ once: true, margin: '-50px' }}
+      whileInView="visible"
     >
       {children}
     </motion.div>

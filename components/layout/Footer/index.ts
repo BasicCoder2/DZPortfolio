@@ -1,0 +1,5 @@
+export { Footer } from './Footer'
+export { Brand } from './Brand'
+export { Navigation } from './Navigation'
+export { Socials } from './Socials'
+export { Copyright } from './Copyright'

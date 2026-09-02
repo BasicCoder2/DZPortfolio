@@ -1,0 +1,21 @@
+# Generated or vendored — never reformat.
+node_modules
+.next
+out
+coverage
+
+# Lockfile: managed by pnpm, and reformatting risks corrupting it.
+pnpm-lock.yaml
+
+# Build artefacts and generated type stubs.
+tsconfig.tsbuildinfo
+next-env.d.ts
+build.log
+
+# Environment files.
+.env
+.env.*
+!.env.example
+
+# Playwright MCP scratch output.
+.playwright-mcp

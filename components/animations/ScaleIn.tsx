@@ -32,15 +32,15 @@ export function ScaleIn({ children, className, delay = 0 }: ScaleInProps) {
     <motion.div
       className={cn(className)}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: '-50px' }}
-      variants={scaleInVariants}
       transition={{
         delay,
         type: 'spring',
         stiffness: 300,
         damping: 30,
       }}
+      variants={scaleInVariants}
+      viewport={{ once: true, margin: '-50px' }}
+      whileInView="visible"
     >
       {children}
     </motion.div>
