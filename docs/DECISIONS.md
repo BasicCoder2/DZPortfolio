@@ -59,6 +59,11 @@ Architecture/engineering decisions. Format: Context / Decision / Consequence.
   the `href` (auto internal/external via CTAButton). Added the variable to
   `.env.example`.
 - **Consequence:** No dead links or TODOs in production builds.
+- **Superseded (content-platform release):** the CV is now bundled at
+  `public/assets/cv/daniel-zimba-cv.pdf`, so the CTA always renders and
+  `NEXT_PUBLIC_RESUME_URL` is an *override* for an externally hosted copy rather
+  than the condition for showing the button. See `Navigation.tsx`,
+  `MobileMenu.tsx` and `HeroActions.tsx`.
 
 ## D6. Remove placeholder/dead modules
 

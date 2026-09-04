@@ -1,3 +1,15 @@
+/**
+ * SUPERSEDED — no longer read by the application.
+ *
+ * Blog posts now live in the Supabase `posts` table and are edited at
+ * `/admin/blog`. This file is kept only as the pre-migration record; its
+ * frozen contents were copied into `scripts/legacy-content.json`, which is
+ * what `pnpm content:import` actually reads.
+ *
+ * Deleting it is a separate, reviewable change, to be made once the
+ * database has been populated and parity confirmed on the live site. Until
+ * then it is the only reference for what the site used to say.
+ */
 import type { BlogPost } from '@/types'
 
 export const blogPosts: BlogPost[] = [

@@ -1,0 +1,245 @@
+{
+  "_readme": [
+    "Frozen snapshot of the static content that data/*.ts and content/blog/*.mdx held",
+    "immediately before the database migration. scripts/import-content.mjs reads this",
+    "file; it does not read the TypeScript modules, because a .mjs script cannot",
+    "resolve their @/ path aliases and a snapshot is reviewable in a way that a",
+    "runtime import is not.",
+    "",
+    "Editorial decisions baked into this snapshot, all of them driven by the rule",
+    "that placeholder text must never be published:",
+    "",
+    "  * Project case-study bodies were the string 'Detailed case-study documentation",
+    "    is being prepared.' repeated across nine fields. They are imported as EMPTY",
+    "    content. The case-study component already renders that exact sentence as its",
+    "    empty state, so the public page is unchanged while the database holds no",
+    "    fake prose. Project metadata (title, category, summary, technologies, image)",
+    "    is real and is published, preserving the live site.",
+    "",
+    "  * The one blog post is imported as a DRAFT. Its body says 'Draft note - this",
+    "    article is a placeholder for final editorial content', and it carried",
+    "    draft: true in data/blog.ts. Its leading '# Building Useful Systems' heading",
+    "    is dropped: the page renders the title in its own <h1>, and keeping it was",
+    "    the duplicate-H1 defect.",
+    "",
+    "  * Experience periods were the literal string 'Details pending confirmation'.",
+    "    No dates are invented. start_date is null and the timeline simply renders no",
+    "    period line. Everything else about these entries is real, so they are",
+    "    published.",
+    "",
+    "  * Certification issue dates were the same placeholder. issue_date is null,",
+    "    which renders as an em dash. Titles and issuers are real, so they are",
+    "    published.",
+    "",
+    "  * Engagement tiers reproduce data/pricing.ts exactly, including the rendered",
+    "    price strings 'Starting from $150', 'Custom Quote' and \"Let's Discuss\"."
+  ],
+
+  "projects": [
+    {
+      "slug": "lmmu-governance-admissions",
+      "title": "LMMU Governance / Admissions Platform",
+      "category": "Enterprise System",
+      "summary": "Institutional admissions and governance workflows brought together in a structured digital platform.",
+      "content": "",
+      "technologies": ["Laravel", "React", "Inertia.js", "Tailwind", "MySQL"],
+      "preview_image_path": "/assets/projects/lmmu-governance-admissions.svg",
+      "preview_image_alt": "Abstract mark representing the LMMU governance and admissions platform",
+      "external_url": null,
+      "repository_url": null,
+      "featured": true,
+      "display_order": 0,
+      "status": "published",
+      "seo_title": null,
+      "seo_description": null
+    },
+    {
+      "slug": "fase-plaza",
+      "title": "FASE Plaza Platform",
+      "category": "Commercial Platform",
+      "summary": "A business and community platform supporting membership, content, governance, notifications, and digital operations.",
+      "content": "",
+      "technologies": ["PHP", "WordPress", "Membership", "Notifications"],
+      "preview_image_path": "/assets/projects/fase-plaza.svg",
+      "preview_image_alt": "Abstract mark representing the FASE Plaza platform",
+      "external_url": null,
+      "repository_url": null,
+      "featured": true,
+      "display_order": 1,
+      "status": "published",
+      "seo_title": null,
+      "seo_description": null
+    },
+    {
+      "slug": "uka-smart-home",
+      "title": "Uka Smart Home System",
+      "category": "AI / IoT",
+      "summary": "An AI-powered assistive smart-home system designed for visually impaired users.",
+      "content": "",
+      "technologies": ["Flutter", "Python", "YOLO", "TensorFlow Lite", "Vosk", "MQTT", "ESP32"],
+      "preview_image_path": "/assets/projects/uka-smart-home.svg",
+      "preview_image_alt": "Abstract mark representing the Uka assistive smart-home system",
+      "external_url": null,
+      "repository_url": null,
+      "featured": true,
+      "display_order": 2,
+      "status": "published",
+      "seo_title": null,
+      "seo_description": null
+    },
+    {
+      "slug": "loan-tracking",
+      "title": "Loan Tracking Application",
+      "category": "Mobile Application",
+      "summary": "A mobile workflow for tracking loans, backed by Firebase and PDF reporting.",
+      "content": "",
+      "technologies": ["Flutter", "Dart", "Firebase", "Firestore", "PDF reporting"],
+      "preview_image_path": "/assets/projects/loan-tracking.svg",
+      "preview_image_alt": "Abstract mark representing the loan tracking application",
+      "external_url": null,
+      "repository_url": null,
+      "featured": false,
+      "display_order": 3,
+      "status": "published",
+      "seo_title": null,
+      "seo_description": null
+    }
+  ],
+
+  "posts": [
+    {
+      "slug": "building-useful-systems",
+      "title": "Building Useful Systems",
+      "excerpt": "A draft note on turning complex requirements into software people can rely on.",
+      "content": "> Draft note — this article is a placeholder for final editorial content.\n\nSoftware should make a real workflow clearer, safer, or more capable. The implementation details matter, but they are in service of the people who depend on the system.\n\nThe strongest implementations usually begin with a small, observable improvement: a clearer decision, a safer handoff, or a workflow that no longer depends on tribal knowledge.\n",
+      "cover_image_path": null,
+      "cover_image_alt": null,
+      "status": "draft",
+      "seo_title": null,
+      "seo_description": null
+    }
+  ],
+
+  "experience_entries": [
+    {
+      "organization": "Levy Mwanawasa Medical University",
+      "role": "Software Developer",
+      "location": "",
+      "start_date": null,
+      "end_date": null,
+      "is_current": false,
+      "summary": "Enterprise systems and institutional software delivery.",
+      "technologies": ["Laravel", "React", "MySQL"],
+      "display_order": 0,
+      "published": true
+    },
+    {
+      "organization": "FASE-related software and web work",
+      "role": "Software Developer",
+      "location": "",
+      "start_date": null,
+      "end_date": null,
+      "is_current": false,
+      "summary": "Web platforms, membership workflows, and digital operations.",
+      "technologies": ["PHP", "WordPress", "JavaScript"],
+      "display_order": 1,
+      "published": true
+    }
+  ],
+
+  "certifications": [
+    {
+      "title": "Huawei AI",
+      "issuer": "Huawei",
+      "issue_date": null,
+      "credential_url": null,
+      "credential_id": null,
+      "image_path": null,
+      "image_alt": null,
+      "display_order": 0,
+      "published": true
+    },
+    {
+      "title": "Huawei Cloud Computing",
+      "issuer": "Huawei",
+      "issue_date": null,
+      "credential_url": null,
+      "credential_id": null,
+      "image_path": null,
+      "image_alt": null,
+      "display_order": 1,
+      "published": true
+    },
+    {
+      "title": "AI learning credentials",
+      "issuer": "Kaggle",
+      "issue_date": null,
+      "credential_url": null,
+      "credential_id": null,
+      "image_path": null,
+      "image_alt": null,
+      "display_order": 2,
+      "published": true
+    }
+  ],
+
+  "engagement_options": [
+    {
+      "slug": "discovery",
+      "title": "Discovery",
+      "description": "A focused starting point for making the problem and path forward clear.",
+      "items": [
+        "Requirements analysis",
+        "Technical consultation",
+        "Architecture recommendations",
+        "Project scoping"
+      ],
+      "price_prefix": "Starting from",
+      "price_label": null,
+      "price_usd": 150,
+      "price_zmw": null,
+      "currency": "USD",
+      "recommended": false,
+      "display_order": 0,
+      "published": true
+    },
+    {
+      "slug": "custom-development",
+      "title": "Custom Development",
+      "description": "For software products that need a thoughtful, tailored build.",
+      "items": [
+        "Business systems",
+        "Web applications",
+        "Dashboards and APIs",
+        "Mobile applications"
+      ],
+      "price_prefix": "",
+      "price_label": "Custom Quote",
+      "price_usd": null,
+      "price_zmw": null,
+      "currency": "label",
+      "recommended": true,
+      "display_order": 1,
+      "published": true
+    },
+    {
+      "slug": "enterprise-solutions",
+      "title": "Enterprise Solutions",
+      "description": "For institutional systems, complex workflows, and modernization work.",
+      "items": [
+        "Complex integrations",
+        "Long-term development",
+        "Workflow modernization",
+        "Technical delivery"
+      ],
+      "price_prefix": "",
+      "price_label": "Let's Discuss",
+      "price_usd": null,
+      "price_zmw": null,
+      "currency": "label",
+      "recommended": false,
+      "display_order": 2,
+      "published": true
+    }
+  ]
+}

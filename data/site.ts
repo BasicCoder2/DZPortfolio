@@ -27,7 +27,7 @@ export const siteConfig: SiteConfig = {
   cvPath: '/assets/cv/daniel-zimba-cv.pdf',
 
   profile: {
-    avatar: '/assets/portrait/daniel-zimba-avatar.jpg',
+    avatar: '/assets/portrait/daniel-zimba-avatar.webp',
     summary:
       'I build enterprise systems, AI-powered applications and digital products for businesses and institutions.',
     // Mirrors the wording already used in the contact section.
