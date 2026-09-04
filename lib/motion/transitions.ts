@@ -24,6 +24,12 @@ export const transitionCinematic = {
   ...SPRING_GENTLE,
 } as const
 
+/** Shared viewport-reveal timing: deliberate, but never sluggish. */
+export const transitionReveal = {
+  duration: 0.52,
+  ease: EASE_EXPO,
+} as const
+
 /** Standard tween for nav background changes. */
 export const transitionNav = {
   duration: 0.25,

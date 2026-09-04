@@ -7,5 +7,6 @@
  */
 
 export { ScaleIn } from './ScaleIn'
-export { StaggerChildren } from './StaggerChildren'
+export { MotionWrapper } from './MotionWrapper'
+export { StaggerChildren, StaggerItem } from './StaggerChildren'
 export { RevealText } from './RevealText'

@@ -6,6 +6,7 @@ import {
   transitionFooter,
   transitionMobileMenu,
   transitionNav,
+  transitionReveal,
 } from './transitions'
 
 /**
@@ -26,7 +27,7 @@ export const fadeUpVariants: Variants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: transitionDefault,
+    transition: transitionReveal,
   },
 }
 
@@ -36,7 +37,7 @@ export const fadeDownVariants: Variants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: transitionDefault,
+    transition: transitionReveal,
   },
 }
 
@@ -46,7 +47,7 @@ export const fadeLeftVariants: Variants = {
   visible: {
     opacity: 1,
     x: 0,
-    transition: transitionDefault,
+    transition: transitionReveal,
   },
 }
 
@@ -56,7 +57,7 @@ export const fadeRightVariants: Variants = {
   visible: {
     opacity: 1,
     x: 0,
-    transition: transitionDefault,
+    transition: transitionReveal,
   },
 }
 
@@ -66,7 +67,17 @@ export const scaleInVariants: Variants = {
   visible: {
     opacity: 1,
     scale: 1,
-    transition: transitionDefault,
+    transition: transitionReveal,
+  },
+}
+
+/** Draws a vertical rule from its top edge. */
+export const lineGrowVariants: Variants = {
+  hidden: { opacity: 0, scaleY: 0, transformOrigin: 'top' },
+  visible: {
+    opacity: 1,
+    scaleY: 1,
+    transition: transitionReveal,
   },
 }
 

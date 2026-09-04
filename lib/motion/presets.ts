@@ -18,6 +18,7 @@ import {
   fadeLeftVariants,
   fadeRightVariants,
   scaleInVariants,
+  lineGrowVariants,
   heroEyebrowVariants,
   heroTitleVariants,
   heroStatementVariants,
@@ -105,6 +106,14 @@ export const scaleInPreset = {
   whileInView: 'visible',
   viewport: { once: true, margin: '-60px' },
   variants: scaleInVariants,
+} as const
+
+/** Preset for rules that draw vertically when their section enters view. */
+export const lineGrowPreset = {
+  initial: 'hidden',
+  whileInView: 'visible',
+  viewport: { once: true, margin: '-60px' },
+  variants: lineGrowVariants,
 } as const
 
 const heroPreset = (variants: typeof heroEyebrowVariants) =>

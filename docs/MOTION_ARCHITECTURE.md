@@ -35,8 +35,8 @@ lib/motion/
 
 | Preset         | Stagger | Delay | Usage                |
 | -------------- | ------- | ----- | -------------------- |
-| `STAGGER_FAST` | 0.05s   | 0.1s  | Nav items, tag lists |
-| `STAGGER_SLOW` | 0.1s    | 0.2s  | Section cards, grids |
+| `STAGGER_FAST` | 0.06s   | 0.12s | Nav items, tag lists |
+| `STAGGER_SLOW` | 0.08s   | 0.16s | Section cards, grids |
 
 ## Transition Presets
 
@@ -45,6 +45,7 @@ lib/motion/
 | `transitionDefault`    | spring   | SPRING_SMOOTH | Default animated elements |
 | `transitionFast`       | spring   | SPRING_SNAPPY | Micro-interactions        |
 | `transitionCinematic`  | spring   | SPRING_GENTLE | Hero / page-level         |
+| `transitionReveal`     | 0.52s    | EASE_EXPO     | Section entrances         |
 | `transitionNav`        | 0.25s    | EASE_OUT      | Nav background changes    |
 | `transitionPage`       | 0.45s    | EASE_EXPO     | Page-level transitions    |
 | `transitionFooter`     | 0.6s     | EASE_EXPO     | Footer fade-up            |
@@ -59,11 +60,14 @@ lib/motion/
 - `fadeLeftVariants` — Fade from left
 - `fadeRightVariants` — Fade from right
 - `scaleInVariants` — Scale from 0.92
+- `lineGrowVariants` — Vertical rule drawn from its top edge
 
 ### Stagger Containers
 
 - `staggerContainerVariants` — Slow stagger (cards, grids)
 - `staggerContainerFastVariants` — Fast stagger (nav, tags)
+- `StaggerChildren` + `StaggerItem` — One viewport observer per group; nested
+  items inherit its timing without creating another observer
 
 ### Navigation
 
@@ -101,8 +105,13 @@ Ready-to-use bundles for common patterns:
 | `fadeLeftPreset`           | Scroll-reveal from left       |
 | `fadeRightPreset`          | Scroll-reveal from right      |
 | `scaleInPreset`            | Scale-in scroll reveal        |
+| `lineGrowPreset`           | Vertical line-drawing reveal  |
 
 ## Reduced Motion
+
+Entrance, interaction and route transitions render statically when the user
+prefers reduced motion. The CodeMark and Technology Ring are the two deliberate
+ambient exceptions; they remain in motion as part of the site's visual identity.
 
 Global CSS rule in `app/globals.css`:
 

@@ -1,7 +1,15 @@
 'use client'
 
 import { motion, useReducedMotion } from 'framer-motion'
-import { staggerContainerVariants, staggerContainerFastVariants } from '@/lib/motion'
+import {
+  fadeLeftVariants,
+  fadeRightVariants,
+  fadeUpVariants,
+  STAGGER_FAST,
+  STAGGER_SLOW,
+  staggerContainerFastVariants,
+  staggerContainerVariants,
+} from '@/lib/motion'
 import { cn } from '@/lib/utils'
 import type { PropsWithChildrenAndClassName } from '@/types'
 
@@ -12,6 +20,56 @@ interface StaggerChildrenProps extends PropsWithChildrenAndClassName {
   delayChildren?: number
   /** HTML element to render as. Default: 'div' */
   as?: 'div' | 'ul' | 'ol' | 'section'
+}
+
+type StaggerItemVariant = 'fadeUp' | 'fadeLeft' | 'fadeRight'
+
+interface StaggerItemProps extends PropsWithChildrenAndClassName {
+  /** Entrance direction inherited from the nearest StaggerChildren parent. */
+  variant?: StaggerItemVariant
+  /** Use list-item semantics when animating items inside a list. */
+  as?: 'div' | 'li'
+  /** Optionally stagger nested StaggerItem children without another observer. */
+  staggerChildren?: 'fast' | 'slow'
+}
+
+const itemVariants = {
+  fadeUp: fadeUpVariants,
+  fadeLeft: fadeLeftVariants,
+  fadeRight: fadeRightVariants,
+} as const
+
+/**
+ * A child of StaggerChildren. It owns no viewport observer: the parent reveals
+ * the group once, then controls this item's delay through its stagger variant.
+ */
+export function StaggerItem({
+  children,
+  className,
+  variant = 'fadeUp',
+  as: Tag = 'div',
+  staggerChildren,
+}: StaggerItemProps) {
+  const prefersReducedMotion = useReducedMotion()
+
+  if (prefersReducedMotion) return <Tag className={className}>{children}</Tag>
+
+  const MotionItem = Tag === 'li' ? motion.li : motion.div
+  const childStagger =
+    staggerChildren === 'fast'
+      ? STAGGER_FAST
+      : staggerChildren === 'slow'
+        ? STAGGER_SLOW
+        : undefined
+  return (
+    <MotionItem
+      className={cn(className)}
+      transition={childStagger}
+      variants={itemVariants[variant]}
+    >
+      {children}
+    </MotionItem>
+  )
 }
 
 /**
