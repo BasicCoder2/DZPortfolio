@@ -7,13 +7,16 @@ import { MotionWrapper } from '@/components/animations/MotionWrapper'
 import { Terminal, TechnologyRing, CommitGraph } from '@/components/motifs'
 import { ContactForm } from '@/components/contact'
 import { services } from '@/data/services'
-import { projects } from '@/data/projects'
-import { pricingOptions } from '@/data/pricing'
-import { experience } from '@/data/experience'
-import { certifications } from '@/data/certifications'
 import { technologies } from '@/data/technologies'
-import { blogPosts } from '@/data/blog'
-import { CONTACT_EMAIL, SOCIAL_LINKS } from '@/lib/constants'
+import {
+  listFeaturedProjects,
+  listPublishedCertifications,
+  listPublishedEngagementOptions,
+  listPublishedExperience,
+  listPublishedPosts,
+} from '@/lib/content/repositories'
+import type { Project } from '@/lib/content/models'
+import { CONTACT_EMAIL, RECENT_POSTS_COUNT, SOCIAL_LINKS } from '@/lib/constants'
 
 const icons = { Building2, Globe2, Layers3, Smartphone, Sparkles }
 
@@ -132,7 +135,13 @@ export function ServicesSection() {
   )
 }
 
-export function PricingSection() {
+export async function PricingSection() {
+  const options = await listPublishedEngagementOptions()
+
+  // An engagement section with no tiers is worse than no engagement section,
+  // so it is omitted entirely rather than rendered as a heading over nothing.
+  if (options.length === 0) return null
+
   return (
     <Section>
       <Container>
@@ -140,7 +149,7 @@ export function PricingSection() {
           Choose the level of clarity or delivery that matches where the work is today.
         </SectionIntro>
         <div className="grid gap-8 lg:grid-cols-3 lg:gap-10">
-          {pricingOptions.map((option) => (
+          {options.map((option) => (
             <MotionWrapper
               className={`relative border-t-2 pt-6 ${option.recommended ? 'border-accent-green' : 'border-border-strong'}`}
               key={option.id}
@@ -154,7 +163,9 @@ export function PricingSection() {
                 </span>
               )}
               <h3 className="text-h3">{option.title}</h3>
-              <p className="mt-4 text-2xl font-semibold text-text-primary">{option.price}</p>
+              <p className="mt-4 text-2xl font-semibold text-text-primary">
+                {option.priceDisplay}
+              </p>
               <p className="mt-4 text-text-secondary">{option.description}</p>
               <ul className="mt-6 space-y-2 text-sm text-text-tertiary">
                 {option.items.map((item) => (
@@ -169,7 +180,7 @@ export function PricingSection() {
   )
 }
 
-function ProjectCard({ project, lead }: { project: (typeof projects)[number]; lead?: boolean }) {
+function ProjectCard({ project, lead }: { project: Project; lead?: boolean }) {
   return (
     <MotionWrapper className={lead ? 'md:col-span-2' : undefined} variant="fadeUp">
       {/* The lead card splits horizontally rather than stacking, so spanning
@@ -182,23 +193,31 @@ function ProjectCard({ project, lead }: { project: (typeof projects)[number]; le
         <div
           className={`relative overflow-hidden bg-surface-muted border-border ${lead ? 'aspect-[16/9] border-b md:aspect-auto md:min-h-64 md:border-b-0 md:border-r' : 'aspect-[16/9] border-b'}`}
         >
-          <Image
-            fill
-            alt={`${project.title} project preview`}
-            className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-            sizes="(max-width: 767px) 100vw, 50vw"
-            src={project.coverImage ?? '/assets/projects/lmmu-governance-admissions.svg'}
-          />
+          {project.previewImageUrl ? (
+            <Image
+              fill
+              alt={project.previewImageAlt ?? ''}
+              className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+              sizes="(max-width: 767px) 100vw, 50vw"
+              src={project.previewImageUrl}
+            />
+          ) : (
+            <div aria-hidden="true" className="flex h-full w-full items-center justify-center">
+              <span className="font-mono text-xs uppercase tracking-[0.16em] text-text-tertiary">
+                {project.category || 'Project'}
+              </span>
+            </div>
+          )}
         </div>
         <div className={`p-6 md:p-7 ${lead ? 'md:flex md:flex-col md:justify-center' : ''}`}>
           <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
             {project.category}
           </p>
           <h3 className="mt-3 text-h3">{project.title}</h3>
-          <p className="mt-3 text-text-secondary">{project.description}</p>
+          <p className="mt-3 text-text-secondary">{project.summary}</p>
           <div className="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-xs text-text-tertiary">
-            {project.tags.slice(0, 5).map((tag) => (
-              <span key={tag}>{tag}</span>
+            {project.technologies.slice(0, 5).map((technology) => (
+              <span key={technology}>{technology}</span>
             ))}
           </div>
           <Link
@@ -217,7 +236,9 @@ function ProjectCard({ project, lead }: { project: (typeof projects)[number]; le
   )
 }
 
-export function ProjectsSection() {
+export async function ProjectsSection() {
+  const featured = await listFeaturedProjects()
+
   return (
     <Section data-nav-section id="projects" size="spacious">
       <Container>
@@ -226,17 +247,21 @@ export function ProjectsSection() {
         </SectionIntro>
         {/* An odd number of featured projects would orphan the last card in a
             two-column grid, so the first one leads across the full width. */}
-        <div className="grid items-stretch gap-8 md:grid-cols-2">
-          {projects
-            .filter((project) => project.featured)
-            .map((project, index, list) => (
+        {featured.length === 0 ? (
+          <p className="border-y border-border py-12 text-lg text-text-secondary">
+            Project write-ups are being prepared.
+          </p>
+        ) : (
+          <div className="grid items-stretch gap-8 md:grid-cols-2">
+            {featured.map((project, index, list) => (
               <ProjectCard
                 key={project.id}
                 lead={list.length % 2 === 1 && index === 0}
                 project={project}
               />
             ))}
-        </div>
+          </div>
+        )}
         <div className="mt-10 flex justify-start">
           <Link
             className="inline-flex items-center gap-2 border-b border-border-strong pb-2 font-medium transition-colors hover:border-accent-green hover:text-accent-green"
@@ -283,33 +308,38 @@ export function PhilosophySection() {
   )
 }
 
-export function ExperienceSection() {
+export async function ExperienceSection() {
+  const entries = await listPublishedExperience()
+
+  if (entries.length === 0) return null
+
   return (
     <Section>
       <Container>
         <SectionIntro eyebrow="Experience" title="Where the work has taken me" />
         <div className="mx-auto max-w-4xl divide-y divide-border border-y border-border">
-          {experience.map((item) => (
+          {entries.map((item) => (
             <MotionWrapper
               className="grid gap-4 py-8 md:grid-cols-[0.8fr_1.2fr] md:gap-10"
               key={item.id}
               variant="fadeUp"
             >
               <div>
-                <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
-                  {item.period}
-                </p>
-                <h3 className="mt-2 text-xl font-semibold">{item.company}</h3>
+                {item.period !== '' && (
+                  <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
+                    {item.period}
+                  </p>
+                )}
+                <h3 className="mt-2 text-xl font-semibold">{item.organization}</h3>
+                {item.location !== '' && (
+                  <p className="mt-1 text-sm text-text-tertiary">{item.location}</p>
+                )}
               </div>
               <div>
                 <p className="text-lg text-text-primary">{item.role}</p>
-                {item.highlights.map((highlight) => (
-                  <p className="mt-3 text-text-secondary" key={highlight}>
-                    {highlight}
-                  </p>
-                ))}
+                {item.summary !== '' && <p className="mt-3 text-text-secondary">{item.summary}</p>}
                 <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-xs text-text-tertiary">
-                  {item.technologies?.map((technology) => (
+                  {item.technologies.map((technology) => (
                     <span key={technology}>{technology}</span>
                   ))}
                 </div>
@@ -398,7 +428,11 @@ export function TechnologiesSection() {
   )
 }
 
-export function CertificationsSection() {
+export async function CertificationsSection() {
+  const certifications = await listPublishedCertifications()
+
+  if (certifications.length === 0) return null
+
   return (
     <Section size="compact">
       <Container>
@@ -407,13 +441,26 @@ export function CertificationsSection() {
           {certifications.map((certification) => (
             <MotionWrapper
               className="grid gap-2 py-6 md:grid-cols-[1fr_0.7fr_0.5fr] md:items-center"
-              key={certification.title}
+              key={certification.id}
               variant="fadeUp"
             >
-              <p className="text-lg font-semibold">{certification.title}</p>
+              <p className="text-lg font-semibold">
+                {certification.credentialUrl ? (
+                  <a
+                    className="underline-offset-4 hover:text-accent-green hover:underline"
+                    href={certification.credentialUrl}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    {certification.title}
+                  </a>
+                ) : (
+                  certification.title
+                )}
+              </p>
               <p className="text-text-secondary">{certification.issuer}</p>
               <p className="font-mono text-xs uppercase tracking-[0.16em] text-text-tertiary md:text-right">
-                {certification.issueDate}
+                {certification.issuedLabel}
               </p>
             </MotionWrapper>
           ))}
@@ -423,7 +470,9 @@ export function CertificationsSection() {
   )
 }
 
-export function BlogPreviewSection() {
+export async function BlogPreviewSection() {
+  const posts = await listPublishedPosts(RECENT_POSTS_COUNT)
+
   return (
     <Section>
       <Container>
@@ -438,27 +487,39 @@ export function BlogPreviewSection() {
             Read all <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
           </Link>
         </div>
-        <div className="divide-y divide-border border-y border-border">
-          {blogPosts.map((post) => (
-            <MotionWrapper key={post.slug} variant="fadeUp">
-              <article className="grid gap-4 py-7 md:grid-cols-[0.25fr_1fr_auto] md:items-center md:gap-8">
-                <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
-                  {post.draft ? 'Draft note' : post.date}
-                </p>
-                <div>
-                  <h3 className="text-h3">{post.title}</h3>
-                  <p className="mt-2 text-text-secondary">{post.description}</p>
-                </div>
-                <Link
-                  className="inline-flex items-center gap-2 font-medium hover:text-accent-green"
-                  href={`/blog/${post.slug}`}
-                >
-                  Read note <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
-                </Link>
-              </article>
-            </MotionWrapper>
-          ))}
-        </div>
+        {posts.length === 0 ? (
+          <p className="border-y border-border py-12 text-lg text-text-secondary">
+            Notes are on the way.
+          </p>
+        ) : (
+          <div className="divide-y divide-border border-y border-border">
+            {posts.map((post) => (
+              <MotionWrapper key={post.id} variant="fadeUp">
+                <article className="grid gap-4 py-7 md:grid-cols-[0.25fr_1fr_auto] md:items-center md:gap-8">
+                  <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
+                    {post.publishedAt
+                      ? new Date(post.publishedAt).toLocaleDateString('en-GB', {
+                          day: 'numeric',
+                          month: 'short',
+                          year: 'numeric',
+                        })
+                      : ''}
+                  </p>
+                  <div>
+                    <h3 className="text-h3">{post.title}</h3>
+                    <p className="mt-2 text-text-secondary">{post.excerpt}</p>
+                  </div>
+                  <Link
+                    className="inline-flex items-center gap-2 font-medium hover:text-accent-green"
+                    href={`/blog/${post.slug}`}
+                  >
+                    Read note <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
+                  </Link>
+                </article>
+              </MotionWrapper>
+            ))}
+          </div>
+        )}
       </Container>
     </Section>
   )

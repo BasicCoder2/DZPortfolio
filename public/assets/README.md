@@ -67,6 +67,24 @@ links shared today render without a preview image.
 Ready but unused: blog posts have no cover-image field yet. Add one to
 `data/blog.ts` before putting files here.
 
+## `portrait/` — generated derivatives
+
+The files here are **produced by `pnpm images:optimize`**, not edited by hand.
+The full-resolution masters live in `assets-source/portrait/` — outside
+`public/`, so they are not uploaded on every deploy.
+
+| File                       | Purpose                          |
+| -------------------------- | -------------------------------- |
+| `daniel-zimba-hero.webp`   | Hero portrait (what the page loads) |
+| `daniel-zimba-hero.avif`   | Smaller alternative               |
+| `daniel-zimba-avatar.webp` | `/me` profile card               |
+| `daniel-zimba-avatar.avif` | Smaller alternative               |
+| `daniel-zimba-avatar.jpg`  | Original avatar (still the master) |
+
+The hero previously shipped as a 3.39 MB PNG for a frame never wider than about
+460 CSS pixels. The WebP is 56 KB. To change the sizes produced, edit `TARGETS`
+in `scripts/optimize-images.mjs` and re-run.
+
 ## `logos/` — client and employer marks
 
 Unused. SVG preferred so marks stay crisp and can inherit colour.

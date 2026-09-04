@@ -46,3 +46,9 @@ next-env.d.ts
 
 # Playwright MCP scratch output
 .playwright-mcp/
+
+# build output captured by hand (regenerate with `pnpm build`)
+build.log
+
+# vitest
+/coverage/

@@ -1,10 +1,30 @@
 # Architecture
 
+> **Content moved to a database.** Blog posts, projects, experience,
+> certifications and the Engagement pricing tiers are no longer static files —
+> they live in Supabase Postgres and are edited at `/admin`. The content flow,
+> the two Supabase clients, the caching strategy, the authorization layers and
+> the Markdown safety model are documented in
+> [`CONTENT_PLATFORM.md`](./CONTENT_PLATFORM.md); this file covers the
+> surrounding application structure.
+>
+> Two structural changes came with it and are easy to trip over:
+>
+> - Public routes moved into an `app/(site)/` route group so the admin area can
+>   have its own shell. Route groups contribute nothing to the URL, so every
+>   public path is unchanged.
+> - `app/layout.tsx` no longer exports `dynamic = 'force-static'`. On a root
+>   layout that forces `cookies()` to return empty values for the whole subtree,
+>   which is incompatible with an authenticated admin area. Public pages are
+>   still prerendered; content routes additionally opt into ISR.
+
 ## Overview
 
-DZPortfolio is a Next.js 16 App Router portfolio. The architecture is split into
-**infrastructure** (layout, navigation, styling, types) and **content** (Blog,
-Projects, About, Services, Contact — implemented incrementally).
+DZPortfolio is a Next.js 16 App Router portfolio with a small, single-
+administrator content platform behind it. The architecture is split into
+**infrastructure** (layout, navigation, styling, types), **public content**
+(read from the database, prerendered with incremental revalidation) and the
+**admin area** (dynamic, authenticated, authorized per request).
 
 ## Project Structure
 
@@ -28,6 +48,14 @@ Projects, About, Services, Contact — implemented incrementally).
 │   ├── motion/                 # Framer Motion variants/transitions/presets (barrel: lib/motion/index.ts)
 │   └── utils.ts                # `cn` (clsx + tailwind-merge)
 ├── types/                      # Shared TypeScript interfaces
+├── lib/actions/                # Server Actions (all admin mutations)
+├── lib/auth/                   # Authorization + safe redirect handling
+├── lib/content/                # Schemas, repositories, models, Markdown, cache
+├── lib/media/                  # Image validation and storage URL resolution
+├── lib/supabase/               # Three clients: public, server, proxy
+├── supabase/migrations/        # Version-controlled schema, RLS, storage
+├── tests/                      # Vitest suite
+├── proxy.ts                    # Next 16 proxy (was middleware): session refresh
 ├── content/                    # Static MDX content (awaiting files)
 │   ├── blog/
 │   └── projects/
