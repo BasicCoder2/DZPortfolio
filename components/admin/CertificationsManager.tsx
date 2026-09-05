@@ -83,14 +83,16 @@ export function CertificationsManager({ certifications }: { certifications: Cert
                 deleteAction={deleteCertificationAction}
                 deleteDescription="This cannot be undone. Any badge image is removed from storage too."
                 draftValue="false"
+                editExpanded={open === certification.id}
                 field="published"
                 id={certification.id}
                 isLive={certification.published}
                 liveValue="true"
                 name={certification.title}
-                publishLabel="Show"
+                publishLabel="Unhide"
                 statusAction={setCertificationVisibilityAction}
                 unpublishLabel="Hide"
+                onEdit={() => setOpen(open === certification.id ? null : certification.id)}
               />
             </AdminListRow>
           ))}

@@ -1,5 +1,6 @@
 'use client'
 
+import { siteConfig } from '@/data/site'
 import { useState } from 'react'
 import { m } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
@@ -24,7 +25,7 @@ export function Navigation() {
   const { isScrolled } = useNavigationState()
   const scrollProgress = useScrollProgress()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const resumeUrl = process.env.NEXT_PUBLIC_RESUME_URL || '/assets/cv/daniel-zimba-cv.pdf'
+  const resumeUrl = siteConfig.cvPath
 
   return (
     <>

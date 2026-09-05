@@ -1,5 +1,6 @@
 'use client'
 
+import { siteConfig } from '@/data/site'
 import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { m, AnimatePresence } from 'framer-motion'
@@ -29,7 +30,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   useScrollLock(isOpen)
 
   const { pathname, activeSection } = useNavigationState()
-  const resumeUrl = process.env.NEXT_PUBLIC_RESUME_URL || '/assets/cv/daniel-zimba-cv.pdf'
+  const resumeUrl = siteConfig.cvPath
   const panelRef = useRef<HTMLDivElement>(null)
   const previouslyFocused = useRef<HTMLElement | null>(null)
 

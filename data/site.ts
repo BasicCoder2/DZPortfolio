@@ -24,7 +24,7 @@ export const siteConfig: SiteConfig = {
     'React',
     'System Architecture',
   ],
-  cvPath: '/assets/cv/daniel-zimba-cv.pdf',
+  cvPath: '/cv',
 
   profile: {
     avatar: '/assets/portrait/daniel-zimba-avatar.webp',

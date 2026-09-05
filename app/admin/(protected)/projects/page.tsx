@@ -74,6 +74,7 @@ export default async function AdminProjectsPage() {
               <ContentRowActions
                 deleteAction={deleteProjectAction}
                 draftValue="draft"
+                editHref={`/admin/projects/${project.id}/edit`}
                 field="status"
                 id={project.id}
                 isLive={project.status === 'published'}

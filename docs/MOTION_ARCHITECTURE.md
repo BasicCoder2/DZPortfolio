@@ -68,6 +68,8 @@ lib/motion/
 - `staggerContainerFastVariants` — Fast stagger (nav, tags)
 - `StaggerChildren` + `StaggerItem` — One viewport observer per group; nested
   items inherit its timing without creating another observer
+- `SectionReveal` — One observer per content section. Its child reveals inherit
+  the section trigger, including after anchor navigation.
 
 ### Navigation
 

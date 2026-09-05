@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useReducedMotion } from 'framer-motion'
+import { m, useReducedMotion } from 'framer-motion'
 import {
   fadeLeftVariants,
   fadeRightVariants,
@@ -12,6 +12,7 @@ import {
 } from '@/lib/motion'
 import { cn } from '@/lib/utils'
 import type { PropsWithChildrenAndClassName } from '@/types'
+import { useSectionReveal } from './SectionReveal'
 
 interface StaggerChildrenProps extends PropsWithChildrenAndClassName {
   /** Stagger speed. Default: 'slow' (0.1s per child) */
@@ -54,7 +55,7 @@ export function StaggerItem({
 
   if (prefersReducedMotion) return <Tag className={className}>{children}</Tag>
 
-  const MotionItem = Tag === 'li' ? motion.li : motion.div
+  const MotionItem = Tag === 'li' ? m.li : m.div
   const childStagger =
     staggerChildren === 'fast'
       ? STAGGER_FAST
@@ -95,6 +96,7 @@ export function StaggerChildren({
   as: Tag = 'div',
 }: StaggerChildrenProps) {
   const prefersReducedMotion = useReducedMotion()
+  const sectionControlled = useSectionReveal()
 
   const variants = speed === 'fast' ? staggerContainerFastVariants : staggerContainerVariants
 
@@ -103,15 +105,15 @@ export function StaggerChildren({
   }
 
   return (
-    <motion.div
+    <m.div
       className={cn(className)}
-      initial="hidden"
+      initial={sectionControlled ? undefined : 'hidden'}
       variants={variants}
-      viewport={{ once: true, margin: '-50px' }}
-      whileInView="visible"
+      viewport={sectionControlled ? undefined : { once: true, margin: '-50px' }}
+      whileInView={sectionControlled ? undefined : 'visible'}
     >
       {children}
-    </motion.div>
+    </m.div>
   )
 }
 

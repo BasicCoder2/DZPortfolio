@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { m, useReducedMotion } from 'framer-motion'
 import { SPRING_SMOOTH } from '@/lib/motion'
 
 interface MotionBaseProps {
@@ -26,14 +26,14 @@ function FadeIn({ as = 'div', className, children }: FadeInProps) {
       </StaticElement>
     )
   return (
-    <motion.div
+    <m.div
       animate={{ opacity: 1, y: 0 }}
       className={className}
       initial={{ opacity: 0, y: 12 }}
       transition={SPRING_SMOOTH}
     >
       {children}
-    </motion.div>
+    </m.div>
   )
 }
 
@@ -47,7 +47,7 @@ function SlideIn({ direction = 'up', className, children }: SlideInProps) {
   const offset =
     direction === 'left' ? -16 : direction === 'right' ? 16 : direction === 'down' ? 16 : -16
   return (
-    <motion.div
+    <m.div
       animate={{ opacity: 1, x: 0, y: 0 }}
       className={className}
       initial={{
@@ -58,7 +58,7 @@ function SlideIn({ direction = 'up', className, children }: SlideInProps) {
       transition={SPRING_SMOOTH}
     >
       {children}
-    </motion.div>
+    </m.div>
   )
 }
 
@@ -68,14 +68,14 @@ function ScaleIn({ className, children }: ScaleInProps) {
   const shouldReduceMotion = useReducedMotion()
   if (shouldReduceMotion) return <div className={className}>{children}</div>
   return (
-    <motion.div
+    <m.div
       animate={{ opacity: 1, scale: 1 }}
       className={className}
       initial={{ opacity: 0, scale: 0.98 }}
       transition={SPRING_SMOOTH}
     >
       {children}
-    </motion.div>
+    </m.div>
   )
 }
 
@@ -87,7 +87,7 @@ function StaggerChildren({ className, children }: StaggerChildrenProps) {
   const shouldReduceMotion = useReducedMotion()
   if (shouldReduceMotion) return <div className={className}>{children}</div>
   return (
-    <motion.div
+    <m.div
       className={className}
       initial="hidden"
       variants={{
@@ -97,7 +97,7 @@ function StaggerChildren({ className, children }: StaggerChildrenProps) {
       whileInView="visible"
     >
       {children}
-    </motion.div>
+    </m.div>
   )
 }
 
@@ -107,7 +107,7 @@ function RevealOnScroll({ className, children }: RevealOnScrollProps) {
   const shouldReduceMotion = useReducedMotion()
   if (shouldReduceMotion) return <div className={className}>{children}</div>
   return (
-    <motion.div
+    <m.div
       animate={{ opacity: 1, y: 0 }}
       className={className}
       initial={{ opacity: 0, y: 16 }}
@@ -116,7 +116,7 @@ function RevealOnScroll({ className, children }: RevealOnScrollProps) {
       whileInView={{ opacity: 1, y: 0 }}
     >
       {children}
-    </motion.div>
+    </m.div>
   )
 }
 
@@ -126,13 +126,13 @@ function HoverLift({ className, children }: HoverLiftProps) {
   const shouldReduceMotion = useReducedMotion()
   if (shouldReduceMotion) return <div className={className}>{children}</div>
   return (
-    <motion.div
+    <m.div
       className={className}
       whileHover={{ y: -4, scale: 1.01 }}
       whileTap={{ scale: 0.99 }}
     >
       {children}
-    </motion.div>
+    </m.div>
   )
 }
 
@@ -142,9 +142,9 @@ function MagneticHover({ className, children }: MagneticHoverProps) {
   const shouldReduceMotion = useReducedMotion()
   if (shouldReduceMotion) return <div className={className}>{children}</div>
   return (
-    <motion.div className={className} whileHover={{ x: 0, y: -2 }}>
+    <m.div className={className} whileHover={{ x: 0, y: -2 }}>
       {children}
-    </motion.div>
+    </m.div>
   )
 }
 
