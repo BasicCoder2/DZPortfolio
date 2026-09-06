@@ -1,3 +1,4 @@
+import { siteConfig } from '@/data/site'
 import { ArrowUpRight, Download } from 'lucide-react'
 import Link from 'next/link'
 import { MotionWrapper } from '@/components/animations/MotionWrapper'
@@ -21,7 +22,7 @@ export function HeroActions() {
       <a
         download
         className={`${actionBase} border border-border-strong text-text-primary hover:bg-surface-muted group`}
-        href="/assets/cv/daniel-zimba-cv.pdf"
+        href={siteConfig.cvPath}
       >
         Download CV
         <Download

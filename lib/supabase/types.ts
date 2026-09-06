@@ -133,6 +133,10 @@ type TableDef<Row, Insert = Partial<Writable<Row>>> = {
 export type Database = {
   public: {
     Tables: {
+      site_cv: TableDef<
+        { id: string; path: string; filename: string; updated_at: string },
+        { id: string; path: string; filename: string; updated_at: string }
+      >
       profiles: TableDef<ProfileRow>
       posts: TableDef<PostRow, Writable<PostRow>>
       projects: TableDef<ProjectRow, Writable<ProjectRow>>

@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useReducedMotion } from 'framer-motion'
+import { m, useReducedMotion } from 'framer-motion'
 import { scaleInVariants } from '@/lib/motion'
 import { cn } from '@/lib/utils'
 import type { PropsWithChildrenAndClassName } from '@/types'
@@ -29,7 +29,7 @@ export function ScaleIn({ children, className, delay = 0 }: ScaleInProps) {
   }
 
   return (
-    <motion.div
+    <m.div
       className={cn(className)}
       initial="hidden"
       transition={{
@@ -43,7 +43,7 @@ export function ScaleIn({ children, className, delay = 0 }: ScaleInProps) {
       whileInView="visible"
     >
       {children}
-    </motion.div>
+    </m.div>
   )
 }
 

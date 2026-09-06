@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useReducedMotion } from 'framer-motion'
+import { m, useReducedMotion } from 'framer-motion'
 import { SPRING_SMOOTH } from '@/lib/motion'
 import { cn } from '@/lib/utils'
 import type { WithClassName } from '@/types'
@@ -48,7 +48,7 @@ export function RevealText({
     <Tag className={cn('flex flex-wrap gap-x-[0.25em]', className)}>
       {words.map((word, i) => (
         <span className="overflow-hidden inline-block" key={`${word}-${i}`}>
-          <motion.span
+          <m.span
             className="inline-block"
             initial={{ opacity: 0, y: '100%' }}
             transition={{
@@ -59,7 +59,7 @@ export function RevealText({
             whileInView={{ opacity: 1, y: '0%' }}
           >
             {word}
-          </motion.span>
+          </m.span>
         </span>
       ))}
     </Tag>

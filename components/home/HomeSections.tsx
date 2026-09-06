@@ -3,7 +3,7 @@ import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { ArrowUpRight, Building2, Globe2, Layers3, Smartphone, Sparkles } from 'lucide-react'
 import { Container, Section } from '@/components/layout'
-import { MotionWrapper } from '@/components/animations/MotionWrapper'
+import { MotionWrapper, StaggerChildren, StaggerItem } from '@/components/animations'
 import { Terminal, TechnologyRing, CommitGraph } from '@/components/motifs'
 import { ContactForm } from '@/components/contact'
 import { services } from '@/data/services'
@@ -60,7 +60,10 @@ export function AboutSection() {
               I’m Daniel Zimba, a Software Developer focused on building practical digital systems
               that solve real-world problems.
             </SectionIntro>
-            <div className="max-w-2xl space-y-5 text-lg leading-8 text-text-secondary">
+            <MotionWrapper
+              className="max-w-2xl space-y-5 text-lg leading-8 text-text-secondary"
+              variant="fadeUp"
+            >
               <p>
                 My work spans enterprise applications, web platforms, mobile development, AI-powered
                 systems, and IoT.
@@ -69,7 +72,7 @@ export function AboutSection() {
                 I enjoy turning complex requirements into software that is usable, maintainable, and
                 reliable.
               </p>
-            </div>
+            </MotionWrapper>
           </div>
           {/* w-full is required: justify-self-end makes the grid item shrink to
               fit its content, which collapsed the terminal to the width of its
@@ -90,14 +93,13 @@ export function ServicesSection() {
         <SectionIntro eyebrow="Capabilities" title="What I Build">
           Building enterprise systems, AI-powered applications and digital products.
         </SectionIntro>
-        <div className="divide-y divide-border border-y border-border">
+        <StaggerChildren className="divide-y divide-border border-y border-border" speed="fast">
           {services.map((service) => {
             const Icon = icons[service.icon as keyof typeof icons] ?? Layers3
             return (
-              <MotionWrapper
+              <StaggerItem
                 className="group grid gap-5 py-7 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] md:items-start md:gap-8"
                 key={service.id}
-                variant="fadeUp"
               >
                 <div>
                   <Icon
@@ -114,12 +116,12 @@ export function ServicesSection() {
                     ))}
                   </ul>
                 </div>
-              </MotionWrapper>
+              </StaggerItem>
             )
           })}
-        </div>
+        </StaggerChildren>
         <div className="mt-20 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.7fr)] lg:items-center">
-          <div>
+          <MotionWrapper variant="fadeLeft">
             <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
               A considered stack
             </p>
@@ -127,7 +129,7 @@ export function ServicesSection() {
             <p className="mt-4 max-w-lg text-text-secondary">
               The tools matter, but the system they help people use matters more.
             </p>
-          </div>
+          </MotionWrapper>
           <TechnologyRing />
         </div>
       </Container>
@@ -148,12 +150,11 @@ export async function PricingSection() {
         <SectionIntro eyebrow="Engagement" title="A useful way to start">
           Choose the level of clarity or delivery that matches where the work is today.
         </SectionIntro>
-        <div className="grid gap-8 lg:grid-cols-3 lg:gap-10">
+        <StaggerChildren className="grid gap-8 lg:grid-cols-3 lg:gap-10" speed="slow">
           {options.map((option) => (
-            <MotionWrapper
+            <StaggerItem
               className={`relative border-t-2 pt-6 ${option.recommended ? 'border-accent-green' : 'border-border-strong'}`}
               key={option.id}
-              variant="fadeUp"
             >
               {/* The badge straddles the column rule instead of sitting in the
                   flow, so all three headings keep full width and one baseline. */}
@@ -163,18 +164,16 @@ export async function PricingSection() {
                 </span>
               )}
               <h3 className="text-h3">{option.title}</h3>
-              <p className="mt-4 text-2xl font-semibold text-text-primary">
-                {option.priceDisplay}
-              </p>
+              <p className="mt-4 text-2xl font-semibold text-text-primary">{option.priceDisplay}</p>
               <p className="mt-4 text-text-secondary">{option.description}</p>
               <ul className="mt-6 space-y-2 text-sm text-text-tertiary">
                 {option.items.map((item) => (
                   <li key={item}>— {item}</li>
                 ))}
               </ul>
-            </MotionWrapper>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerChildren>
       </Container>
     </Section>
   )
@@ -182,7 +181,7 @@ export async function PricingSection() {
 
 function ProjectCard({ project, lead }: { project: Project; lead?: boolean }) {
   return (
-    <MotionWrapper className={lead ? 'md:col-span-2' : undefined} variant="fadeUp">
+    <div className={lead ? 'md:col-span-2' : undefined}>
       {/* The lead card splits horizontally rather than stacking, so spanning
           two columns doesn't hand the cover image half the section's height. */}
       <article
@@ -190,8 +189,9 @@ function ProjectCard({ project, lead }: { project: Project; lead?: boolean }) {
       >
         {/* Neutral fill behind the cover so a real screenshot that doesn't fill
             the frame (or carries transparency) still sits on a defined plane. */}
-        <div
+        <MotionWrapper
           className={`relative overflow-hidden bg-surface-muted border-border ${lead ? 'aspect-[16/9] border-b md:aspect-auto md:min-h-64 md:border-b-0 md:border-r' : 'aspect-[16/9] border-b'}`}
+          variant="fadeLeft"
         >
           {project.previewImageUrl ? (
             <Image
@@ -208,8 +208,11 @@ function ProjectCard({ project, lead }: { project: Project; lead?: boolean }) {
               </span>
             </div>
           )}
-        </div>
-        <div className={`p-6 md:p-7 ${lead ? 'md:flex md:flex-col md:justify-center' : ''}`}>
+        </MotionWrapper>
+        <MotionWrapper
+          className={`p-6 md:p-7 ${lead ? 'md:flex md:flex-col md:justify-center' : ''}`}
+          variant="fadeRight"
+        >
           <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
             {project.category}
           </p>
@@ -230,9 +233,9 @@ function ProjectCard({ project, lead }: { project: Project; lead?: boolean }) {
               className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
             />
           </Link>
-        </div>
+        </MotionWrapper>
       </article>
-    </MotionWrapper>
+    </div>
   )
 }
 
@@ -271,7 +274,7 @@ export async function ProjectsSection() {
           </Link>
         </div>
         <div className="mt-20 grid gap-8 border-t border-border pt-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)] lg:items-center">
-          <div>
+          <MotionWrapper variant="fadeLeft">
             <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
               Engineering in motion
             </p>
@@ -279,7 +282,7 @@ export async function ProjectsSection() {
             <p className="mt-4 text-text-secondary">
               The details of how a system evolves matter as much as its first release.
             </p>
-          </div>
+          </MotionWrapper>
           <CommitGraph />
         </div>
       </Container>
@@ -317,35 +320,46 @@ export async function ExperienceSection() {
     <Section>
       <Container>
         <SectionIntro eyebrow="Experience" title="Where the work has taken me" />
-        <div className="mx-auto max-w-4xl divide-y divide-border border-y border-border">
-          {entries.map((item) => (
-            <MotionWrapper
-              className="grid gap-4 py-8 md:grid-cols-[0.8fr_1.2fr] md:gap-10"
-              key={item.id}
-              variant="fadeUp"
-            >
-              <div>
-                {item.period !== '' && (
-                  <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
-                    {item.period}
-                  </p>
-                )}
-                <h3 className="mt-2 text-xl font-semibold">{item.organization}</h3>
-                {item.location !== '' && (
-                  <p className="mt-1 text-sm text-text-tertiary">{item.location}</p>
-                )}
-              </div>
-              <div>
-                <p className="text-lg text-text-primary">{item.role}</p>
-                {item.summary !== '' && <p className="mt-3 text-text-secondary">{item.summary}</p>}
-                <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-xs text-text-tertiary">
-                  {item.technologies.map((technology) => (
-                    <span key={technology}>{technology}</span>
-                  ))}
+        <div className="relative mx-auto max-w-4xl">
+          <MotionWrapper
+            aria-hidden="true"
+            className="absolute inset-y-0 left-0 w-px bg-accent-green/50"
+            variant="lineGrow"
+          />
+          <StaggerChildren
+            className="relative divide-y divide-border border-y border-border pl-6"
+            speed="slow"
+          >
+            {entries.map((item) => (
+              <StaggerItem
+                className="grid gap-4 py-8 md:grid-cols-[0.8fr_1.2fr] md:gap-10"
+                key={item.id}
+              >
+                <div>
+                  {item.period !== '' && (
+                    <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
+                      {item.period}
+                    </p>
+                  )}
+                  <h3 className="mt-2 text-xl font-semibold">{item.organization}</h3>
+                  {item.location !== '' && (
+                    <p className="mt-1 text-sm text-text-tertiary">{item.location}</p>
+                  )}
                 </div>
-              </div>
-            </MotionWrapper>
-          ))}
+                <div>
+                  <p className="text-lg text-text-primary">{item.role}</p>
+                  {item.summary !== '' && (
+                    <p className="mt-3 text-text-secondary">{item.summary}</p>
+                  )}
+                  <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-xs text-text-tertiary">
+                    {item.technologies.map((technology) => (
+                      <span key={technology}>{technology}</span>
+                    ))}
+                  </div>
+                </div>
+              </StaggerItem>
+            ))}
+          </StaggerChildren>
         </div>
       </Container>
     </Section>
@@ -385,12 +399,15 @@ export function TechnologiesSection() {
         <SectionIntro quiet eyebrow="Tools" title="Technologies">
           A practical stack shaped by the systems and products being built.
         </SectionIntro>
-        <div className="grid gap-x-10 gap-y-8 border-y border-border py-2 md:grid-cols-2 lg:grid-cols-3">
+        <StaggerChildren
+          className="grid gap-x-10 gap-y-8 border-y border-border py-2 md:grid-cols-2 lg:grid-cols-3"
+          speed="slow"
+        >
           {groups.map((group) => (
-            <MotionWrapper
+            <StaggerItem
               className="border-b border-border py-6 last:border-b-0"
               key={group.title}
-              variant="fadeUp"
+              staggerChildren="fast"
             >
               <h3 className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
                 {group.title}
@@ -417,12 +434,14 @@ export function TechnologiesSection() {
                       ].includes(name)
                   )
                   .map((name) => (
-                    <li key={name}>{name}</li>
+                    <StaggerItem as="li" key={name}>
+                      {name}
+                    </StaggerItem>
                   ))}
               </ul>
-            </MotionWrapper>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerChildren>
       </Container>
     </Section>
   )
@@ -437,12 +456,11 @@ export async function CertificationsSection() {
     <Section size="compact">
       <Container>
         <SectionIntro quiet eyebrow="Learning" title="Certifications" />
-        <div className="divide-y divide-border border-y border-border">
+        <StaggerChildren className="divide-y divide-border border-y border-border" speed="slow">
           {certifications.map((certification) => (
-            <MotionWrapper
+            <StaggerItem
               className="grid gap-2 py-6 md:grid-cols-[1fr_0.7fr_0.5fr] md:items-center"
               key={certification.id}
-              variant="fadeUp"
             >
               <p className="text-lg font-semibold">
                 {certification.credentialUrl ? (
@@ -462,9 +480,9 @@ export async function CertificationsSection() {
               <p className="font-mono text-xs uppercase tracking-[0.16em] text-text-tertiary md:text-right">
                 {certification.issuedLabel}
               </p>
-            </MotionWrapper>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerChildren>
       </Container>
     </Section>
   )
@@ -492,21 +510,42 @@ export async function BlogPreviewSection() {
             Notes are on the way.
           </p>
         ) : (
-          <div className="divide-y divide-border border-y border-border">
+          <StaggerChildren className="divide-y divide-border border-y border-border" speed="fast">
             {posts.map((post) => (
-              <MotionWrapper key={post.id} variant="fadeUp">
-                <article className="grid gap-4 py-7 md:grid-cols-[0.25fr_1fr_auto] md:items-center md:gap-8">
-                  <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
-                    {post.publishedAt
-                      ? new Date(post.publishedAt).toLocaleDateString('en-GB', {
-                          day: 'numeric',
-                          month: 'short',
-                          year: 'numeric',
-                        })
-                      : ''}
-                  </p>
-                  <div>
-                    <h3 className="text-h3">{post.title}</h3>
+              <StaggerItem key={post.id} variant="fadeLeft">
+                <article
+                  className={`grid gap-5 py-7 md:items-center md:gap-8 ${post.coverImageUrl ? 'md:grid-cols-[15rem_1fr_auto]' : 'md:grid-cols-[1fr_auto]'}`}
+                >
+                  {post.coverImageUrl && (
+                    <Link
+                      aria-label={`Read ${post.title}`}
+                      className="group relative block aspect-video overflow-hidden rounded-lg border border-border bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-green"
+                      href={`/blog/${post.slug}`}
+                    >
+                      <Image
+                        fill
+                        alt={post.coverImageAlt ?? ''}
+                        className="object-cover transition-transform duration-300 motion-safe:group-hover:scale-[1.03]"
+                        sizes="(max-width: 767px) 100vw, 240px"
+                        src={post.coverImageUrl}
+                      />
+                    </Link>
+                  )}
+                  <div className="min-w-0">
+                    <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
+                      {post.publishedAt
+                        ? new Date(post.publishedAt).toLocaleDateString('en-GB', {
+                            day: 'numeric',
+                            month: 'short',
+                            year: 'numeric',
+                          })
+                        : ''}
+                    </p>
+                    <h3 className="mt-3 text-h3">
+                      <Link className="hover:text-accent-green" href={`/blog/${post.slug}`}>
+                        {post.title}
+                      </Link>
+                    </h3>
                     <p className="mt-2 text-text-secondary">{post.excerpt}</p>
                   </div>
                   <Link
@@ -516,9 +555,9 @@ export async function BlogPreviewSection() {
                     Read note <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
                   </Link>
                 </article>
-              </MotionWrapper>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerChildren>
         )}
       </Container>
     </Section>
@@ -535,7 +574,7 @@ export function ContactSection() {
               I’m open to software development opportunities, collaborations, and projects where
               thoughtful engineering can make a practical difference.
             </SectionIntro>
-            <div className="space-y-3 text-text-secondary">
+            <MotionWrapper className="space-y-3 text-text-secondary" variant="fadeLeft">
               <a className="block hover:text-accent-green" href={`mailto:${CONTACT_EMAIL}`}>
                 {CONTACT_EMAIL}
               </a>
@@ -550,13 +589,13 @@ export function ContactSection() {
                   {social.name}
                 </a>
               ))}
-            </div>
+            </MotionWrapper>
           </div>
           {/* The section sits on the surface plane, so the form has to rise to
               the elevated one to stay legible as a distinct panel. */}
           <MotionWrapper
             className="rounded-xl border border-border bg-surface-elevated p-6 shadow-card md:p-8"
-            variant="fadeUp"
+            variant="fadeRight"
           >
             <ContactForm />
           </MotionWrapper>

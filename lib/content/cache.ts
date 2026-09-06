@@ -44,6 +44,8 @@ function revalidateSitemap(): void {
 }
 
 export function revalidatePosts(slug?: string): void {
+  revalidatePath('/admin')
+  revalidatePath('/admin/blog')
   revalidatePath('/') // homepage "Latest Blog Posts"
   revalidatePath('/blog')
   // 'page' with the route pattern refreshes every rendered instance, which is
@@ -54,6 +56,8 @@ export function revalidatePosts(slug?: string): void {
 }
 
 export function revalidateProjects(slug?: string): void {
+  revalidatePath('/admin')
+  revalidatePath('/admin/projects')
   revalidatePath('/') // homepage featured grid
   revalidatePath('/projects')
   revalidatePath('/projects/[slug]', 'page')
@@ -63,5 +67,9 @@ export function revalidateProjects(slug?: string): void {
 
 /** Experience, certifications and engagement all render on the homepage only. */
 export function revalidateHomeSections(): void {
+  revalidatePath('/admin')
+  revalidatePath('/admin/experience')
+  revalidatePath('/admin/certifications')
+  revalidatePath('/admin/engagement')
   revalidatePath('/')
 }

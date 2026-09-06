@@ -69,6 +69,7 @@ export default async function AdminBlogPage() {
               <ContentRowActions
                 deleteAction={deletePostAction}
                 draftValue="draft"
+                editHref={`/admin/blog/${post.id}/edit`}
                 field="status"
                 id={post.id}
                 isLive={post.status === 'published'}

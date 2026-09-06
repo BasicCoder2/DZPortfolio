@@ -93,14 +93,16 @@ export function ExperienceManager({ entries }: { entries: ExperienceEntry[] }) {
                 deleteAction={deleteExperienceAction}
                 deleteDescription="This cannot be undone. The entry is removed from the homepage timeline."
                 draftValue="false"
+                editExpanded={open === entry.id}
                 field="published"
                 id={entry.id}
                 isLive={entry.published}
                 liveValue="true"
                 name={`${entry.role} at ${entry.organization}`}
-                publishLabel="Show"
+                publishLabel="Unhide"
                 statusAction={setExperienceVisibilityAction}
                 unpublishLabel="Hide"
+                onEdit={() => setOpen(open === entry.id ? null : entry.id)}
               />
             </AdminListRow>
           ))}

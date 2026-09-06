@@ -29,12 +29,16 @@ function supabaseImagePattern() {
       },
     ]
   } catch {
-    console.warn('[next.config] NEXT_PUBLIC_SUPABASE_URL is not a valid URL; no remote image host configured.')
+    console.warn(
+      '[next.config] NEXT_PUBLIC_SUPABASE_URL is not a valid URL; no remote image host configured.'
+    )
     return []
   }
 }
 
 const nextConfig: NextConfig = {
+  // Allow a 5 MB image plus multipart form overhead.
+  experimental: { serverActions: { bodySizeLimit: '6mb' } },
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
 
   // Permit development access through this machine's loopback and LAN hosts.

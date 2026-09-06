@@ -3,7 +3,7 @@
 import { useId, useRef, useState, useTransition } from 'react'
 import { cn } from '@/lib/utils'
 import { uploadImageAction, type UploadState } from '@/lib/actions/media'
-import { ALLOWED_IMAGE_TYPES, MAX_IMAGE_BYTES } from '@/lib/media/images'
+import { ALLOWED_IMAGE_TYPES, MAX_IMAGE_BYTES, validateImage } from '@/lib/media/images'
 import { TextField } from '@/components/admin/form-controls'
 
 /**
@@ -63,17 +63,32 @@ export function ImageField({
     formData.set('file', file)
 
     startTransition(async () => {
-      const result = await uploadImageAction(idleUpload, formData)
-      if (result.status === 'success' && result.path) {
-        setPath(result.path)
-        setUrl(result.url ?? '')
-        setFailed(false)
-        setMessage('Image uploaded. It is attached when you save this record.')
-      } else {
+      try {
+        const header = new Uint8Array(await file.slice(0, 16).arrayBuffer())
+        const validation = validateImage(file.type, file.size, header)
+        if (!validation.ok) {
+          setFailed(true)
+          setMessage(validation.message)
+          return
+        }
+        const result = await uploadImageAction(idleUpload, formData)
+        if (result.status === 'success' && result.path) {
+          setPath(result.path)
+          setUrl(result.url ?? '')
+          setFailed(false)
+          setMessage('Image uploaded. It is attached when you save this record.')
+        } else {
+          setFailed(true)
+          setMessage(result.message || 'That image could not be uploaded.')
+        }
+      } catch {
         setFailed(true)
-        setMessage(result.message || 'That image could not be uploaded.')
+        setMessage(
+          'The upload request failed. Check your connection and try again. If this continues, check the server upload limit and restart the dev server.'
+        )
+      } finally {
+        if (fileInput.current) fileInput.current.value = ''
       }
-      if (fileInput.current) fileInput.current.value = ''
     })
   }
 
@@ -156,6 +171,7 @@ export function ImageField({
           {path !== '' && (
             <button
               className="self-start text-xs text-text-tertiary underline-offset-4 hover:text-[var(--danger)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2"
+              disabled={pending}
               type="button"
               onClick={clear}
             >

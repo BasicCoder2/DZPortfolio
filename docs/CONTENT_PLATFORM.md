@@ -243,3 +243,7 @@ of it was carried across as text:
 
 See `scripts/legacy-content.json` for the frozen snapshot and the reasoning
 recorded alongside it.
+
+## Updating the downloadable CV
+
+See [CV hosting setup](CV_HOSTING.md). Admin > CV uploads a PDF to Supabase Storage and switches the shared `/cv` download link without a redeploy.

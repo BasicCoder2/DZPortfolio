@@ -9,6 +9,7 @@ import {
   fadeLeftPreset,
   fadeRightPreset,
   scaleInPreset,
+  lineGrowPreset,
   footerPreset,
   heroEyebrowPreset,
   heroTitlePreset,
@@ -17,6 +18,7 @@ import {
   heroActionsPreset,
   heroPortraitPreset,
 } from '@/lib/motion'
+import { useSectionReveal } from './SectionReveal'
 
 const PRESETS = {
   fadeUp: fadeUpPreset,
@@ -24,6 +26,7 @@ const PRESETS = {
   fadeLeft: fadeLeftPreset,
   fadeRight: fadeRightPreset,
   scaleIn: scaleInPreset,
+  lineGrow: lineGrowPreset,
   footer: footerPreset,
   heroEyebrow: heroEyebrowPreset,
   heroTitle: heroTitlePreset,
@@ -59,6 +62,7 @@ export function MotionWrapper<T extends ElementType = 'div'>({
 }: Props<T>) {
   const Component = as || 'div'
   const prefersReducedMotion = useReducedMotion()
+  const sectionControlled = useSectionReveal()
   const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
@@ -85,9 +89,14 @@ export function MotionWrapper<T extends ElementType = 'div'>({
   const MotionComponent =
     (m as unknown as Record<string, typeof m.div>)[Component as string] ?? m.div
   const preset = PRESETS[variant]
+  const inheritsSectionTrigger = sectionControlled && 'whileInView' in preset
 
   return (
-    <MotionComponent className={className} {...preset} {...props}>
+    <MotionComponent
+      className={className}
+      {...(inheritsSectionTrigger ? { variants: preset.variants } : preset)}
+      {...props}
+    >
       {children}
     </MotionComponent>
   )

@@ -57,8 +57,8 @@ export const EASE_EXPO = [0.16, 1, 0.3, 1] as const
  * Good for: navigation items, tag lists, icon rows.
  */
 export const STAGGER_FAST = {
-  staggerChildren: 0.05,
-  delayChildren: 0.1,
+  staggerChildren: 0.06,
+  delayChildren: 0.12,
 } as const
 
 /**
@@ -66,8 +66,8 @@ export const STAGGER_FAST = {
  * Good for: section cards, project grids, experience entries.
  */
 export const STAGGER_SLOW = {
-  staggerChildren: 0.1,
-  delayChildren: 0.2,
+  staggerChildren: 0.08,
+  delayChildren: 0.16,
 } as const
 
 /**

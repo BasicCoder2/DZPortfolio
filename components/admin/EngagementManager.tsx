@@ -97,14 +97,16 @@ export function EngagementManager({ options }: { options: EngagementOption[] }) 
                 deleteAction={deleteEngagementAction}
                 deleteDescription="This cannot be undone. The tier disappears from the Engagement section."
                 draftValue="false"
+                editExpanded={open === option.id}
                 field="published"
                 id={option.id}
                 isLive={option.published}
                 liveValue="true"
                 name={option.title}
-                publishLabel="Show"
+                publishLabel="Unhide"
                 statusAction={setEngagementVisibilityAction}
                 unpublishLabel="Hide"
+                onEdit={() => setOpen(open === option.id ? null : option.id)}
               />
             </AdminListRow>
           ))}

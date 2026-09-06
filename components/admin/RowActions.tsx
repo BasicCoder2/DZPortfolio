@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState, useEffect, useState } from 'react'
+import { startTransition, useActionState, useEffect, useState } from 'react'
 import { AlertDialog } from '@/components/ui/alert-dialog'
 import { SubmitButton } from '@/components/admin/form-controls'
 import { idleFormState, type FormState } from '@/lib/actions/state'
@@ -115,7 +115,7 @@ export function ConfirmDeleteForm({
           setSubmitting(true)
           const formData = new FormData()
           formData.set('id', id)
-          formAction(formData)
+          startTransition(() => formAction(formData))
           setOpen(false)
         }}
         onOpenChange={setOpen}

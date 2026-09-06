@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import {
   ConfirmDeleteForm,
   RowFeedback,
@@ -32,6 +33,9 @@ export function ContentRowActions({
   statusAction,
   deleteAction,
   deleteDescription,
+  editHref,
+  onEdit,
+  editExpanded,
 }: {
   id: string
   name: string
@@ -44,12 +48,34 @@ export function ContentRowActions({
   statusAction: RowAction
   deleteAction: RowAction
   deleteDescription?: string
+  editHref?: string
+  onEdit?: () => void
+  editExpanded?: boolean
 }) {
   const [feedback, setFeedback] = useState<FormState | null>(null)
 
   return (
     <div className="flex flex-col items-end gap-2">
       <div className="flex flex-wrap items-center gap-2">
+        {editHref ? (
+          <Link
+            aria-label={`Edit ${name}`}
+            className="rounded-md border border-border px-3 py-2 text-sm font-medium hover:bg-surface-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+            href={editHref}
+          >
+            Edit
+          </Link>
+        ) : onEdit ? (
+          <button
+            aria-expanded={editExpanded}
+            aria-label={`Edit ${name}`}
+            className="rounded-md border border-border px-3 py-2 text-sm font-medium hover:bg-surface-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+            type="button"
+            onClick={onEdit}
+          >
+            Edit
+          </button>
+        ) : null}
         <StatusToggleForm
           action={statusAction}
           draftValue={draftValue}
