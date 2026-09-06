@@ -513,18 +513,39 @@ export async function BlogPreviewSection() {
           <StaggerChildren className="divide-y divide-border border-y border-border" speed="fast">
             {posts.map((post) => (
               <StaggerItem key={post.id} variant="fadeLeft">
-                <article className="grid gap-4 py-7 md:grid-cols-[0.25fr_1fr_auto] md:items-center md:gap-8">
-                  <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
-                    {post.publishedAt
-                      ? new Date(post.publishedAt).toLocaleDateString('en-GB', {
-                          day: 'numeric',
-                          month: 'short',
-                          year: 'numeric',
-                        })
-                      : ''}
-                  </p>
-                  <div>
-                    <h3 className="text-h3">{post.title}</h3>
+                <article
+                  className={`grid gap-5 py-7 md:items-center md:gap-8 ${post.coverImageUrl ? 'md:grid-cols-[15rem_1fr_auto]' : 'md:grid-cols-[1fr_auto]'}`}
+                >
+                  {post.coverImageUrl && (
+                    <Link
+                      aria-label={`Read ${post.title}`}
+                      className="group relative block aspect-video overflow-hidden rounded-lg border border-border bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-green"
+                      href={`/blog/${post.slug}`}
+                    >
+                      <Image
+                        fill
+                        alt={post.coverImageAlt ?? ''}
+                        className="object-cover transition-transform duration-300 motion-safe:group-hover:scale-[1.03]"
+                        sizes="(max-width: 767px) 100vw, 240px"
+                        src={post.coverImageUrl}
+                      />
+                    </Link>
+                  )}
+                  <div className="min-w-0">
+                    <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
+                      {post.publishedAt
+                        ? new Date(post.publishedAt).toLocaleDateString('en-GB', {
+                            day: 'numeric',
+                            month: 'short',
+                            year: 'numeric',
+                          })
+                        : ''}
+                    </p>
+                    <h3 className="mt-3 text-h3">
+                      <Link className="hover:text-accent-green" href={`/blog/${post.slug}`}>
+                        {post.title}
+                      </Link>
+                    </h3>
                     <p className="mt-2 text-text-secondary">{post.excerpt}</p>
                   </div>
                   <Link

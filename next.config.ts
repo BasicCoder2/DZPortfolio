@@ -37,7 +37,8 @@ function supabaseImagePattern() {
 }
 
 const nextConfig: NextConfig = {
-  experimental: { serverActions: { bodySizeLimit: '4mb' } },
+  // Allow a 5 MB image plus multipart form overhead.
+  experimental: { serverActions: { bodySizeLimit: '6mb' } },
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
 
   // Permit development access through this machine's loopback and LAN hosts.

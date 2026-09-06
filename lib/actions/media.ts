@@ -70,7 +70,21 @@ export async function uploadImageAction(
 
   if (error) {
     console.error(`[media] upload failed: ${error.message}`)
-    return errorState('That image could not be uploaded. Try again.')
+    const reason = error.message
+    let guidance = 'Try again. If it still fails, share this message.'
+    if (/row.level security|unauthorized|access denied|permission/i.test(reason)) {
+      guidance =
+        'Check the content-images upload policies and that your profile has is_admin enabled.'
+    } else if (/mime|content.type/i.test(reason)) {
+      guidance =
+        'Check that content-images allows JPEG, PNG, WebP, AVIF and GIF, as well as PDF for your CV.'
+    } else if (/bucket.*not found|bucket.*does not exist/i.test(reason)) {
+      guidance =
+        'Check that the content-images bucket exists in the Supabase project configured for this app.'
+    } else if (/size|too large|exceeded/i.test(reason)) {
+      guidance = 'Check that the content-images bucket permits images up to 5 MB.'
+    }
+    return errorState(`Image upload failed: ${reason}. ${guidance}`)
   }
 
   return {

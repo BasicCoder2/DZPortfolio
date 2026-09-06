@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowUpRight } from 'lucide-react'
 import { Container, Section } from '@/components/layout'
 import { listPublishedPosts } from '@/lib/content/repositories'
@@ -29,7 +30,7 @@ export default async function BlogPage() {
 
   return (
     <Section>
-      <Container size="prose">
+      <Container className="max-w-5xl">
         <header className="max-w-2xl">
           <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">Notes</p>
           <h1 className="mt-3 text-display-lg">Blog</h1>
@@ -46,6 +47,21 @@ export default async function BlogPage() {
           <div className="mt-16 divide-y divide-border border-y border-border">
             {posts.map((post) => (
               <article className="py-8" key={post.id}>
+                {post.coverImageUrl && (
+                  <Link
+                    aria-label={`Read ${post.title}`}
+                    className="group relative mb-7 block aspect-video overflow-hidden rounded-xl border border-border bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-green"
+                    href={`/blog/${post.slug}`}
+                  >
+                    <Image
+                      fill
+                      alt={post.coverImageAlt ?? ''}
+                      className="object-cover transition-transform duration-300 motion-safe:group-hover:scale-[1.03]"
+                      sizes="(max-width: 1024px) 100vw, 960px"
+                      src={post.coverImageUrl}
+                    />
+                  </Link>
+                )}
                 <div className="flex flex-wrap items-center gap-4 font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
                   <span>
                     {post.publishedAt
@@ -58,7 +74,11 @@ export default async function BlogPage() {
                   </span>
                   <span className="text-text-tertiary">{post.readingTime}</span>
                 </div>
-                <h2 className="mt-4 text-h3">{post.title}</h2>
+                <h2 className="mt-4 text-h3">
+                  <Link className="hover:text-accent-green" href={`/blog/${post.slug}`}>
+                    {post.title}
+                  </Link>
+                </h2>
                 {post.excerpt !== '' && (
                   <p className="mt-3 text-lg leading-8 text-text-secondary">{post.excerpt}</p>
                 )}
