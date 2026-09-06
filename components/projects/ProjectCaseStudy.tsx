@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import { ContentImage } from '@/components/ui/content-image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { Container, Section } from '@/components/layout'
@@ -65,7 +65,7 @@ export function ProjectCaseStudy({
 
         {project.previewImageUrl && (
           <figure className="relative mt-12 aspect-[16/9] overflow-hidden rounded-md border border-border">
-            <Image
+            <ContentImage
               fill
               priority
               alt={project.previewImageAlt ?? ''}

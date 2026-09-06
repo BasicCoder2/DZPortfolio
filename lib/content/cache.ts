@@ -46,6 +46,7 @@ function revalidateSitemap(): void {
 export function revalidatePosts(slug?: string): void {
   revalidatePath('/admin')
   revalidatePath('/admin/blog')
+  revalidatePath('/admin/blog/[id]/edit', 'page')
   revalidatePath('/') // homepage "Latest Blog Posts"
   revalidatePath('/blog')
   // 'page' with the route pattern refreshes every rendered instance, which is
@@ -58,6 +59,7 @@ export function revalidatePosts(slug?: string): void {
 export function revalidateProjects(slug?: string): void {
   revalidatePath('/admin')
   revalidatePath('/admin/projects')
+  revalidatePath('/admin/projects/[id]/edit', 'page')
   revalidatePath('/') // homepage featured grid
   revalidatePath('/projects')
   revalidatePath('/projects/[slug]', 'page')

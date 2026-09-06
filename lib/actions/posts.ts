@@ -27,6 +27,10 @@ export async function savePostAction(_previous: FormState, formData: FormData): 
   const auth = await requireAdminForAction()
   if (!auth.ok) return errorState(auth.message)
 
+  if (formData.get('imageUploadPending') === 'true') {
+    return errorState('Wait for the image upload to finish, then save again.')
+  }
+
   const parsed = postSchema.safeParse({
     title: field(formData, 'title'),
     slug: field(formData, 'slug'),
@@ -58,7 +62,16 @@ export async function savePostAction(_previous: FormState, formData: FormData): 
 
   const recordId = parseId(formData)
   const previousSlug = field(formData, 'previousSlug')
-  const previousImagePath = field(formData, 'previousCoverImagePath')
+  let previousImagePath: string | null = null
+  if (recordId !== null) {
+    const { data: previous, error: readError } = await auth.context.supabase
+      .from('posts')
+      .select('cover_image_path')
+      .eq('id', recordId)
+      .single()
+    if (readError) return toFormState(readError, 'post')
+    previousImagePath = previous.cover_image_path
+  }
 
   if (recordId === null) {
     const { data, error } = await auth.context.supabase

@@ -70,6 +70,7 @@ export function PostForm({ post }: { post: Post | null }) {
         defaultPath={post?.coverImagePath ?? null}
         defaultUrl={post?.coverImageUrl ?? null}
         folder="posts"
+        key={post?.coverImagePath ?? 'no-cover'}
         label="Cover image"
         pathName="coverImagePath"
       />

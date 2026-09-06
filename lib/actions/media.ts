@@ -109,6 +109,15 @@ export async function deleteStoredImage(path: string | null | undefined): Promis
   const auth = await requireAdminForAction()
   if (!auth.ok) return
 
+  // A saved record may still use the file (including a save from another tab).
+  // Fail closed on read errors rather than risk removing a live image.
+  const references = await Promise.all([
+    auth.context.supabase.from('posts').select('id').eq('cover_image_path', path).limit(1),
+    auth.context.supabase.from('projects').select('id').eq('preview_image_path', path).limit(1),
+    auth.context.supabase.from('certifications').select('id').eq('image_path', path).limit(1),
+  ])
+  if (references.some(({ data, error }) => error || !data || data.length > 0)) return
+
   const { error } = await auth.context.supabase.storage.from(IMAGE_BUCKET).remove([path])
   if (error) {
     // Non-fatal on purpose: the record already saved correctly, and a stranded

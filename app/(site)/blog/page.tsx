@@ -1,7 +1,5 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
-import Image from 'next/image'
-import { ArrowUpRight } from 'lucide-react'
+import { PostPreview } from '@/components/blog/PostPreview'
 import { Container, Section } from '@/components/layout'
 import { listPublishedPosts } from '@/lib/content/repositories'
 import { constructMetadata } from '@/lib/metadata'
@@ -27,10 +25,11 @@ export const revalidate = 300
 
 export default async function BlogPage() {
   const posts = await listPublishedPosts()
+  const [latest, ...olderPosts] = posts
 
   return (
-    <Section>
-      <Container className="max-w-5xl">
+    <Section size="compact">
+      <Container>
         <header className="max-w-2xl">
           <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">Notes</p>
           <h1 className="mt-3 text-display-lg">Blog</h1>
@@ -39,57 +38,28 @@ export default async function BlogPage() {
           </p>
         </header>
 
-        {posts.length === 0 ? (
-          <p className="mt-16 border-y border-border py-12 text-lg text-text-secondary">
+        {!latest ? (
+          <p className="mt-10 border-y border-border py-12 text-lg text-text-secondary">
             Nothing published yet. Notes are on the way.
           </p>
         ) : (
-          <div className="mt-16 divide-y divide-border border-y border-border">
-            {posts.map((post) => (
-              <article className="py-8" key={post.id}>
-                {post.coverImageUrl && (
-                  <Link
-                    aria-label={`Read ${post.title}`}
-                    className="group relative mb-7 block aspect-video overflow-hidden rounded-xl border border-border bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-green"
-                    href={`/blog/${post.slug}`}
-                  >
-                    <Image
-                      fill
-                      alt={post.coverImageAlt ?? ''}
-                      className="object-cover transition-transform duration-300 motion-safe:group-hover:scale-[1.03]"
-                      sizes="(max-width: 1024px) 100vw, 960px"
-                      src={post.coverImageUrl}
-                    />
-                  </Link>
-                )}
-                <div className="flex flex-wrap items-center gap-4 font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
-                  <span>
-                    {post.publishedAt
-                      ? new Date(post.publishedAt).toLocaleDateString('en-GB', {
-                          day: 'numeric',
-                          month: 'long',
-                          year: 'numeric',
-                        })
-                      : ''}
-                  </span>
-                  <span className="text-text-tertiary">{post.readingTime}</span>
-                </div>
-                <h2 className="mt-4 text-h3">
-                  <Link className="hover:text-accent-green" href={`/blog/${post.slug}`}>
-                    {post.title}
-                  </Link>
-                </h2>
-                {post.excerpt !== '' && (
-                  <p className="mt-3 text-lg leading-8 text-text-secondary">{post.excerpt}</p>
-                )}
-                <Link
-                  className="mt-6 inline-flex items-center gap-2 border-b border-border-strong pb-2 font-medium hover:border-accent-green hover:text-accent-green"
-                  href={`/blog/${post.slug}`}
+          <div className="mt-10 space-y-12">
+            <PostPreview featured post={latest} />
+            {olderPosts.length > 0 && (
+              <section aria-labelledby="more-articles">
+                <h2
+                  className="mb-6 font-mono text-sm uppercase tracking-[0.16em] text-text-secondary"
+                  id="more-articles"
                 >
-                  Read note <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
-                </Link>
-              </article>
-            ))}
+                  More articles
+                </h2>
+                <div className="grid gap-6 md:grid-cols-2">
+                  {olderPosts.map((post) => (
+                    <PostPreview key={post.id} post={post} />
+                  ))}
+                </div>
+              </section>
+            )}
           </div>
         )}
       </Container>

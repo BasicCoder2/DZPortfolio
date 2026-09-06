@@ -1,4 +1,5 @@
-import Image from 'next/image'
+import { ContentImage } from '@/components/ui/content-image'
+import { PostCover } from '@/components/blog/PostCover'
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { ArrowUpRight, Building2, Globe2, Layers3, Smartphone, Sparkles } from 'lucide-react'
@@ -194,7 +195,7 @@ function ProjectCard({ project, lead }: { project: Project; lead?: boolean }) {
           variant="fadeLeft"
         >
           {project.previewImageUrl ? (
-            <Image
+            <ContentImage
               fill
               alt={project.previewImageAlt ?? ''}
               className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
@@ -517,19 +518,13 @@ export async function BlogPreviewSection() {
                   className={`grid gap-5 py-7 md:items-center md:gap-8 ${post.coverImageUrl ? 'md:grid-cols-[15rem_1fr_auto]' : 'md:grid-cols-[1fr_auto]'}`}
                 >
                   {post.coverImageUrl && (
-                    <Link
-                      aria-label={`Read ${post.title}`}
-                      className="group relative block aspect-video overflow-hidden rounded-lg border border-border bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-green"
-                      href={`/blog/${post.slug}`}
-                    >
-                      <Image
-                        fill
+                    <div className="group relative block aspect-video overflow-hidden rounded-lg border border-border bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-green">
+                      <PostCover
                         alt={post.coverImageAlt ?? ''}
-                        className="object-cover transition-transform duration-300 motion-safe:group-hover:scale-[1.03]"
                         sizes="(max-width: 767px) 100vw, 240px"
                         src={post.coverImageUrl}
                       />
-                    </Link>
+                    </div>
                   )}
                   <div className="min-w-0">
                     <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">

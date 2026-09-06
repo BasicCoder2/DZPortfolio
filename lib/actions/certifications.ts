@@ -17,6 +17,10 @@ export async function saveCertificationAction(
   const auth = await requireAdminForAction()
   if (!auth.ok) return errorState(auth.message)
 
+  if (formData.get('imageUploadPending') === 'true') {
+    return errorState('Wait for the image upload to finish, then save again.')
+  }
+
   const parsed = certificationSchema.safeParse({
     title: field(formData, 'title'),
     issuer: field(formData, 'issuer'),
@@ -47,7 +51,16 @@ export async function saveCertificationAction(
   }
 
   const recordId = parseId(formData)
-  const previousImagePath = field(formData, 'previousImagePath')
+  let previousImagePath: string | null = null
+  if (recordId !== null) {
+    const { data: previous, error: readError } = await auth.context.supabase
+      .from('certifications')
+      .select('image_path')
+      .eq('id', recordId)
+      .single()
+    if (readError) return toFormState(readError, 'certification')
+    previousImagePath = previous.image_path
+  }
 
   const { error } =
     recordId === null

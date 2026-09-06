@@ -111,6 +111,7 @@ export function ProjectForm({ project }: { project: Project | null }) {
         defaultPath={project?.previewImagePath ?? null}
         defaultUrl={project?.previewImageUrl ?? null}
         folder="projects"
+        key={project?.previewImagePath ?? 'no-preview'}
         label="Preview image"
         pathName="previewImagePath"
       />

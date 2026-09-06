@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import { ContentImage } from '@/components/ui/content-image'
 import Link from 'next/link'
 import { Container, Section } from '@/components/layout'
 import { Markdown } from '@/lib/content/markdown'
@@ -50,7 +50,7 @@ export function PostArticle({ post, preview }: { post: Post; preview?: boolean }
                 a fixed-ratio frame is what lets this go through the optimizer
                 at all. The ratio is the site's, not the file's — a cover is a
                 crop, and letterboxing an arbitrary upload would look worse. */}
-            <Image
+            <ContentImage
               fill
               alt={post.coverImageAlt ?? ''}
               className="object-cover"

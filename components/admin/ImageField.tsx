@@ -2,7 +2,7 @@
 
 import { useId, useRef, useState, useTransition } from 'react'
 import { cn } from '@/lib/utils'
-import { uploadImageAction, type UploadState } from '@/lib/actions/media'
+import { deleteStoredImage, uploadImageAction, type UploadState } from '@/lib/actions/media'
 import { ALLOWED_IMAGE_TYPES, MAX_IMAGE_BYTES, validateImage } from '@/lib/media/images'
 import { TextField } from '@/components/admin/form-controls'
 
@@ -77,6 +77,10 @@ export function ImageField({
           setUrl(result.url ?? '')
           setFailed(false)
           setMessage('Image uploaded. It is attached when you save this record.')
+          if (path && path !== defaultPath && path !== result.path) {
+            // Cleanup is best effort; the new upload remains usable if it fails.
+            await deleteStoredImage(path).catch(() => {})
+          }
         } else {
           setFailed(true)
           setMessage(result.message || 'That image could not be uploaded.')
@@ -93,6 +97,11 @@ export function ImageField({
   }
 
   function clear() {
+    if (path && path !== defaultPath) {
+      startTransition(async () => {
+        await deleteStoredImage(path).catch(() => {})
+      })
+    }
     setPath('')
     setUrl('')
     setFailed(false)
@@ -110,6 +119,7 @@ export function ImageField({
 
       {/* What actually gets submitted with the record. */}
       <input name={pathName} type="hidden" value={path} />
+      <input name="imageUploadPending" type="hidden" value={String(pending)} />
       <input
         name={`previous${pathName.charAt(0).toUpperCase()}${pathName.slice(1)}`}
         type="hidden"

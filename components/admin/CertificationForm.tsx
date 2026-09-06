@@ -87,6 +87,7 @@ export function CertificationForm({
         defaultUrl={certification?.imageUrl ?? null}
         folder="certifications"
         hint="Optional badge or certificate image."
+        key={certification?.imagePath ?? 'no-image'}
         label="Badge image"
         pathName="imagePath"
       />

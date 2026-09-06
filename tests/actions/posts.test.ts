@@ -171,6 +171,34 @@ describe('create', () => {
 })
 
 describe('update', () => {
+  it('refuses saving while an image upload is pending', async () => {
+    const { savePostAction } = await actions()
+    const result = await savePostAction(
+      idle,
+      form({ ...completePost, id: EXISTING_ID, imageUploadPending: 'true' })
+    )
+    expect(result.status).toBe('error')
+    expect(stub.queries).toHaveLength(0)
+  })
+
+  it('cleans up the current database image on repeated replacements, ignoring stale form paths', async () => {
+    const { savePostAction } = await actions()
+    for (const cover of ['first', 'second']) {
+      const result = await savePostAction(
+        idle,
+        form({
+          ...completePost,
+          id: EXISTING_ID,
+          coverImagePath: `posts/2026/09/${cover}.webp`,
+          coverImageAlt: 'Cover',
+          previousCoverImagePath: 'posts/2026/01/old.webp',
+        })
+      )
+      expect(result.status).toBe('success')
+    }
+    expect(deleteStoredImage).toHaveBeenNthCalledWith(1, 'posts/2026/01/old.webp')
+    expect(deleteStoredImage).toHaveBeenNthCalledWith(2, 'posts/2026/09/first.webp')
+  })
   it('saves changes and revalidates the post', async () => {
     const { savePostAction } = await actions()
 

@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import { ContentImage } from '@/components/ui/content-image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import type { Project } from '@/lib/content/models'
@@ -23,7 +23,7 @@ export function ProjectCard({ project }: { project: Project }) {
       <article className="group overflow-hidden border-y border-border bg-surface">
         <div className="relative aspect-[16/9] overflow-hidden border-b border-border">
           {project.previewImageUrl ? (
-            <Image
+            <ContentImage
               fill
               alt={project.previewImageAlt ?? ''}
               className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
@@ -49,9 +49,7 @@ export function ProjectCard({ project }: { project: Project }) {
             </p>
           )}
           <h2 className="mt-3 text-h3">{project.title}</h2>
-          {project.summary !== '' && (
-            <p className="mt-3 text-text-secondary">{project.summary}</p>
-          )}
+          {project.summary !== '' && <p className="mt-3 text-text-secondary">{project.summary}</p>}
           <div className="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-xs text-text-tertiary">
             {project.technologies.map((technology) => (
               <span key={technology}>{technology}</span>

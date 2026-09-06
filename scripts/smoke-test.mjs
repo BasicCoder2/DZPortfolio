@@ -2,8 +2,10 @@
  * HTTP smoke test against a running build.
  *
  * Usage:
- *   pnpm build && pnpm start --port 3105
- *   SMOKE_BASE_URL=http://127.0.0.1:3105 pnpm smoke
+ *   Start the app with pnpm dev, or pnpm build followed by pnpm start.
+ *   In another terminal: pnpm smoke
+ *   Custom target: pnpm smoke http://127.0.0.1:3105
+ *   SMOKE_BASE_URL is also supported.
  *
  * Content routes are **discovered from the sitemap** rather than hardcoded.
  * They used to be a fixed list of four project slugs and one post, which was
@@ -15,7 +17,15 @@
  * would pass just as happily if /admin were wide open.
  */
 
-const baseUrl = process.env.SMOKE_BASE_URL ?? 'http://127.0.0.1:3105'
+const baseUrl = process.argv[2] ?? process.env.SMOKE_BASE_URL ?? 'http://127.0.0.1:3000'
+
+try {
+  const url = new URL(baseUrl)
+  if (!['http:', 'https:'].includes(url.protocol)) throw new Error('Use HTTP or HTTPS.')
+} catch {
+  console.error(`Invalid smoke target: ${baseUrl}. Use a full HTTP or HTTPS URL.`)
+  process.exit(1)
+}
 
 let failed = false
 
@@ -79,7 +89,10 @@ async function expectProtected(route) {
     if (response.status === 200) {
       const body = await response.text()
       const leaked = body.includes(ADMIN_SHELL_MARKER)
-      report(!leaked, `200 ${route} -> ${leaked ? 'ADMIN UI EXPOSED' : 'notice page (no admin UI)'}`)
+      report(
+        !leaked,
+        `200 ${route} -> ${leaked ? 'ADMIN UI EXPOSED' : 'notice page (no admin UI)'}`
+      )
       return
     }
 
@@ -90,6 +103,20 @@ async function expectProtected(route) {
 }
 
 console.log(`\nSmoke testing ${baseUrl}\n`)
+
+try {
+  const response = await fetch(new URL('/robots.txt', baseUrl), {
+    signal: globalThis.AbortSignal.timeout(15000),
+  })
+  await response.body?.cancel()
+} catch (error) {
+  console.error(`Cannot reach ${baseUrl}: ${error.cause?.code ?? error.message}`)
+  console.error(
+    'Start the app in another terminal with pnpm dev or pnpm start, then run pnpm smoke.'
+  )
+  console.error('For another port or deployment, use: pnpm smoke http://host:port')
+  process.exit(1)
+}
 
 console.log('Public routes')
 for (const route of ['/', '/projects', '/blog', '/me', '/robots.txt', '/sitemap.xml']) {
