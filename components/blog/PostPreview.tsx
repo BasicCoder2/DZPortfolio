@@ -11,7 +11,7 @@ export function PostPreview({ post, featured = false }: { post: Post; featured?:
     >
       {post.coverImageUrl && (
         <div
-          className={`relative block aspect-video overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-green ${featured ? 'lg:h-full lg:min-h-80' : ''}`}
+          className={`relative block aspect-video overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-green ${featured ? 'lg:aspect-auto lg:h-full lg:w-full lg:min-h-80' : ''}`}
         >
           <PostCover
             alt={post.coverImageAlt ?? ''}
