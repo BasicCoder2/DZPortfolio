@@ -106,23 +106,30 @@ export async function uploadImageAction(
 export async function deleteStoredImage(path: string | null | undefined): Promise<void> {
   if (!isDeletableObjectPath(path)) return
 
-  const auth = await requireAdminForAction()
-  if (!auth.ok) return
+  // The whole body is non-fatal by contract: this runs after the record that
+  // matters has already saved, so a thrown connection error here must never
+  // bubble into the caller and take down that already-successful save — it
+  // would show the admin an error screen for a request that actually
+  // succeeded, and leave the old file stranded as an orphan besides.
+  try {
+    const auth = await requireAdminForAction()
+    if (!auth.ok) return
 
-  // A saved record may still use the file (including a save from another tab).
-  // Fail closed on read errors rather than risk removing a live image.
-  const references = await Promise.all([
-    auth.context.supabase.from('posts').select('id').eq('cover_image_path', path).limit(1),
-    auth.context.supabase.from('projects').select('id').eq('preview_image_path', path).limit(1),
-    auth.context.supabase.from('certifications').select('id').eq('image_path', path).limit(1),
-  ])
-  if (references.some(({ data, error }) => error || !data || data.length > 0)) return
+    // A saved record may still use the file (including a save from another tab).
+    // Fail closed on read errors rather than risk removing a live image.
+    const references = await Promise.all([
+      auth.context.supabase.from('posts').select('id').eq('cover_image_path', path).limit(1),
+      auth.context.supabase.from('projects').select('id').eq('preview_image_path', path).limit(1),
+      auth.context.supabase.from('certifications').select('id').eq('image_path', path).limit(1),
+    ])
+    if (references.some(({ data, error }) => error || !data || data.length > 0)) return
 
-  const { error } = await auth.context.supabase.storage.from(IMAGE_BUCKET).remove([path])
-  if (error) {
-    // Non-fatal on purpose: the record already saved correctly, and a stranded
-    // object costs storage, not correctness.
-    console.error(`[media] failed to remove replaced image: ${error.message}`)
+    const { error } = await auth.context.supabase.storage.from(IMAGE_BUCKET).remove([path])
+    if (error) {
+      console.error(`[media] failed to remove replaced image: ${error.message}`)
+    }
+  } catch (error) {
+    console.error('[media] failed to remove replaced image', error)
   }
 }
 
