@@ -47,6 +47,10 @@ const config: Config = {
           'green-glow': 'var(--color-accent-green-glow)',
           blue: 'var(--color-accent-blue)',
           'blue-dim': 'var(--color-accent-blue-dim)',
+          warm: 'var(--color-accent-warm)',
+          'warm-foreground': 'var(--color-accent-warm-foreground)',
+          'warm-dim': 'var(--color-accent-warm-dim)',
+          'warm-glow': 'var(--color-accent-warm-glow)',
         },
         border: {
           DEFAULT: 'var(--color-border)',

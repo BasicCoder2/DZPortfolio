@@ -48,6 +48,17 @@
     --primary-glow: rgba(29, 78, 216, 0.16);
     --secondary-glow: rgba(79, 70, 229, 0.14);
 
+    /* ── Secondary accent (warm) ──
+       Teal stays the interactive accent everywhere (links, buttons, hover
+       states). This ochre is reserved for the handful of places that mark
+       something as the featured pick rather than an action: the AI Solutions
+       capability, the recommended engagement path, the technology band's
+       wash. It never appears on a control. */
+    --accent-warm: #9a5b13;
+    --accent-warm-foreground: #fffaf0;
+    --accent-warm-dim: rgba(154, 91, 19, 0.14);
+    --accent-warm-glow: rgba(154, 91, 19, 0.16);
+
     /* ── Text tiers ── */
     --muted: #e0e5ee;
     --muted-foreground: #4f5a69;
@@ -101,6 +112,10 @@
     --color-accent-green-glow: rgba(15, 118, 110, 0.2);
     --color-accent-blue: var(--primary);
     --color-accent-blue-dim: var(--primary-glow);
+    --color-accent-warm: var(--accent-warm);
+    --color-accent-warm-foreground: var(--accent-warm-foreground);
+    --color-accent-warm-dim: var(--accent-warm-dim);
+    --color-accent-warm-glow: var(--accent-warm-glow);
     --color-muted: var(--muted);
     --color-muted-foreground: var(--muted-foreground);
     --color-border: var(--border);
@@ -137,6 +152,12 @@
     --accent-foreground: #031615;
     --primary-glow: rgba(123, 176, 255, 0.2);
     --secondary-glow: rgba(155, 140, 255, 0.18);
+
+    /* Secondary accent (warm) — see the light-theme comment above. */
+    --accent-warm: #e3a548;
+    --accent-warm-foreground: #1f1300;
+    --accent-warm-dim: rgba(227, 165, 72, 0.16);
+    --accent-warm-glow: rgba(227, 165, 72, 0.18);
 
     --muted: #16233b;
     --muted-foreground: #8fa0b8;
@@ -186,6 +207,10 @@
     --color-accent-green-glow: rgba(53, 213, 195, 0.2);
     --color-accent-blue: var(--primary);
     --color-accent-blue-dim: var(--primary-glow);
+    --color-accent-warm: var(--accent-warm);
+    --color-accent-warm-foreground: var(--accent-warm-foreground);
+    --color-accent-warm-dim: var(--accent-warm-dim);
+    --color-accent-warm-glow: var(--accent-warm-glow);
     --color-muted: var(--muted);
     --color-muted-foreground: var(--muted-foreground);
     --color-border: var(--border);
@@ -203,9 +228,11 @@
 /* ────────────── Typography / Font tokens ────────────── */
 @layer base {
   :root {
-    /* One sans (Geist) carries display and body; JetBrains Mono is the
-       contrasting voice for labels, eyebrows, tags and code. */
-    --font-heading: var(--font-geist), system-ui, sans-serif;
+    /* Fraunces (a soft, characterful serif) carries every heading; Geist
+       carries body copy and controls; JetBrains Mono is reserved for literal
+       technical labels (dates, tech names, code) rather than decorative
+       eyebrows. Three registers, three jobs — not two lookalike sans faces. */
+    --font-heading: var(--font-fraunces), Georgia, serif;
     --font-body: var(--font-geist), system-ui, sans-serif;
     --font-code: var(--font-mono), 'Courier New', monospace;
 
@@ -721,15 +748,6 @@
     background:
       radial-gradient(circle at 76% 42%, var(--hero-glow), transparent 28rem),
       radial-gradient(circle at 14% 18%, var(--primary-glow), transparent 34rem), var(--background);
-  }
-
-  .hero-grid {
-    background-image:
-      linear-gradient(to right, var(--border) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--border) 1px, transparent 1px);
-    background-size: 5rem 5rem;
-    mask-image: linear-gradient(to bottom, black, transparent 82%);
-    opacity: 0.35;
   }
 
   /* Horizontal divider */

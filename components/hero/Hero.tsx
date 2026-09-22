@@ -1,6 +1,6 @@
+import { ArrowDown } from 'lucide-react'
 import { Container, Section } from '@/components/layout'
 import { MotionWrapper } from '@/components/animations/MotionWrapper'
-import { CodeMark } from './CodeMark'
 import { HeroActions } from './HeroActions'
 import { HeroPortrait } from './HeroPortrait'
 
@@ -12,13 +12,12 @@ export function Hero() {
       id="home"
     >
       <div aria-hidden="true" className="hero-canvas absolute inset-0 -z-20" />
-      <div aria-hidden="true" className="hero-grid absolute inset-0 -z-10" />
       <Container className="relative flex min-h-svh items-center pb-16 pt-[calc(var(--nav-h)+3rem)] md:pb-20 lg:pb-24">
-        <CodeMark />
         <div className="grid w-full items-center gap-12 lg:grid-cols-[minmax(0,1.04fr)_minmax(20rem,0.8fr)] lg:gap-16 xl:gap-24">
           <div className="relative z-10 max-w-3xl">
             <MotionWrapper
-              className="mb-5 font-mono text-xs uppercase tracking-[0.16em] text-text-secondary sm:text-sm"
+              as="p"
+              className="mb-4 font-heading text-lg italic text-text-secondary sm:text-xl"
               variant="heroEyebrow"
             >
               Daniel Zimba
@@ -43,17 +42,17 @@ export function Hero() {
           </div>
           <HeroPortrait />
         </div>
+        {/* Functional rather than decorative: names and links to the next
+            section instead of an inert "scroll" hint with a tick line. */}
         <a
-          aria-label="Scroll to explore more"
-          className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-text-tertiary transition-colors hover:text-text-primary sm:flex"
-          href="#projects"
+          aria-label="Go to selected work"
+          className="group absolute bottom-6 left-1/2 hidden -translate-x-1/2 items-center gap-2 rounded-full border border-border bg-surface-overlay py-2 pl-4 pr-3 text-sm text-text-secondary shadow-sm backdrop-blur transition-colors hover:border-border-strong hover:text-text-primary sm:flex"
+          href="#work"
         >
-          <span className="font-mono text-[0.65rem] uppercase tracking-[0.16em]">
-            Scroll to explore
-          </span>
-          <span
+          Next: Selected work
+          <ArrowDown
             aria-hidden="true"
-            className="h-8 w-px bg-gradient-to-b from-accent-green to-transparent"
+            className="h-4 w-4 transition-transform group-hover:translate-y-0.5"
           />
         </a>
       </Container>

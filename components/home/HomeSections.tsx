@@ -1,13 +1,11 @@
+import Link from 'next/link'
+import { ArrowUpRight } from 'lucide-react'
 import { ContentImage } from '@/components/ui/content-image'
 import { PostCover } from '@/components/blog/PostCover'
-import Link from 'next/link'
-import type { ReactNode } from 'react'
-import { ArrowUpRight, Building2, Globe2, Layers3, Smartphone, Sparkles } from 'lucide-react'
 import { Container, Section } from '@/components/layout'
-import { MotionWrapper, StaggerChildren, StaggerItem } from '@/components/animations'
-import { Terminal, TechnologyRing, CommitGraph } from '@/components/motifs'
 import { ContactForm } from '@/components/contact'
 import { services } from '@/data/services'
+import { serviceIcons } from '@/components/home/ServiceIcons'
 import { technologies } from '@/data/technologies'
 import {
   listFeaturedProjects,
@@ -19,68 +17,185 @@ import {
 import type { Project } from '@/lib/content/models'
 import { CONTACT_EMAIL, RECENT_POSTS_COUNT, SOCIAL_LINKS } from '@/lib/constants'
 
-const icons = { Building2, Globe2, Layers3, Smartphone, Sparkles }
+const technologyGroups = [
+  {
+    title: 'Frontend',
+    names: [
+      'React',
+      'Next.js',
+      'Inertia.js',
+      'Flutter',
+      'Dart',
+      'JavaScript',
+      'TypeScript',
+      'Tailwind CSS',
+    ],
+  },
+  { title: 'Backend', names: ['Laravel', 'PHP', 'Python', 'FastAPI', 'REST APIs'] },
+  { title: 'Data', names: ['MySQL', 'SQL', 'Firebase', 'Firestore', 'PostgreSQL'] },
+  { title: 'AI / Computer Vision', names: ['YOLO', 'TensorFlow Lite', 'Vosk', 'AI integrations'] },
+  {
+    title: 'Infrastructure / Tools',
+    names: ['Git', 'GitHub Actions', 'MQTT', 'ESP32', 'Vercel', 'Docker'],
+  },
+]
 
-function SectionIntro({
-  eyebrow,
-  title,
-  children,
-  className = 'mb-12',
-  quiet = false,
-}: {
-  eyebrow: string
-  title: string
-  children?: ReactNode
-  /** Lets a caller hand the bottom margin to a shared row instead. */
-  className?: string
-  /** Reference sections announce themselves more softly than the centrepieces. */
-  quiet?: boolean
-}) {
+function ProjectFeature({ project, index }: { project: Project; index: number }) {
+  const number = String(index + 1).padStart(2, '0')
+  const mediaOnRight = index % 2 === 1
+
   return (
-    <MotionWrapper className={`max-w-2xl ${className}`} variant="fadeUp">
-      <p className="mb-3 font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
-        {eyebrow}
-      </p>
-      <h2 className={quiet ? 'text-h3' : 'text-h2'}>{title}</h2>
-      {children && (
-        <p className={`mt-4 text-text-secondary ${quiet ? 'leading-7' : 'text-lg leading-8'}`}>
-          {children}
-        </p>
-      )}
-    </MotionWrapper>
+    <article className="border-t border-border py-12 first:pt-8 md:py-16 lg:py-20">
+      <div className="mb-7 flex items-center justify-between gap-6 font-mono text-xs uppercase tracking-[0.16em] text-text-tertiary">
+        <span>Project {number}</span>
+        {project.category && (
+          <span className="text-right text-accent-green">{project.category}</span>
+        )}
+      </div>
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(18rem,0.65fr)] lg:items-center lg:gap-14 xl:gap-20">
+        <div className={mediaOnRight ? 'lg:order-2' : undefined}>
+          <h3 className="text-h2 lg:hidden">{project.title}</h3>
+          <div className="relative mt-6 aspect-[16/9] overflow-hidden rounded-md border border-border bg-surface-muted lg:mt-0">
+            {project.previewImageUrl ? (
+              <ContentImage
+                fill
+                alt={project.previewImageAlt ?? ''}
+                className="object-cover"
+                sizes="(max-width: 1023px) 100vw, 66vw"
+                src={project.previewImageUrl}
+              />
+            ) : (
+              <div aria-hidden="true" className="flex h-full items-center justify-center">
+                <span className="font-mono text-xs uppercase tracking-[0.16em] text-text-tertiary">
+                  {project.category || 'Project'}
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+        <div className={mediaOnRight ? 'lg:order-1' : undefined}>
+          <h3 className="hidden text-h2 lg:block">{project.title}</h3>
+          {project.summary && (
+            <p className="mt-5 max-w-xl text-lg leading-8 text-text-secondary">{project.summary}</p>
+          )}
+          {project.technologies.length > 0 && (
+            <ul
+              aria-label="Selected technologies"
+              className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm text-text-tertiary"
+            >
+              {project.technologies.slice(0, 3).map((technology) => (
+                <li key={technology}>{technology}</li>
+              ))}
+            </ul>
+          )}
+          <Link
+            className="mt-8 inline-flex items-center gap-2 border-b border-border-strong pb-2 font-medium transition-colors hover:border-accent-green hover:text-accent-green"
+            href={project.href}
+          >
+            Read case study <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
+          </Link>
+        </div>
+      </div>
+    </article>
   )
 }
 
-export function AboutSection() {
+export async function ProjectsSection() {
+  const featured = await listFeaturedProjects()
+  return (
+    <Section data-nav-section id="work" size="spacious">
+      <Container>
+        <header className="mb-10 grid gap-6 border-b border-border pb-8 md:mb-14 md:grid-cols-[1fr_auto] md:items-end">
+          <div>
+            <h2 className="text-display-md">Systems built for real operations.</h2>
+          </div>
+          <p className="max-w-md text-text-secondary md:text-right">
+            Governance, commerce and connected products shaped around the work people actually do.
+          </p>
+        </header>
+        {featured.length === 0 ? (
+          <p className="border-b border-border py-12 text-lg text-text-secondary">
+            Project write-ups are being prepared.
+          </p>
+        ) : (
+          <div>
+            {featured.map((project, index) => (
+              <ProjectFeature index={index} key={project.id} project={project} />
+            ))}
+          </div>
+        )}
+        <div className="border-t border-border pt-8">
+          <Link
+            className="inline-flex items-center gap-2 border-b border-border-strong pb-2 font-medium transition-colors hover:border-accent-green hover:text-accent-green"
+            href="/projects"
+          >
+            Explore the project archive <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
+          </Link>
+        </div>
+      </Container>
+    </Section>
+  )
+}
+
+export async function AboutExperienceSection() {
+  const entries = await listPublishedExperience()
   return (
     <Section data-nav-section id="about">
+      {/* Deliberately not eyebrow → h2 → subhead → grid, the pattern every
+          other section on the page follows. The statement runs full-bleed
+          and oversized, closer to a pull-quote than a section header, and
+          the roles beneath it read as a plain list rather than a second
+          bordered card grid. */}
       <Container>
-        <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.55fr)] lg:items-center lg:gap-24">
-          <div>
-            <SectionIntro eyebrow="About" title="About">
-              I’m Daniel Zimba, a Software Developer focused on building practical digital systems
-              that solve real-world problems.
-            </SectionIntro>
-            <MotionWrapper
-              className="max-w-2xl space-y-5 text-lg leading-8 text-text-secondary"
-              variant="fadeUp"
-            >
-              <p>
-                My work spans enterprise applications, web platforms, mobile development, AI-powered
-                systems, and IoT.
-              </p>
-              <p>
-                I enjoy turning complex requirements into software that is usable, maintainable, and
-                reliable.
-              </p>
-            </MotionWrapper>
+        <h2 className="max-w-4xl text-[clamp(2rem,5.5vw,3.75rem)] font-heading font-medium leading-[1.08] tracking-tight text-text-primary">
+          Daniel Zimba is a software developer focused on operational systems.
+        </h2>
+      </Container>
+      <Container className="mt-10 md:mt-14">
+        <div className="grid gap-14 lg:grid-cols-[minmax(16rem,0.65fr)_minmax(0,1.35fr)] lg:gap-20">
+          <div className="space-y-4 text-lg leading-8 text-text-secondary lg:pt-2">
+            <p>
+              My work spans enterprise applications, web platforms, mobile development, AI-powered
+              systems and IoT.
+            </p>
+            <p>
+              I translate complex institutional and business requirements into software that is
+              usable, maintainable and reliable.
+            </p>
           </div>
-          {/* w-full is required: justify-self-end makes the grid item shrink to
-              fit its content, which collapsed the terminal to the width of its
-              longest line instead of the column. */}
-          <MotionWrapper className="w-full lg:justify-self-end" variant="fadeRight">
-            <Terminal />
-          </MotionWrapper>
+          <div>
+            {entries.length === 0 ? (
+              <p className="text-text-secondary">Experience details are being prepared.</p>
+            ) : (
+              <ol className="space-y-8">
+                {entries.map((item, index) => (
+                  <li className="grid grid-cols-[2.5rem_1fr] gap-4 sm:grid-cols-[3rem_1fr]" key={item.id}>
+                    <span
+                      aria-hidden="true"
+                      className="font-heading text-2xl font-medium text-text-tertiary/60"
+                    >
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <article>
+                      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                        <h3 className="text-xl font-semibold">{item.organization}</h3>
+                        {item.period && (
+                          <p className="text-sm text-text-tertiary">{item.period}</p>
+                        )}
+                      </div>
+                      <p className="mt-1 text-text-primary">{item.role}</p>
+                      {item.summary && (
+                        <p className="mt-3 max-w-2xl text-text-secondary">{item.summary}</p>
+                      )}
+                      {item.location && (
+                        <p className="mt-3 text-sm text-text-tertiary">{item.location}</p>
+                      )}
+                    </article>
+                  </li>
+                ))}
+              </ol>
+            )}
+          </div>
         </div>
       </Container>
     </Section>
@@ -88,472 +203,305 @@ export function AboutSection() {
 }
 
 export function ServicesSection() {
+  const featured = services.find((service) => service.id === 'ai-solutions')
+  const rest = services.filter((service) => service.id !== 'ai-solutions')
   return (
-    <Section data-nav-section id="services">
+    <Section size="compact">
       <Container>
-        <SectionIntro eyebrow="Capabilities" title="What I Build">
-          Building enterprise systems, AI-powered applications and digital products.
-        </SectionIntro>
-        <StaggerChildren className="divide-y divide-border border-y border-border" speed="fast">
-          {services.map((service) => {
-            const Icon = icons[service.icon as keyof typeof icons] ?? Layers3
-            return (
-              <StaggerItem
-                className="group grid gap-5 py-7 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] md:items-start md:gap-8"
+        <h2 className="text-h2">What I work on</h2>
+        <div className="mt-10 grid gap-6 lg:grid-cols-[1.1fr_1fr] lg:gap-8">
+          {/* AI Solutions is the differentiator, so it gets its own card,
+              the warm accent (used nowhere else on this page as a card
+              background), and the other services' full highlight list —
+              not just a bordered row like everything else here. */}
+          {featured && (
+            <article className="rounded-2xl border border-accent-warm/25 bg-accent-warm-dim p-8 lg:p-10">
+              <ServiceIcon className="text-accent-warm" id={featured.id} />
+              <h3 className="mt-6 text-h3">{featured.title}</h3>
+              <p className="mt-3 max-w-md leading-7 text-text-secondary">{featured.description}</p>
+              {featured.highlights && featured.highlights.length > 0 && (
+                <ul className="mt-6 space-y-2.5">
+                  {featured.highlights.map((highlight) => (
+                    <li className="flex items-start gap-2.5 text-sm text-text-primary" key={highlight}>
+                      <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-warm" />
+                      {highlight}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </article>
+          )}
+          <div className="flex flex-col gap-6">
+            {rest.map((service) => (
+              <article
+                className="flex-1 rounded-2xl border border-border bg-surface-muted p-6"
                 key={service.id}
               >
-                <div>
-                  <Icon
-                    aria-hidden="true"
-                    className="mb-4 h-6 w-6 text-accent-green transition-transform duration-300 group-hover:-translate-y-1"
-                  />
-                  <h3 className="text-h3">{service.title}</h3>
-                </div>
-                <div>
-                  <p className="max-w-xl text-text-secondary">{service.description}</p>
-                  <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-text-tertiary">
-                    {service.highlights.map((highlight) => (
-                      <li key={highlight}>— {highlight}</li>
-                    ))}
-                  </ul>
-                </div>
-              </StaggerItem>
-            )
-          })}
-        </StaggerChildren>
-        <div className="mt-20 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.7fr)] lg:items-center">
-          <MotionWrapper variant="fadeLeft">
-            <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
-              A considered stack
-            </p>
-            <h3 className="mt-3 text-h3">Technology with a point of view.</h3>
-            <p className="mt-4 max-w-lg text-text-secondary">
-              The tools matter, but the system they help people use matters more.
-            </p>
-          </MotionWrapper>
-          <TechnologyRing />
-        </div>
-      </Container>
-    </Section>
-  )
-}
-
-export async function PricingSection() {
-  const options = await listPublishedEngagementOptions()
-
-  // An engagement section with no tiers is worse than no engagement section,
-  // so it is omitted entirely rather than rendered as a heading over nothing.
-  if (options.length === 0) return null
-
-  return (
-    <Section>
-      <Container>
-        <SectionIntro eyebrow="Engagement" title="A useful way to start">
-          Choose the level of clarity or delivery that matches where the work is today.
-        </SectionIntro>
-        <StaggerChildren className="grid gap-8 lg:grid-cols-3 lg:gap-10" speed="slow">
-          {options.map((option) => (
-            <StaggerItem
-              className={`relative border-t-2 pt-6 ${option.recommended ? 'border-accent-green' : 'border-border-strong'}`}
-              key={option.id}
-            >
-              {/* The badge straddles the column rule instead of sitting in the
-                  flow, so all three headings keep full width and one baseline. */}
-              {option.recommended && (
-                <span className="absolute right-0 top-0 -translate-y-1/2 rounded-full bg-accent-green px-3 py-1 text-xs font-medium text-accent-foreground">
-                  Recommended
-                </span>
-              )}
-              <h3 className="text-h3">{option.title}</h3>
-              <p className="mt-4 text-2xl font-semibold text-text-primary">{option.priceDisplay}</p>
-              <p className="mt-4 text-text-secondary">{option.description}</p>
-              <ul className="mt-6 space-y-2 text-sm text-text-tertiary">
-                {option.items.map((item) => (
-                  <li key={item}>— {item}</li>
-                ))}
-              </ul>
-            </StaggerItem>
-          ))}
-        </StaggerChildren>
-      </Container>
-    </Section>
-  )
-}
-
-function ProjectCard({ project, lead }: { project: Project; lead?: boolean }) {
-  return (
-    <div className={lead ? 'md:col-span-2' : undefined}>
-      {/* The lead card splits horizontally rather than stacking, so spanning
-          two columns doesn't hand the cover image half the section's height. */}
-      <article
-        className={`group h-full overflow-hidden rounded-xl border border-border bg-surface-elevated shadow-card transition-shadow duration-300 hover:shadow-card-elevated ${lead ? 'md:grid md:grid-cols-2 md:items-stretch' : ''}`}
-      >
-        {/* Neutral fill behind the cover so a real screenshot that doesn't fill
-            the frame (or carries transparency) still sits on a defined plane. */}
-        <MotionWrapper
-          className={`relative overflow-hidden bg-surface-muted border-border ${lead ? 'aspect-[16/9] border-b md:aspect-auto md:min-h-64 md:border-b-0 md:border-r' : 'aspect-[16/9] border-b'}`}
-          variant="fadeLeft"
-        >
-          {project.previewImageUrl ? (
-            <ContentImage
-              fill
-              alt={project.previewImageAlt ?? ''}
-              className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-              sizes="(max-width: 767px) 100vw, 50vw"
-              src={project.previewImageUrl}
-            />
-          ) : (
-            <div aria-hidden="true" className="flex h-full w-full items-center justify-center">
-              <span className="font-mono text-xs uppercase tracking-[0.16em] text-text-tertiary">
-                {project.category || 'Project'}
-              </span>
-            </div>
-          )}
-        </MotionWrapper>
-        <MotionWrapper
-          className={`p-6 md:p-7 ${lead ? 'md:flex md:flex-col md:justify-center' : ''}`}
-          variant="fadeRight"
-        >
-          <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
-            {project.category}
-          </p>
-          <h3 className="mt-3 text-h3">{project.title}</h3>
-          <p className="mt-3 text-text-secondary">{project.summary}</p>
-          <div className="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-xs text-text-tertiary">
-            {project.technologies.slice(0, 5).map((technology) => (
-              <span key={technology}>{technology}</span>
+                <ServiceIcon className="text-accent-green" id={service.id} />
+                <h3 className="mt-5 text-lg font-semibold">{service.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-text-secondary">{service.description}</p>
+              </article>
             ))}
           </div>
-          <Link
-            className="mt-6 inline-flex items-center gap-2 font-medium text-text-primary transition-colors hover:text-accent-green"
-            href={project.href}
-          >
-            View case study{' '}
-            <ArrowUpRight
-              aria-hidden="true"
-              className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-            />
-          </Link>
-        </MotionWrapper>
-      </article>
-    </div>
-  )
-}
-
-export async function ProjectsSection() {
-  const featured = await listFeaturedProjects()
-
-  return (
-    <Section data-nav-section id="projects" size="spacious">
-      <Container>
-        <SectionIntro eyebrow="Selected work" title="Selected Work">
-          A small selection of systems and products from the work archive.
-        </SectionIntro>
-        {/* An odd number of featured projects would orphan the last card in a
-            two-column grid, so the first one leads across the full width. */}
-        {featured.length === 0 ? (
-          <p className="border-y border-border py-12 text-lg text-text-secondary">
-            Project write-ups are being prepared.
-          </p>
-        ) : (
-          <div className="grid items-stretch gap-8 md:grid-cols-2">
-            {featured.map((project, index, list) => (
-              <ProjectCard
-                key={project.id}
-                lead={list.length % 2 === 1 && index === 0}
-                project={project}
-              />
-            ))}
-          </div>
-        )}
-        <div className="mt-10 flex justify-start">
-          <Link
-            className="inline-flex items-center gap-2 border-b border-border-strong pb-2 font-medium transition-colors hover:border-accent-green hover:text-accent-green"
-            href="/projects"
-          >
-            Explore all projects <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
-          </Link>
-        </div>
-        <div className="mt-20 grid gap-8 border-t border-border pt-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)] lg:items-center">
-          <MotionWrapper variant="fadeLeft">
-            <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
-              Engineering in motion
-            </p>
-            <h3 className="mt-3 text-h3">Small decisions compound.</h3>
-            <p className="mt-4 text-text-secondary">
-              The details of how a system evolves matter as much as its first release.
-            </p>
-          </MotionWrapper>
-          <CommitGraph />
         </div>
       </Container>
     </Section>
   )
+}
+
+function ServiceIcon({ id, className }: { id: string; className?: string }) {
+  const Icon = serviceIcons[id]
+  if (!Icon) return null
+  return <Icon className={className} />
 }
 
 export function PhilosophySection() {
   return (
     <Section size="spacious" tone="surface">
       <Container>
-        <MotionWrapper className="mx-auto max-w-4xl py-8 text-center md:py-16" variant="fadeUp">
-          <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
-            Engineering philosophy
+        <div className="grid gap-8 border-l-2 border-accent-green pl-6 md:pl-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(18rem,0.65fr)] lg:items-end lg:gap-16">
+          <div>
+            {/* The accent border alone marks this as a principle callout;
+                no eyebrow label needed to say so. */}
+            <h2 className="max-w-4xl text-[clamp(2.25rem,5vw,4.5rem)] font-heading font-semibold leading-[1.05] tracking-tight">
+              Software should explain the business it represents.
+            </h2>
+          </div>
+          <p className="max-w-xl text-lg leading-8 text-text-secondary">
+            That means modelling workflows and business states explicitly, defining authorization
+            and integration boundaries, and leaving maintainable software behind.
           </p>
-          <h2 className="mt-5 text-[clamp(2rem,5vw,4.5rem)] font-heading font-semibold leading-tight tracking-tight">
-            Great software should be secure, maintainable, scalable, and intuitive.
-          </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-text-secondary">
-            I focus on building systems that solve the immediate problem without creating
-            unnecessary complexity for the people who maintain or use them later.
-          </p>
-        </MotionWrapper>
-      </Container>
-    </Section>
-  )
-}
-
-export async function ExperienceSection() {
-  const entries = await listPublishedExperience()
-
-  if (entries.length === 0) return null
-
-  return (
-    <Section>
-      <Container>
-        <SectionIntro eyebrow="Experience" title="Where the work has taken me" />
-        <div className="relative mx-auto max-w-4xl">
-          <MotionWrapper
-            aria-hidden="true"
-            className="absolute inset-y-0 left-0 w-px bg-accent-green/50"
-            variant="lineGrow"
-          />
-          <StaggerChildren
-            className="relative divide-y divide-border border-y border-border pl-6"
-            speed="slow"
-          >
-            {entries.map((item) => (
-              <StaggerItem
-                className="grid gap-4 py-8 md:grid-cols-[0.8fr_1.2fr] md:gap-10"
-                key={item.id}
-              >
-                <div>
-                  {item.period !== '' && (
-                    <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
-                      {item.period}
-                    </p>
-                  )}
-                  <h3 className="mt-2 text-xl font-semibold">{item.organization}</h3>
-                  {item.location !== '' && (
-                    <p className="mt-1 text-sm text-text-tertiary">{item.location}</p>
-                  )}
-                </div>
-                <div>
-                  <p className="text-lg text-text-primary">{item.role}</p>
-                  {item.summary !== '' && (
-                    <p className="mt-3 text-text-secondary">{item.summary}</p>
-                  )}
-                  <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-xs text-text-tertiary">
-                    {item.technologies.map((technology) => (
-                      <span key={technology}>{technology}</span>
-                    ))}
-                  </div>
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerChildren>
         </div>
       </Container>
     </Section>
   )
 }
 
-export function TechnologiesSection() {
-  const groups = [
-    {
-      title: 'Frontend',
-      names: [
-        'React',
-        'Next.js',
-        'Inertia.js',
-        'Flutter',
-        'Dart',
-        'JavaScript',
-        'TypeScript',
-        'Tailwind CSS',
-      ],
-    },
-    { title: 'Backend', names: ['Laravel', 'PHP', 'Python', 'FastAPI', 'REST APIs'] },
-    { title: 'Data', names: ['MySQL', 'SQL', 'Firebase', 'Firestore', 'PostgreSQL'] },
-    {
-      title: 'AI / Computer Vision',
-      names: ['YOLO', 'TensorFlow Lite', 'Vosk', 'AI integrations'],
-    },
-    {
-      title: 'Infrastructure / Tools',
-      names: ['Git', 'GitHub Actions', 'MQTT', 'ESP32', 'Vercel', 'Docker'],
-    },
-  ]
+export async function EvidenceSection() {
+  const certifications = await listPublishedCertifications()
   const evidenced = new Set(technologies.map((technology) => technology.name))
   return (
-    <Section size="compact">
+    // Full-bleed warm wash — the one place besides the AI Solutions card and
+    // the recommended engagement path that carries the secondary accent, and
+    // the only section background on the page that isn't the default or
+    // surface tone.
+    <section className="border-y border-accent-warm/20 bg-accent-warm-dim py-16 md:py-20">
       <Container>
-        <SectionIntro quiet eyebrow="Tools" title="Technologies">
-          A practical stack shaped by the systems and products being built.
-        </SectionIntro>
-        <StaggerChildren
-          className="grid gap-x-10 gap-y-8 border-y border-border py-2 md:grid-cols-2 lg:grid-cols-3"
-          speed="slow"
-        >
-          {groups.map((group) => (
-            <StaggerItem
-              className="border-b border-border py-6 last:border-b-0"
-              key={group.title}
-              staggerChildren="fast"
-            >
-              <h3 className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
-                {group.title}
-              </h3>
-              <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-text-secondary">
-                {group.names
-                  .filter(
-                    (name) =>
-                      evidenced.has(name) ||
-                      [
-                        'Flutter',
-                        'Dart',
-                        'Inertia.js',
-                        'Tailwind CSS',
-                        'FastAPI',
-                        'REST APIs',
-                        'Firestore',
-                        'YOLO',
-                        'TensorFlow Lite',
-                        'Vosk',
-                        'AI integrations',
-                        'MQTT',
-                        'ESP32',
-                      ].includes(name)
-                  )
-                  .map((name) => (
-                    <StaggerItem as="li" key={name}>
-                      {name}
-                    </StaggerItem>
-                  ))}
+        <div className="grid gap-12 lg:grid-cols-[minmax(16rem,0.55fr)_minmax(0,1.45fr)] lg:gap-16">
+          <div>
+            <h2 className="text-h3">Built with tools proven in production, not just in demos.</h2>
+            {certifications.length > 0 && (
+              <ul className="mt-8 space-y-4 border-t border-accent-warm/25 pt-6">
+                {certifications.map((certification) => (
+                  <li key={certification.id}>
+                    {certification.credentialUrl ? (
+                      <a
+                        className="font-semibold hover:text-accent-warm"
+                        href={certification.credentialUrl}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        {certification.title}
+                      </a>
+                    ) : (
+                      <p className="font-semibold">{certification.title}</p>
+                    )}
+                    <p className="mt-1 text-sm text-text-secondary">
+                      {certification.issuer}
+                      {certification.issuedLabel !== '—' ? ` · ${certification.issuedLabel}` : ''}
+                    </p>
+                  </li>
+                ))}
               </ul>
-            </StaggerItem>
-          ))}
-        </StaggerChildren>
-      </Container>
-    </Section>
-  )
-}
-
-export async function CertificationsSection() {
-  const certifications = await listPublishedCertifications()
-
-  if (certifications.length === 0) return null
-
-  return (
-    <Section size="compact">
-      <Container>
-        <SectionIntro quiet eyebrow="Learning" title="Certifications" />
-        <StaggerChildren className="divide-y divide-border border-y border-border" speed="slow">
-          {certifications.map((certification) => (
-            <StaggerItem
-              className="grid gap-2 py-6 md:grid-cols-[1fr_0.7fr_0.5fr] md:items-center"
-              key={certification.id}
-            >
-              <p className="text-lg font-semibold">
-                {certification.credentialUrl ? (
-                  <a
-                    className="underline-offset-4 hover:text-accent-green hover:underline"
-                    href={certification.credentialUrl}
-                    rel="noopener noreferrer"
-                    target="_blank"
+            )}
+          </div>
+          {/* Technologies as a loose, flowing cluster of tags rather than
+              grouped columns — reads as breadth, not an inventory list. */}
+          <div className="flex flex-wrap content-start gap-2.5">
+            {technologyGroups.flatMap((group) =>
+              group.names
+                .filter((name) => evidenced.has(name))
+                .map((name) => (
+                  <span
+                    className="rounded-full border border-accent-warm/25 bg-surface-elevated px-3.5 py-1.5 text-sm text-text-primary"
+                    key={name}
+                    title={group.title}
                   >
-                    {certification.title}
-                  </a>
-                ) : (
-                  certification.title
-                )}
-              </p>
-              <p className="text-text-secondary">{certification.issuer}</p>
-              <p className="font-mono text-xs uppercase tracking-[0.16em] text-text-tertiary md:text-right">
-                {certification.issuedLabel}
-              </p>
-            </StaggerItem>
-          ))}
-        </StaggerChildren>
+                    {name}
+                  </span>
+                )),
+            )}
+          </div>
+        </div>
       </Container>
-    </Section>
+    </section>
   )
 }
 
 export async function BlogPreviewSection() {
   const posts = await listPublishedPosts(RECENT_POSTS_COUNT)
-
   return (
-    <Section>
+    <Section data-nav-section id="writing">
       <Container>
-        {/* The row owns the bottom margin so the link aligns with the heading
-            block without mirroring SectionIntro's spacing by hand. */}
-        <div className="mb-12 flex items-end justify-between gap-6">
-          <SectionIntro className="" eyebrow="Notes" title="Latest Blog Posts" />
+        <header className="mb-10 flex flex-wrap items-end justify-between gap-6 border-b border-border pb-7">
+          <div>
+            <p className="mb-2 font-heading text-lg italic text-text-secondary">Recent writing</p>
+            <h2 className="text-h2">Notes on systems and decisions.</h2>
+          </div>
           <Link
-            className="hidden shrink-0 items-center gap-2 border-b border-border-strong pb-2 font-medium hover:border-accent-green hover:text-accent-green sm:inline-flex"
+            className="inline-flex items-center gap-2 border-b border-border-strong pb-2 font-medium hover:border-accent-green hover:text-accent-green"
             href="/blog"
           >
-            Read all <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
+            View all writing <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
           </Link>
-        </div>
+        </header>
         {posts.length === 0 ? (
-          <p className="border-y border-border py-12 text-lg text-text-secondary">
+          <p className="border-b border-border py-12 text-lg text-text-secondary">
             Notes are on the way.
           </p>
         ) : (
-          <StaggerChildren className="divide-y divide-border border-y border-border" speed="fast">
+          <div className="divide-y divide-border border-b border-border">
             {posts.map((post) => (
-              <StaggerItem key={post.id} variant="fadeLeft">
-                <article
-                  className={`grid gap-5 py-7 md:items-center md:gap-8 ${post.coverImageUrl ? 'md:grid-cols-[15rem_1fr_auto]' : 'md:grid-cols-[1fr_auto]'}`}
-                >
-                  {post.coverImageUrl && (
-                    <div className="group relative block aspect-video overflow-hidden rounded-lg border border-border bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-green">
-                      <PostCover
-                        alt={post.coverImageAlt ?? ''}
-                        sizes="(max-width: 767px) 100vw, 240px"
-                        src={post.coverImageUrl}
-                      />
-                    </div>
-                  )}
-                  <div className="min-w-0">
-                    <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
-                      {post.publishedAt
-                        ? new Date(post.publishedAt).toLocaleDateString('en-GB', {
-                            day: 'numeric',
-                            month: 'short',
-                            year: 'numeric',
-                          })
-                        : ''}
-                    </p>
-                    <h3 className="mt-3 text-h3">
-                      <Link className="hover:text-accent-green" href={`/blog/${post.slug}`}>
-                        {post.title}
-                      </Link>
-                    </h3>
-                    <p className="mt-2 text-text-secondary">{post.excerpt}</p>
+              <article
+                className={`grid gap-6 py-8 md:items-center ${post.coverImageUrl ? 'md:grid-cols-[12rem_1fr_auto]' : 'md:grid-cols-[1fr_auto]'}`}
+                key={post.id}
+              >
+                {post.coverImageUrl && (
+                  <div className="relative aspect-video overflow-hidden rounded-md border border-border bg-surface-muted">
+                    <PostCover
+                      alt={post.coverImageAlt ?? ''}
+                      sizes="(max-width: 767px) 100vw, 192px"
+                      src={post.coverImageUrl}
+                    />
                   </div>
-                  <Link
-                    className="inline-flex items-center gap-2 font-medium hover:text-accent-green"
-                    href={`/blog/${post.slug}`}
-                  >
-                    Read note <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
-                  </Link>
-                </article>
-              </StaggerItem>
+                )}
+                <div>
+                  {post.publishedAt && (
+                    <time
+                      className="font-mono text-xs uppercase tracking-[0.12em] text-text-tertiary"
+                      dateTime={post.publishedAt}
+                    >
+                      {new Date(post.publishedAt).toLocaleDateString('en-GB', {
+                        day: 'numeric',
+                        month: 'short',
+                        year: 'numeric',
+                        timeZone: 'UTC',
+                      })}
+                    </time>
+                  )}
+                  <h3 className="mt-2 text-h3">
+                    <Link className="hover:text-accent-green" href={`/blog/${post.slug}`}>
+                      {post.title}
+                    </Link>
+                  </h3>
+                  {post.excerpt && (
+                    <p className="mt-2 max-w-2xl text-text-secondary">{post.excerpt}</p>
+                  )}
+                </div>
+                <Link
+                  className="inline-flex items-center gap-2 font-medium hover:text-accent-green"
+                  href={`/blog/${post.slug}`}
+                >
+                  Read <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
+                </Link>
+              </article>
             ))}
-          </StaggerChildren>
+          </div>
         )}
+      </Container>
+    </Section>
+  )
+}
+
+export async function WorkWithMeSection() {
+  const options = await listPublishedEngagementOptions()
+  if (options.length === 0) return null
+  const discovery = options.find((option) => /discover/i.test(`${option.slug} ${option.title}`))
+  const delivery =
+    options.find((option) => option.recommended && option.id !== discovery?.id) ??
+    options.find((option) => option.id !== discovery?.id)
+  const paths = [
+    {
+      label: delivery?.title ?? 'Project delivery',
+      title: 'Have a defined project?',
+      description:
+        delivery?.description ??
+        'Share what you are building, the problem, timeline and current stage.',
+      detail: delivery?.priceDisplay,
+      cta: 'Discuss a project',
+      recommended: delivery?.recommended ?? false,
+    },
+    {
+      label: discovery?.title ?? 'Discovery',
+      title: 'Still defining the problem?',
+      description:
+        discovery?.description ??
+        'Use a focused discovery engagement to clarify requirements, scope and the path forward.',
+      detail: discovery?.priceDisplay,
+      cta: 'Book discovery',
+      recommended: discovery?.recommended ?? false,
+    },
+  ]
+  return (
+    <Section size="spacious">
+      <Container>
+        <div className="grid gap-10 lg:grid-cols-[minmax(14rem,0.5fr)_minmax(0,1.5fr)] lg:gap-20">
+          <header>
+            <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
+              Engagement
+            </p>
+            <h2 className="mt-3 text-display-md">Work with me</h2>
+          </header>
+          <div className="grid gap-6 md:grid-cols-2">
+            {paths.map((path, index) =>
+              path.recommended ? (
+                // The recommended path gets an actual elevated card — a
+                // distinct surface, border and shadow — instead of a pill
+                // floated on a divider line.
+                <article
+                  className="rounded-2xl border border-accent-warm/30 bg-surface-elevated p-8 shadow-lg"
+                  key={path.title}
+                >
+                  <p className="text-sm font-medium text-accent-warm">
+                    {path.label} · Recommended
+                  </p>
+                  <h3 className="mt-3 text-h3">{path.title}</h3>
+                  <p className="mt-4 max-w-lg leading-7 text-text-secondary">{path.description}</p>
+                  {path.detail && (
+                    <p className="mt-5 text-sm font-medium text-text-primary">{path.detail}</p>
+                  )}
+                  <a
+                    className="mt-7 inline-flex items-center gap-2 rounded-md bg-accent-warm px-5 py-2.5 text-sm font-medium text-accent-warm-foreground transition-colors hover:brightness-110"
+                    href="#contact"
+                  >
+                    {path.cta} <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
+                  </a>
+                </article>
+              ) : (
+                <article
+                  className={`p-8 ${index === 1 ? 'md:border-l md:border-border md:pl-10' : ''}`}
+                  key={path.title}
+                >
+                  <p className="text-sm font-medium text-text-tertiary">{path.label}</p>
+                  <h3 className="mt-3 text-h3">{path.title}</h3>
+                  <p className="mt-4 max-w-lg leading-7 text-text-secondary">{path.description}</p>
+                  {path.detail && (
+                    <p className="mt-5 text-sm font-medium text-text-primary">{path.detail}</p>
+                  )}
+                  <a
+                    className="mt-7 inline-flex items-center gap-2 border-b border-border-strong pb-2 font-medium hover:border-accent-green hover:text-accent-green"
+                    href="#contact"
+                  >
+                    {path.cta} <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
+                  </a>
+                </article>
+              ),
+            )}
+          </div>
+        </div>
+        <p className="mt-8 border-t border-border pt-5 text-sm text-text-tertiary">
+          Institutional systems · Web applications · APIs · Mobile · AI integrations
+        </p>
       </Container>
     </Section>
   )
@@ -565,11 +513,15 @@ export function ContactSection() {
       <Container>
         <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
           <div>
-            <SectionIntro eyebrow="Contact" title="Let’s Build Something Useful">
-              I’m open to software development opportunities, collaborations, and projects where
-              thoughtful engineering can make a practical difference.
-            </SectionIntro>
-            <MotionWrapper className="space-y-3 text-text-secondary" variant="fadeLeft">
+            <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
+              Contact
+            </p>
+            <h2 className="mt-3 text-display-md">Have a system to build?</h2>
+            <p className="mt-5 max-w-lg text-lg leading-8 text-text-secondary">
+              Tell me what you&apos;re working on, where the project currently stands and what you
+              need help with.
+            </p>
+            <div className="mt-8 space-y-3 text-text-secondary">
               <a className="block hover:text-accent-green" href={`mailto:${CONTACT_EMAIL}`}>
                 {CONTACT_EMAIL}
               </a>
@@ -584,16 +536,11 @@ export function ContactSection() {
                   {social.name}
                 </a>
               ))}
-            </MotionWrapper>
+            </div>
           </div>
-          {/* The section sits on the surface plane, so the form has to rise to
-              the elevated one to stay legible as a distinct panel. */}
-          <MotionWrapper
-            className="rounded-xl border border-border bg-surface-elevated p-6 shadow-card md:p-8"
-            variant="fadeRight"
-          >
+          <div className="border-t border-border bg-surface-elevated pt-8 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
             <ContactForm />
-          </MotionWrapper>
+          </div>
         </div>
       </Container>
     </Section>
