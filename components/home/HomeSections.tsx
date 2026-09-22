@@ -44,6 +44,55 @@ function ProjectFeature({ project, index }: { project: Project; index: number })
   const number = String(index + 1).padStart(2, '0')
   const mediaOnRight = index % 2 === 1
 
+  const media = (
+    <div>
+      <h3 className="text-h2 lg:hidden">{project.title}</h3>
+      <div className="relative mt-6 aspect-[16/9] overflow-hidden rounded-md border border-border bg-surface-muted lg:mt-0">
+        {project.previewImageUrl ? (
+          <ContentImage
+            fill
+            alt={project.previewImageAlt ?? ''}
+            className="object-cover"
+            priority={index === 0}
+            sizes="(max-width: 1023px) 100vw, 66vw"
+            src={project.previewImageUrl}
+          />
+        ) : (
+          <div aria-hidden="true" className="flex h-full items-center justify-center">
+            <span className="font-mono text-xs uppercase tracking-[0.16em] text-text-tertiary">
+              {project.category || 'Project'}
+            </span>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+
+  const content = (
+    <div>
+      <h3 className="hidden text-h2 lg:block">{project.title}</h3>
+      {project.summary && (
+        <p className="mt-5 max-w-xl text-lg leading-8 text-text-secondary">{project.summary}</p>
+      )}
+      {project.technologies.length > 0 && (
+        <ul
+          aria-label="Selected technologies"
+          className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm text-text-tertiary"
+        >
+          {project.technologies.slice(0, 3).map((technology) => (
+            <li key={technology}>{technology}</li>
+          ))}
+        </ul>
+      )}
+      <Link
+        className="mt-8 inline-flex items-center gap-2 border-b border-border-strong pb-2 font-medium transition-colors hover:border-accent-green hover:text-accent-green"
+        href={project.href}
+      >
+        Read case study <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
+      </Link>
+    </div>
+  )
+
   return (
     <article className="border-t border-border py-12 first:pt-8 md:py-16 lg:py-20">
       <div className="mb-7 flex items-center justify-between gap-6 font-mono text-xs uppercase tracking-[0.16em] text-text-tertiary">
@@ -52,50 +101,32 @@ function ProjectFeature({ project, index }: { project: Project; index: number })
           <span className="text-right text-accent-green">{project.category}</span>
         )}
       </div>
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(18rem,0.65fr)] lg:items-center lg:gap-14 xl:gap-20">
-        <div className={mediaOnRight ? 'lg:order-2' : undefined}>
-          <h3 className="text-h2 lg:hidden">{project.title}</h3>
-          <div className="relative mt-6 aspect-[16/9] overflow-hidden rounded-md border border-border bg-surface-muted lg:mt-0">
-            {project.previewImageUrl ? (
-              <ContentImage
-                fill
-                alt={project.previewImageAlt ?? ''}
-                className="object-cover"
-                priority={index === 0}
-                sizes="(max-width: 1023px) 100vw, 66vw"
-                src={project.previewImageUrl}
-              />
-            ) : (
-              <div aria-hidden="true" className="flex h-full items-center justify-center">
-                <span className="font-mono text-xs uppercase tracking-[0.16em] text-text-tertiary">
-                  {project.category || 'Project'}
-                </span>
-              </div>
-            )}
-          </div>
-        </div>
-        <div className={mediaOnRight ? 'lg:order-1' : undefined}>
-          <h3 className="hidden text-h2 lg:block">{project.title}</h3>
-          {project.summary && (
-            <p className="mt-5 max-w-xl text-lg leading-8 text-text-secondary">{project.summary}</p>
-          )}
-          {project.technologies.length > 0 && (
-            <ul
-              aria-label="Selected technologies"
-              className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm text-text-tertiary"
-            >
-              {project.technologies.slice(0, 3).map((technology) => (
-                <li key={technology}>{technology}</li>
-              ))}
-            </ul>
-          )}
-          <Link
-            className="mt-8 inline-flex items-center gap-2 border-b border-border-strong pb-2 font-medium transition-colors hover:border-accent-green hover:text-accent-green"
-            href={project.href}
-          >
-            Read case study <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
-          </Link>
-        </div>
+      {/* The wide (1.35fr) track always belongs to the media, the narrow
+          (0.65fr) one to the text — only which side each sits on
+          alternates. Swapping this with `order` alone (the previous
+          approach) moves an item's visual position but not which grid
+          track it occupies, so the "media on the right" rows ended up
+          with their image rendered in the narrow track at roughly half
+          width. Swapping the DOM order and the track sizes together
+          keeps the media full width on both sides. */}
+      <div
+        className={`grid gap-8 lg:items-center lg:gap-14 xl:gap-20 ${
+          mediaOnRight
+            ? 'lg:grid-cols-[minmax(18rem,0.65fr)_minmax(0,1.35fr)]'
+            : 'lg:grid-cols-[minmax(0,1.35fr)_minmax(18rem,0.65fr)]'
+        }`}
+      >
+        {mediaOnRight ? (
+          <>
+            {content}
+            {media}
+          </>
+        ) : (
+          <>
+            {media}
+            {content}
+          </>
+        )}
       </div>
     </article>
   )
