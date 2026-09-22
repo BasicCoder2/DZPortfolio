@@ -416,32 +416,6 @@ export async function BlogPreviewSection() {
 export async function WorkWithMeSection() {
   const options = await listPublishedEngagementOptions()
   if (options.length === 0) return null
-  const discovery = options.find((option) => /discover/i.test(`${option.slug} ${option.title}`))
-  const delivery =
-    options.find((option) => option.recommended && option.id !== discovery?.id) ??
-    options.find((option) => option.id !== discovery?.id)
-  const paths = [
-    {
-      label: delivery?.title ?? 'Project delivery',
-      title: 'Have a defined project?',
-      description:
-        delivery?.description ??
-        'Share what you are building, the problem, timeline and current stage.',
-      detail: delivery?.priceDisplay,
-      cta: 'Discuss a project',
-      recommended: delivery?.recommended ?? false,
-    },
-    {
-      label: discovery?.title ?? 'Discovery',
-      title: 'Still defining the problem?',
-      description:
-        discovery?.description ??
-        'Use a focused discovery engagement to clarify requirements, scope and the path forward.',
-      detail: discovery?.priceDisplay,
-      cta: 'Book discovery',
-      recommended: discovery?.recommended ?? false,
-    },
-  ]
   return (
     <Section size="spacious">
       <Container>
@@ -452,47 +426,61 @@ export async function WorkWithMeSection() {
             </p>
             <h2 className="mt-3 text-display-md">Work with me</h2>
           </header>
-          <div className="grid gap-6 md:grid-cols-2">
-            {paths.map((path, index) =>
-              path.recommended ? (
-                // The recommended path gets an actual elevated card — a
+          {/* Renders whatever tiers are published, with their own title,
+              price and copy — not a synthesized "have a project? / still
+              defining it?" framing standing in for the real data. */}
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {options.map((option) =>
+              option.recommended ? (
+                // The recommended tier gets an actual elevated card — a
                 // distinct surface, border and shadow — instead of a pill
                 // floated on a divider line.
                 <article
                   className="rounded-2xl border border-accent-warm/30 bg-surface-elevated p-8 shadow-lg"
-                  key={path.title}
+                  key={option.id}
                 >
-                  <p className="text-sm font-medium text-accent-warm">
-                    {path.label} · Recommended
+                  <p className="text-sm font-medium text-accent-warm">Recommended</p>
+                  <h3 className="mt-2 text-h3">{option.title}</h3>
+                  <p className="mt-4 text-2xl font-semibold text-text-primary">
+                    {option.priceDisplay}
                   </p>
-                  <h3 className="mt-3 text-h3">{path.title}</h3>
-                  <p className="mt-4 max-w-lg leading-7 text-text-secondary">{path.description}</p>
-                  {path.detail && (
-                    <p className="mt-5 text-sm font-medium text-text-primary">{path.detail}</p>
+                  <p className="mt-4 leading-7 text-text-secondary">{option.description}</p>
+                  {option.items.length > 0 && (
+                    <ul className="mt-6 space-y-2 text-sm text-text-primary">
+                      {option.items.map((item) => (
+                        <li key={item}>— {item}</li>
+                      ))}
+                    </ul>
                   )}
                   <a
                     className="mt-7 inline-flex items-center gap-2 rounded-md bg-accent-warm px-5 py-2.5 text-sm font-medium text-accent-warm-foreground transition-colors hover:brightness-110"
                     href="#contact"
                   >
-                    {path.cta} <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
+                    Discuss this option <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
                   </a>
                 </article>
               ) : (
                 <article
-                  className={`p-8 ${index === 1 ? 'md:border-l md:border-border md:pl-10' : ''}`}
-                  key={path.title}
+                  className="rounded-2xl border border-border bg-surface-muted p-8"
+                  key={option.id}
                 >
-                  <p className="text-sm font-medium text-text-tertiary">{path.label}</p>
-                  <h3 className="mt-3 text-h3">{path.title}</h3>
-                  <p className="mt-4 max-w-lg leading-7 text-text-secondary">{path.description}</p>
-                  {path.detail && (
-                    <p className="mt-5 text-sm font-medium text-text-primary">{path.detail}</p>
+                  <h3 className="text-h3">{option.title}</h3>
+                  <p className="mt-4 text-2xl font-semibold text-text-primary">
+                    {option.priceDisplay}
+                  </p>
+                  <p className="mt-4 leading-7 text-text-secondary">{option.description}</p>
+                  {option.items.length > 0 && (
+                    <ul className="mt-6 space-y-2 text-sm text-text-tertiary">
+                      {option.items.map((item) => (
+                        <li key={item}>— {item}</li>
+                      ))}
+                    </ul>
                   )}
                   <a
                     className="mt-7 inline-flex items-center gap-2 border-b border-border-strong pb-2 font-medium hover:border-accent-green hover:text-accent-green"
                     href="#contact"
                   >
-                    {path.cta} <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
+                    Discuss this option <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
                   </a>
                 </article>
               ),
