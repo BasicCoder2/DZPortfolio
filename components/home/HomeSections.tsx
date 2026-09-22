@@ -61,6 +61,7 @@ function ProjectFeature({ project, index }: { project: Project; index: number })
                 fill
                 alt={project.previewImageAlt ?? ''}
                 className="object-cover"
+                priority={index === 0}
                 sizes="(max-width: 1023px) 100vw, 66vw"
                 src={project.previewImageUrl}
               />

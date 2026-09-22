@@ -28,7 +28,12 @@ export const metadata: Metadata = defaultMetadata
  */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html suppressHydrationWarning className={fontVariables} lang="en">
+    <html
+      suppressHydrationWarning
+      className={fontVariables}
+      data-scroll-behavior="smooth"
+      lang="en"
+    >
       <body>
         <Providers>{children}</Providers>
       </body>

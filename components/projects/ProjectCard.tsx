@@ -17,7 +17,15 @@ import { MotionWrapper } from '@/components/animations/MotionWrapper'
  *   image-less project at the LMMU artwork, so a card could advertise the
  *   wrong system entirely. A neutral panel is the honest version.
  */
-export function ProjectCard({ project }: { project: Project }) {
+export function ProjectCard({
+  project,
+  priority = false,
+}: {
+  project: Project
+  /** Set for the first card above the fold, so it isn't the page's LCP
+      element loaded lazily. */
+  priority?: boolean
+}) {
   return (
     <MotionWrapper variant="fadeUp">
       <article className="group overflow-hidden border-y border-border bg-surface">
@@ -27,6 +35,7 @@ export function ProjectCard({ project }: { project: Project }) {
               fill
               alt={project.previewImageAlt ?? ''}
               className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+              priority={priority}
               sizes="(max-width: 767px) 100vw, 50vw"
               src={project.previewImageUrl}
             />
