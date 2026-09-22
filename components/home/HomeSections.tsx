@@ -323,28 +323,31 @@ export async function EvidenceSection() {
           <div>
             <h2 className="text-h3">Built with tools proven in production, not just in demos.</h2>
             {certifications.length > 0 && (
-              <ul className="mt-8 space-y-4 border-t border-accent-warm/25 pt-6">
-                {certifications.map((certification) => (
-                  <li key={certification.id}>
-                    {certification.credentialUrl ? (
-                      <a
-                        className="font-semibold hover:text-accent-warm"
-                        href={certification.credentialUrl}
-                        rel="noopener noreferrer"
-                        target="_blank"
-                      >
-                        {certification.title}
-                      </a>
-                    ) : (
-                      <p className="font-semibold">{certification.title}</p>
-                    )}
-                    <p className="mt-1 text-sm text-text-secondary">
-                      {certification.issuer}
-                      {certification.issuedLabel !== '—' ? ` · ${certification.issuedLabel}` : ''}
-                    </p>
-                  </li>
-                ))}
-              </ul>
+              <div className="mt-8 border-t border-accent-warm/25 pt-6">
+                <p className="text-sm font-medium text-accent-warm">Certifications</p>
+                <ul className="mt-4 space-y-4">
+                  {certifications.map((certification) => (
+                    <li key={certification.id}>
+                      {certification.credentialUrl ? (
+                        <a
+                          className="font-semibold hover:text-accent-warm"
+                          href={certification.credentialUrl}
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                          {certification.title}
+                        </a>
+                      ) : (
+                        <p className="font-semibold">{certification.title}</p>
+                      )}
+                      <p className="mt-1 text-sm text-text-secondary">
+                        {certification.issuer}
+                        {certification.issuedLabel !== '—' ? ` · ${certification.issuedLabel}` : ''}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             )}
           </div>
           {/* Technologies as a loose, flowing cluster of tags rather than
