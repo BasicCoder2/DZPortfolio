@@ -53,7 +53,7 @@ export default async function BlogPage() {
                 >
                   More articles
                 </h2>
-                <div className="grid gap-6 md:grid-cols-2">
+                <div className="border-y border-border">
                   {olderPosts.map((post) => (
                     <PostPreview key={post.id} post={post} />
                   ))}

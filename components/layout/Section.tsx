@@ -1,6 +1,5 @@
 import { cn } from '@/lib/utils'
 import type { ElementType, ComponentPropsWithoutRef } from 'react'
-import { SectionReveal } from '@/components/animations'
 
 /**
  * Vertical rhythm. Every section sharing one padding value made the page read
@@ -39,13 +38,11 @@ export function Section<T extends ElementType = 'section'>({
   const Component = as || 'section'
 
   return (
-    <SectionReveal>
-      <Component
-        className={cn('scroll-mt-24', sectionSizes[size], sectionTones[tone], className)}
-        {...props}
-      >
-        {children}
-      </Component>
-    </SectionReveal>
+    <Component
+      className={cn('scroll-mt-24', sectionSizes[size], sectionTones[tone], className)}
+      {...props}
+    >
+      {children}
+    </Component>
   )
 }

@@ -66,6 +66,8 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const isLinkActive = (href: string) => {
     if (href.startsWith('/#')) {
       const targetId = href.replace('/#', '')
+      if (targetId === 'work' && pathname.startsWith('/projects')) return true
+      if (targetId === 'writing' && pathname.startsWith('/blog')) return true
       return activeSection === targetId
     }
     if (href === '/') return pathname === '/' && activeSection === ''

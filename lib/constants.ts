@@ -43,11 +43,9 @@ export const LINKEDIN_BASE_URL = 'https://linkedin.com/in'
  * Main navigation links used in Header and Footer.
  */
 export const NAV_LINKS: NavItem[] = [
-  { label: 'Home', href: '/' },
+  { label: 'Work', href: '/#work' },
   { label: 'About', href: '/#about' },
-  { label: 'What I Build', href: '/#services' },
-  { label: 'Projects', href: '/#projects' },
-  { label: 'Blog', href: '/blog' },
+  { label: 'Writing', href: '/#writing' },
   { label: 'Contact', href: '/#contact' },
 ]
 

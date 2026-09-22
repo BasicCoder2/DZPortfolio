@@ -1,16 +1,14 @@
 import { PageWrapper } from '@/components/layout'
 import { Hero } from '@/components/hero'
 import {
-  AboutSection,
+  AboutExperienceSection,
   BlogPreviewSection,
-  CertificationsSection,
   ContactSection,
-  ExperienceSection,
+  EvidenceSection,
   PhilosophySection,
-  PricingSection,
   ProjectsSection,
   ServicesSection,
-  TechnologiesSection,
+  WorkWithMeSection,
 } from '@/components/home/HomeSections'
 
 /**
@@ -29,23 +27,20 @@ export const revalidate = 300
 /**
  * Home page.
  *
- * Order runs identity → work → CV → commercial offer → notes → contact, so a
- * recruiter reads the whole CV block (experience, stack, certifications)
- * before being asked to read Daniel as a vendor.
+ * Order runs identity → selected work → professional context → supporting
+ * evidence → writing → engagement → contact. Work leads; the stack supports it.
  */
 export default function HomePage() {
   return (
     <PageWrapper aria-label="Home page content">
       <Hero />
-      <AboutSection />
-      <ServicesSection />
       <ProjectsSection />
+      <AboutExperienceSection />
+      <ServicesSection />
       <PhilosophySection />
-      <ExperienceSection />
-      <TechnologiesSection />
-      <CertificationsSection />
-      <PricingSection />
+      <EvidenceSection />
       <BlogPreviewSection />
+      <WorkWithMeSection />
       <ContactSection />
     </PageWrapper>
   )
