@@ -11,7 +11,7 @@ export function HeroActions() {
     <MotionWrapper className="mt-10 flex flex-col gap-3 sm:flex-row" variant="heroActions">
       <Link
         className={`${actionBase} bg-accent-green text-accent-foreground shadow-sm hover:brightness-110 group`}
-        href="/#projects"
+        href="/#work"
       >
         View Projects
         <ArrowUpRight
