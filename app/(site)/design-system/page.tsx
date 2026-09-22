@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import { Container, Section } from '@/components/layout'
 import {
   Alert,
@@ -44,7 +45,15 @@ const navItems = [
   { href: '#feedback', label: 'Feedback' },
 ]
 
+/**
+ * A live reference for every design token and `components/ui` primitive —
+ * useful while building, meaningless to a visitor. Its own copy always
+ * called it "development-only," but nothing actually enforced that: no env
+ * guard, so it was a fully public, unlinked route. This is the guard.
+ */
 export default function DesignSystemPage() {
+  if (process.env.NODE_ENV !== 'development') notFound()
+
   return (
     <Container size="site">
       <Section className="pb-12 pt-20" id="overview">
