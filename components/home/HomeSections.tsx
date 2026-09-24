@@ -248,7 +248,9 @@ export function ServicesSection() {
               not just a bordered row like everything else here. */}
           {featured && (
             <article className="rounded-2xl border border-accent-warm/25 bg-accent-warm-dim p-8 lg:p-10">
-              <ServiceIcon className="text-accent-warm" id={featured.id} />
+              <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-surface-elevated shadow-sm">
+                <ServiceIcon className="h-7 w-7 text-accent-warm" id={featured.id} />
+              </span>
               <h3 className="mt-6 text-h3">{featured.title}</h3>
               <p className="mt-3 max-w-md leading-7 text-text-secondary">{featured.description}</p>
               {featured.highlights && featured.highlights.length > 0 && (
@@ -266,10 +268,12 @@ export function ServicesSection() {
           <div className="flex flex-col gap-6">
             {rest.map((service) => (
               <article
-                className="flex-1 rounded-2xl border border-border bg-surface-muted p-6"
+                className="flex-1 rounded-2xl border border-border-strong bg-surface-elevated p-6 shadow-sm"
                 key={service.id}
               >
-                <ServiceIcon className="text-accent-green" id={service.id} />
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-lg bg-accent-green-dim">
+                  <ServiceIcon className="h-6 w-6 text-accent-green" id={service.id} />
+                </span>
                 <h3 className="mt-5 text-lg font-semibold">{service.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-text-secondary">{service.description}</p>
               </article>
