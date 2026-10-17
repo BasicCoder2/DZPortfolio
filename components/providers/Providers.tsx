@@ -11,7 +11,7 @@ import { MotionProvider } from './MotionProvider'
  */
 export function Providers({ children }: { children: ReactNode }) {
   return (
-    <ThemeProvider disableTransitionOnChange attribute="class" defaultTheme="light">
+    <ThemeProvider disableTransitionOnChange attribute="class" defaultTheme="dark">
       <MotionProvider>{children}</MotionProvider>
     </ThemeProvider>
   )
