@@ -4,6 +4,7 @@ import { ContentImage } from '@/components/ui/content-image'
 import { PostCover } from '@/components/blog/PostCover'
 import { Container, Section } from '@/components/layout'
 import { ContactForm } from '@/components/contact'
+import { ProjectReveal, ProjectRevealItem } from '@/components/home/ProjectReveal'
 import { services } from '@/data/services'
 import { technologies } from '@/data/technologies'
 import {
@@ -40,94 +41,128 @@ const technologyGroups = [
   },
 ]
 
+/** Arrow that nudges toward its corner when its link is hovered. */
+const linkArrowClass =
+  'h-4 w-4 transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5'
+
+const contactLinkClass =
+  'group/link inline-flex items-center gap-2 text-text-secondary underline decoration-border-strong underline-offset-4 transition-colors hover:text-accent-green hover:decoration-accent-green'
+
+const projectLinkClass =
+  'group/link inline-flex items-center gap-2 border-b border-border-strong pb-2 font-medium transition-colors hover:border-accent-green hover:text-accent-green'
+
 function ProjectFeature({ project, index }: { project: Project; index: number }) {
-  const number = String(index + 1).padStart(2, '0')
   const mediaOnRight = index % 2 === 1
 
   const media = (
-    <div>
-      <h3 className="text-h2 lg:hidden">{project.title}</h3>
-      <div className="relative mt-6 aspect-[16/9] overflow-hidden rounded-md border border-border bg-surface-muted lg:mt-0">
+    <ProjectRevealItem
+      className={mediaOnRight ? 'lg:col-start-2 lg:row-start-1' : undefined}
+      from={mediaOnRight ? 'right' : 'left'}
+    >
+      <div className="group/media relative aspect-[16/9] overflow-hidden rounded-2xl bg-surface-muted shadow-lg transition-shadow duration-500 hover:shadow-xl">
+        {/* The whole picture opens the case study, as people expect it to.
+            It is a duplicate of "Read case study", so it is kept out of the
+            tab order and the accessibility tree. It sits beneath the image
+            (which ignores the pointer) rather than wrapping it, so the image's
+            own "Retry image" fallback button stays a valid, clickable control. */}
+        <Link aria-hidden="true" className="absolute inset-0" href={project.href} tabIndex={-1} />
         {project.previewImageUrl ? (
           <ContentImage
             fill
             alt={project.previewImageAlt ?? ''}
-            className="object-cover"
+            className="pointer-events-none object-cover transition-transform duration-700 group-hover/media:scale-[1.03]"
             priority={index === 0}
             sizes="(max-width: 1023px) 100vw, 66vw"
             src={project.previewImageUrl}
           />
         ) : (
-          <div aria-hidden="true" className="flex h-full items-center justify-center">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none relative flex h-full items-center justify-center"
+          >
             <span className="font-mono text-xs uppercase tracking-[0.16em] text-text-tertiary">
               {project.category || 'Project'}
             </span>
           </div>
         )}
       </div>
-    </div>
+    </ProjectRevealItem>
   )
 
+  // A plain wrapper, not a reveal item, so each line below is staggered on
+  // its own rather than the text block arriving as one piece.
   const content = (
-    <div>
-      <h3 className="hidden text-h2 lg:block">{project.title}</h3>
+    <div className={mediaOnRight ? 'max-w-lg lg:col-start-1 lg:row-start-1' : 'max-w-lg'}>
+      {project.category && (
+        <ProjectRevealItem
+          as="p"
+          className="mb-3 font-mono text-xs uppercase tracking-[0.16em] text-accent-green"
+        >
+          {project.category}
+        </ProjectRevealItem>
+      )}
+      <ProjectRevealItem as="h3" className="text-h3">
+        {project.title}
+      </ProjectRevealItem>
       {project.summary && (
-        <p className="mt-5 max-w-xl text-lg leading-8 text-text-secondary">{project.summary}</p>
+        <ProjectRevealItem
+          as="p"
+          className="mt-4 text-base leading-7 text-text-secondary md:text-lg md:leading-8"
+        >
+          {project.summary}
+        </ProjectRevealItem>
       )}
       {project.technologies.length > 0 && (
-        <ul
+        <ProjectRevealItem
           aria-label="Selected technologies"
-          className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm text-text-tertiary"
+          as="ul"
+          className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-sm text-text-tertiary"
         >
           {project.technologies.slice(0, 3).map((technology) => (
             <li key={technology}>{technology}</li>
           ))}
-        </ul>
+        </ProjectRevealItem>
       )}
-      <Link
-        className="mt-8 inline-flex items-center gap-2 border-b border-border-strong pb-2 font-medium transition-colors hover:border-accent-green hover:text-accent-green"
-        href={project.href}
-      >
-        Read case study <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
-      </Link>
+      <ProjectRevealItem className="mt-7 flex flex-wrap items-center gap-x-8 gap-y-4">
+        <Link className={projectLinkClass} href={project.href}>
+          Read case study <ArrowUpRight aria-hidden="true" className={linkArrowClass} />
+        </Link>
+        {project.externalUrl && (
+          <a
+            aria-label={`View ${project.title} live (opens in a new tab)`}
+            className={projectLinkClass}
+            href={project.externalUrl}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            View live <ArrowUpRight aria-hidden="true" className={linkArrowClass} />
+          </a>
+        )}
+      </ProjectRevealItem>
     </div>
   )
 
   return (
-    <article className="border-t border-border py-12 first:pt-8 md:py-16 lg:py-20">
-      <div className="mb-7 flex items-center justify-between gap-6 font-mono text-xs uppercase tracking-[0.16em] text-text-tertiary">
-        <span>Project {number}</span>
-        {project.category && (
-          <span className="text-right text-accent-green">{project.category}</span>
-        )}
-      </div>
-      {/* The wide (1.35fr) track always belongs to the media, the narrow
-          (0.65fr) one to the text — only which side each sits on
-          alternates. Swapping this with `order` alone (the previous
-          approach) moves an item's visual position but not which grid
-          track it occupies, so the "media on the right" rows ended up
-          with their image rendered in the narrow track at roughly half
-          width. Swapping the DOM order and the track sizes together
-          keeps the media full width on both sides. */}
-      <div
+    // No dividers between rows: the alternating image side and the spacing
+    // carry the reader from one project to the next as a single flow.
+    //
+    // The wide (1.35fr) track always belongs to the media and the narrow
+    // (0.65fr) one to the text; only which side each sits on alternates.
+    // Swapping with `order` alone would move the image into the narrow track
+    // on "media on the right" rows, so the track sizes flip with the side and
+    // each item is placed into its column explicitly. Media stays first in
+    // the DOM so every row stacks image-then-text on small screens.
+    <article>
+      <ProjectReveal
         className={`grid gap-8 lg:items-center lg:gap-14 xl:gap-20 ${
           mediaOnRight
             ? 'lg:grid-cols-[minmax(18rem,0.65fr)_minmax(0,1.35fr)]'
             : 'lg:grid-cols-[minmax(0,1.35fr)_minmax(18rem,0.65fr)]'
         }`}
       >
-        {mediaOnRight ? (
-          <>
-            {content}
-            {media}
-          </>
-        ) : (
-          <>
-            {media}
-            {content}
-          </>
-        )}
-      </div>
+        {media}
+        {content}
+      </ProjectReveal>
     </article>
   )
 }
@@ -135,11 +170,13 @@ function ProjectFeature({ project, index }: { project: Project; index: number })
 export async function ProjectsSection() {
   const featured = await listFeaturedProjects()
   return (
-    <Section data-nav-section id="work" size="spacious">
+    // Bottom padding trimmed from the spacious 10rem: stacked on the next
+    // section's top padding it left ~270px of empty page under a single link.
+    <Section data-nav-section className="md:pb-24" id="work" size="spacious">
       <Container>
         <header className="mb-10 grid gap-6 border-b border-border pb-8 md:mb-14 md:grid-cols-[1fr_auto] md:items-end">
           <div>
-            <h2 className="text-display-md">Systems built for real operations.</h2>
+            <h2 className="text-h2">Systems built for real operations.</h2>
           </div>
           <p className="max-w-md text-text-secondary md:text-right">
             Governance, commerce and connected products shaped around the work people actually do.
@@ -150,13 +187,13 @@ export async function ProjectsSection() {
             Project write-ups are being prepared.
           </p>
         ) : (
-          <div>
+          <div className="space-y-16 md:space-y-24 lg:space-y-28">
             {featured.map((project, index) => (
               <ProjectFeature index={index} key={project.id} project={project} />
             ))}
           </div>
         )}
-        <div className="border-t border-border pt-8">
+        <div className="mt-16 md:mt-24">
           <Link
             className="inline-flex items-center gap-2 border-b border-border-strong pb-2 font-medium transition-colors hover:border-accent-green hover:text-accent-green"
             href="/projects"
@@ -273,7 +310,7 @@ export function PhilosophySection() {
           <div>
             {/* The accent border alone marks this as a principle callout;
                 no eyebrow label needed to say so. */}
-            <h2 className="max-w-4xl text-[clamp(2.25rem,5vw,4.5rem)] font-heading font-semibold leading-[1.05] tracking-tight">
+            <h2 className="max-w-4xl text-[clamp(2rem,5.5vw,3.75rem)] font-heading font-semibold leading-[1.08] tracking-tight">
               Software should explain the business it represents.
             </h2>
           </div>
@@ -355,7 +392,9 @@ export async function BlogPreviewSection() {
       <Container>
         <header className="mb-10 flex flex-wrap items-end justify-between gap-6 border-b border-border pb-7">
           <div>
-            <p className="mb-2 font-heading text-lg italic text-text-secondary">Recent writing</p>
+            <p className="mb-3 font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
+              Recent writing
+            </p>
             <h2 className="text-h2">Notes on systems and decisions.</h2>
           </div>
           <Link
@@ -437,7 +476,7 @@ export async function WorkWithMeSection() {
             <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
               Engagement
             </p>
-            <h2 className="mt-3 text-display-md">Work with me</h2>
+            <h2 className="mt-3 text-h2">Work with me</h2>
           </header>
           {/* Renders whatever tiers are published, with their own title,
               price and copy — not a synthesized "have a project? / still
@@ -510,36 +549,41 @@ export async function WorkWithMeSection() {
 
 export function ContactSection() {
   return (
-    <Section data-nav-section id="contact" size="spacious" tone="surface">
+    <Section data-nav-section id="contact" tone="surface">
       <Container>
         <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
           <div>
             <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent-green">
               Contact
             </p>
-            <h2 className="mt-3 text-display-md">Have a system to build?</h2>
+            <h2 className="mt-3 text-h2">Have a system to build?</h2>
             <p className="mt-5 max-w-lg text-lg leading-8 text-text-secondary">
               Tell me what you&apos;re working on, where the project currently stands and what you
               need help with.
             </p>
-            <div className="mt-8 space-y-3 text-text-secondary">
-              <a className="block hover:text-accent-green" href={`mailto:${CONTACT_EMAIL}`}>
-                {CONTACT_EMAIL}
-              </a>
-              {SOCIAL_LINKS.filter((social) => social.name !== 'Email').map((social) => (
-                <a
-                  className="block hover:text-accent-green"
-                  href={social.href}
-                  key={social.name}
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  {social.name}
+            <ul className="mt-8 space-y-3">
+              <li>
+                <a className={contactLinkClass} href={`mailto:${CONTACT_EMAIL}`}>
+                  {CONTACT_EMAIL}
+                  <ArrowUpRight aria-hidden="true" className={linkArrowClass} />
                 </a>
+              </li>
+              {SOCIAL_LINKS.filter((social) => social.name !== 'Email').map((social) => (
+                <li key={social.name}>
+                  <a
+                    className={contactLinkClass}
+                    href={social.href}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    {social.name}
+                    <ArrowUpRight aria-hidden="true" className={linkArrowClass} />
+                  </a>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
-          <div className="border-t border-border bg-surface-elevated pt-8 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
+          <div className="rounded-2xl border border-border bg-surface-elevated p-6 shadow-sm md:p-8 lg:p-10">
             <ContactForm />
           </div>
         </div>

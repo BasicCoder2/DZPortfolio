@@ -78,10 +78,7 @@ export function ContactForm() {
   }
 
   return (
-    <form noValidate aria-describedby="contact-form-note" className="space-y-6" onSubmit={submit}>
-      <p className="text-sm leading-6 text-text-secondary" id="contact-form-note">
-        Tell me a little about what you are building, and I’ll get back to you soon.
-      </p>
+    <form noValidate aria-label="Contact form" className="space-y-6" onSubmit={submit}>
       {status === 'error' && (
         <p
           aria-live="assertive"
@@ -116,7 +113,7 @@ export function ContactForm() {
               aria-describedby={hasError ? errorId : undefined}
               aria-invalid={hasError || undefined}
               autoComplete={field.autoComplete}
-              className="w-full border border-border bg-bg px-4 py-3 text-text-primary outline-none transition-colors placeholder:text-text-tertiary focus:border-accent-green focus:ring-2 focus:ring-accent-green/20"
+              className="w-full rounded-md border border-border bg-bg px-4 py-3 text-text-primary outline-none transition-colors placeholder:text-text-tertiary focus:border-accent-green focus:ring-2 focus:ring-accent-green/20"
               id={field.name}
               name={field.name}
               type={field.type}
@@ -142,7 +139,7 @@ export function ContactForm() {
         <textarea
           aria-describedby={errors.message ? 'message-error' : undefined}
           aria-invalid={Boolean(errors.message) || undefined}
-          className="min-h-40 w-full resize-y border border-border bg-bg px-4 py-3 text-text-primary outline-none transition-colors placeholder:text-text-tertiary focus:border-accent-green focus:ring-2 focus:ring-accent-green/20"
+          className="min-h-40 w-full resize-y rounded-md border border-border bg-bg px-4 py-3 text-text-primary outline-none transition-colors placeholder:text-text-tertiary focus:border-accent-green focus:ring-2 focus:ring-accent-green/20"
           id="message"
           name="message"
           value={values.message}
@@ -155,7 +152,7 @@ export function ContactForm() {
         )}
       </div>
       <button
-        className="inline-flex min-h-12 items-center justify-center bg-accent-green px-6 py-3 font-medium text-accent-foreground transition-transform hover:-translate-y-0.5 focus-visible:ring-offset-bg disabled:cursor-not-allowed disabled:opacity-70"
+        className="inline-flex min-h-12 items-center justify-center rounded-md bg-accent-green px-6 py-3 font-medium text-accent-foreground transition-transform hover:-translate-y-0.5 focus-visible:ring-offset-bg disabled:cursor-not-allowed disabled:opacity-70"
         disabled={isSubmitting}
         type="submit"
       >
