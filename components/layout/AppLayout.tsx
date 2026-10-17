@@ -1,6 +1,7 @@
 import { Navigation } from './Navigation'
 import { Footer } from './Footer'
 import { MainContent } from './MainContent'
+import { ThemePrompt } from './ThemePrompt'
 import { TransitionLayout } from './TransitionLayout'
 import { BackToTop } from '@/components/animations/BackToTop'
 import type { ReactNode } from 'react'
@@ -28,6 +29,7 @@ export function AppLayout({ children }: AppLayoutProps) {
 
       {/* Floating global components */}
       <BackToTop />
+      <ThemePrompt />
     </div>
   )
 }
