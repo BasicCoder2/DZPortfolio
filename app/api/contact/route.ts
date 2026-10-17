@@ -54,7 +54,7 @@ export async function POST(request: Request) {
         from,
         to: [to],
         reply_to: email,
-        subject: `DZPortfolio Enquiry — ${subject}`,
+        subject: `${subject}`,
         text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
       }),
     })

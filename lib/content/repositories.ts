@@ -200,6 +200,25 @@ export async function listPublishedEngagementOptions(): Promise<EngagementOption
   return (data ?? []).map(toEngagementOption)
 }
 
+/**
+ * The admin-controlled switch for the whole Engagement section. Defaults to
+ * visible when the setting is missing or unreadable, so a project that has not
+ * run 0007_site_settings.sql keeps showing its published tiers.
+ */
+export async function isEngagementSectionVisible(): Promise<boolean> {
+  const supabase = client()
+  if (!supabase) return true
+
+  const { data, error } = await supabase
+    .from('site_settings')
+    .select('show_engagement')
+    .eq('id', 'current')
+    .maybeSingle()
+
+  reportFailure('isEngagementSectionVisible', error)
+  return data?.show_engagement ?? true
+}
+
 /** Newest `updated_at` per content type, for sitemap `lastModified` values. */
 export async function getSitemapEntries(): Promise<{
   posts: Array<{ slug: string; updatedAt: string }>

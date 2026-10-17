@@ -5,11 +5,11 @@ import { PostCover } from '@/components/blog/PostCover'
 import { Container, Section } from '@/components/layout'
 import { ContactForm } from '@/components/contact'
 import { services } from '@/data/services'
-import { serviceIcons } from '@/components/home/ServiceIcons'
 import { technologies } from '@/data/technologies'
 import {
   listFeaturedProjects,
   listPublishedCertifications,
+  isEngagementSectionVisible,
   listPublishedEngagementOptions,
   listPublishedExperience,
   listPublishedPosts,
@@ -235,56 +235,34 @@ export async function AboutExperienceSection() {
 }
 
 export function ServicesSection() {
-  const featured = services.find((service) => service.id === 'ai-solutions')
-  const rest = services.filter((service) => service.id !== 'ai-solutions')
   return (
     <Section size="compact">
       <Container>
         <h2 className="text-h2">What I work on</h2>
-        <div className="mt-10 grid gap-6 lg:grid-cols-[1.1fr_1fr] lg:gap-8">
-          {/* AI Solutions is the differentiator, so it gets its own card,
-              the warm accent (used nowhere else on this page as a card
-              background), and the other services' full highlight list —
-              not just a bordered row like everything else here. */}
-          {featured && (
-            <article className="rounded-2xl border border-accent-warm/25 bg-accent-warm-dim p-8 lg:p-10">
-              <ServiceIcon className="text-accent-warm" id={featured.id} />
-              <h3 className="mt-6 text-h3">{featured.title}</h3>
-              <p className="mt-3 max-w-md leading-7 text-text-secondary">{featured.description}</p>
-              {featured.highlights && featured.highlights.length > 0 && (
-                <ul className="mt-6 space-y-2.5">
-                  {featured.highlights.map((highlight) => (
-                    <li className="flex items-start gap-2.5 text-sm text-text-primary" key={highlight}>
-                      <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-warm" />
-                      {highlight}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </article>
-          )}
-          <div className="flex flex-col gap-6">
-            {rest.map((service) => (
-              <article
-                className="flex-1 rounded-2xl border border-border bg-surface-muted p-6"
-                key={service.id}
-              >
-                <ServiceIcon className="text-accent-green" id={service.id} />
-                <h3 className="mt-5 text-lg font-semibold">{service.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-text-secondary">{service.description}</p>
-              </article>
-            ))}
-          </div>
-        </div>
+        {/* A plain ruled list, matching the project and writing rows: no
+            icons, no card chrome. The description carries the meaning; the
+            highlights are the specifics, set as running text. */}
+        <ul className="mt-10 divide-y divide-border border-y border-border">
+          {services.map((service) => (
+            <li
+              className="grid gap-3 py-7 md:grid-cols-[minmax(12rem,0.6fr)_minmax(0,1.4fr)] md:gap-14"
+              key={service.id}
+            >
+              <h3 className="text-xl font-semibold">{service.title}</h3>
+              <div>
+                <p className="max-w-xl leading-7 text-text-secondary">{service.description}</p>
+                {service.highlights && service.highlights.length > 0 && (
+                  <p className="mt-3 max-w-xl text-sm leading-6 text-text-tertiary">
+                    {service.highlights.join(', ')}
+                  </p>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
       </Container>
     </Section>
   )
-}
-
-function ServiceIcon({ id, className }: { id: string; className?: string }) {
-  const Icon = serviceIcons[id]
-  if (!Icon) return null
-  return <Icon className={className} />
 }
 
 export function PhilosophySection() {
@@ -446,8 +424,11 @@ export async function BlogPreviewSection() {
 }
 
 export async function WorkWithMeSection() {
-  const options = await listPublishedEngagementOptions()
-  if (options.length === 0) return null
+  const [visible, options] = await Promise.all([
+    isEngagementSectionVisible(),
+    listPublishedEngagementOptions(),
+  ])
+  if (!visible || options.length === 0) return null
   return (
     <Section size="spacious">
       <Container>

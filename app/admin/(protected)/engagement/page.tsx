@@ -1,9 +1,12 @@
-import { listAllEngagementOptions } from '@/lib/content/admin-queries'
+import { getEngagementSectionVisible, listAllEngagementOptions } from '@/lib/content/admin-queries'
 import { AdminPageHeader } from '@/components/admin/primitives'
 import { EngagementManager } from '@/components/admin/EngagementManager'
 
 export default async function AdminEngagementPage() {
-  const options = await listAllEngagementOptions()
+  const [options, sectionVisible] = await Promise.all([
+    listAllEngagementOptions(),
+    getEngagementSectionVisible(),
+  ])
 
   return (
     <>
@@ -12,7 +15,7 @@ export default async function AdminEngagementPage() {
         eyebrow="Commercial"
         title="Engagement"
       />
-      <EngagementManager options={options} />
+      <EngagementManager options={options} sectionVisible={sectionVisible} />
     </>
   )
 }

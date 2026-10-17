@@ -102,6 +102,36 @@ export async function setEngagementVisibilityAction(
   return successState(published ? 'Option is now visible.' : 'Option hidden from the site.')
 }
 
+/** Shows or hides the whole Engagement section, regardless of individual tiers. */
+export async function setEngagementSectionVisibilityAction(
+  _previous: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const auth = await requireAdminForAction()
+  if (!auth.ok) return errorState(auth.message)
+
+  const showEngagement = flag(formData, 'published')
+
+  const { error } = await auth.context.supabase.from('site_settings').upsert({
+    id: 'current',
+    show_engagement: showEngagement,
+    updated_at: new Date().toISOString(),
+  })
+
+  if (error) {
+    return errorState(
+      'The setting could not be saved. Check that 0007_site_settings.sql has been applied, then try again.'
+    )
+  }
+
+  revalidateHomeSections()
+  return successState(
+    showEngagement
+      ? 'Engagement section is now shown on the homepage.'
+      : 'Engagement section hidden from the homepage.'
+  )
+}
+
 export async function deleteEngagementAction(
   _previous: FormState,
   formData: FormData

@@ -137,6 +137,10 @@ export type Database = {
         { id: string; path: string; filename: string; updated_at: string },
         { id: string; path: string; filename: string; updated_at: string }
       >
+      site_settings: TableDef<
+        { id: string; show_engagement: boolean; updated_at: string },
+        { id: string; show_engagement: boolean; updated_at: string }
+      >
       profiles: TableDef<ProfileRow>
       posts: TableDef<PostRow, Writable<PostRow>>
       projects: TableDef<ProjectRow, Writable<ProjectRow>>

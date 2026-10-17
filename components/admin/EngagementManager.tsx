@@ -2,7 +2,12 @@
 
 import { useCallback, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { deleteEngagementAction, setEngagementVisibilityAction } from '@/lib/actions/engagement'
+import {
+  deleteEngagementAction,
+  setEngagementSectionVisibilityAction,
+  setEngagementVisibilityAction,
+} from '@/lib/actions/engagement'
+import type { FormState } from '@/lib/actions/state'
 import type { EngagementOption } from '@/lib/content/models'
 import {
   AdminEmptyState,
@@ -12,6 +17,7 @@ import {
   StatusPill,
 } from '@/components/admin/primitives'
 import { ContentRowActions } from '@/components/admin/ContentRowActions'
+import { RowFeedback, StatusToggleForm } from '@/components/admin/RowActions'
 import { EngagementForm } from '@/components/admin/EngagementForm'
 import { AddRecordButton, InlinePanel } from '@/components/admin/InlinePanel'
 
@@ -22,9 +28,16 @@ import { AddRecordButton, InlinePanel } from '@/components/admin/InlinePanel'
  * a visitor reads — so it is shown at the size it will actually appear rather
  * than reduced to the raw fields that produced it.
  */
-export function EngagementManager({ options }: { options: EngagementOption[] }) {
+export function EngagementManager({
+  options,
+  sectionVisible,
+}: {
+  options: EngagementOption[]
+  sectionVisible: boolean
+}) {
   const router = useRouter()
   const [open, setOpen] = useState<string | 'new' | null>(null)
+  const [sectionFeedback, setSectionFeedback] = useState<FormState | null>(null)
 
   const handleSaved = useCallback(() => {
     setOpen(null)
@@ -33,6 +46,36 @@ export function EngagementManager({ options }: { options: EngagementOption[] }) 
 
   return (
     <>
+      {/* Section-wide switch. It overrides the per-tier Hide buttons below, so
+          it sits above them and says plainly what the homepage is doing. */}
+      <div className="mb-8 flex flex-wrap items-start justify-between gap-x-8 gap-y-4 rounded-md border border-border px-5 py-4">
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-center gap-3">
+            <p className="font-semibold text-text-primary">Engagement section</p>
+            <StatusPill status={sectionVisible ? 'visible' : 'hidden'} />
+          </div>
+          <p className="mt-1 max-w-2xl text-sm text-text-secondary">
+            {sectionVisible
+              ? 'Shown on the homepage whenever at least one option below is visible.'
+              : 'Hidden from the homepage, whatever the options below are set to.'}
+          </p>
+        </div>
+        <div className="flex flex-col items-end gap-2">
+          <StatusToggleForm
+            action={setEngagementSectionVisibilityAction}
+            draftValue="false"
+            field="published"
+            id="current"
+            isLive={sectionVisible}
+            liveValue="true"
+            publishLabel="Show section"
+            unpublishLabel="Hide section"
+            onResult={setSectionFeedback}
+          />
+          <RowFeedback state={sectionFeedback} />
+        </div>
+      </div>
+
       <div className="mb-8">
         {open === 'new' ? (
           <InlinePanel title="New engagement option" onCancel={() => setOpen(null)}>

@@ -160,6 +160,23 @@ export async function getEngagementOptionById(id: string): Promise<EngagementOpt
   return data ? toEngagementOption(data) : null
 }
 
+/** A missing row means the default: the section is shown. */
+export async function getEngagementSectionVisible(): Promise<boolean> {
+  const { supabase } = await requireAdmin()
+  const { data, error } = await supabase
+    .from('site_settings')
+    .select('show_engagement')
+    .eq('id', 'current')
+    .maybeSingle()
+
+  if (error) {
+    throw new Error(
+      `getEngagementSectionVisible failed: ${error.message}. Apply supabase/migrations/0007_site_settings.sql.`
+    )
+  }
+  return data?.show_engagement ?? true
+}
+
 // --- Dashboard --------------------------------------------------------------
 
 export interface DashboardCounts {
