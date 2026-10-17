@@ -2,6 +2,7 @@
 
 import { requireAdminForAction } from '@/lib/auth/admin'
 import { errorState, type FormState } from '@/lib/actions/state'
+import { compressImage } from '@/lib/media/compress'
 import {
   IMAGE_BUCKET,
   buildImagePath,
@@ -58,10 +59,14 @@ export async function uploadImageAction(
     return errorState(validation.message)
   }
 
-  const path = buildImagePath(folder, validation.extension)
+  // Validated, so reading the body is now bounded by MAX_IMAGE_BYTES. The
+  // stored file is the compressed one, and its type and extension come from
+  // the compressor: a PNG usually leaves here as WebP.
+  const image = await compressImage(Buffer.from(await file.arrayBuffer()), validation.type)
+  const path = buildImagePath(folder, image.extension)
 
-  const { error } = await auth.context.supabase.storage.from(IMAGE_BUCKET).upload(path, file, {
-    contentType: validation.type,
+  const { error } = await auth.context.supabase.storage.from(IMAGE_BUCKET).upload(path, image.data, {
+    contentType: image.type,
     // Never overwrite. The path carries a UUID, so a collision would mean
     // something is badly wrong and silently replacing a file would hide it.
     upsert: false,
